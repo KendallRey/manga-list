@@ -6,9 +6,10 @@ export const BASE_MODEL = {
   ARCHIVED: "archived",
 } as const;
 
-export const USER_MODEL = {
-  ID: "id",
-  name: "auth.users",
+export const USER_PROFILE_MODEL = {
+  ...BASE_MODEL,
+  NAME: "name",
+  name: "user_profile",
 } as const;
 
 export const MANGA_MODEL = {
@@ -27,7 +28,7 @@ export const MANGA_LIST_MODEL = {
 
 export const MODEL = {
   BASE: BASE_MODEL,
-  USER: USER_MODEL,
+  USER_PROFILE: USER_PROFILE_MODEL,
   MANGA: MANGA_MODEL,
   MANGA_LIST: MANGA_LIST_MODEL,
 } as const;
