@@ -86,8 +86,8 @@ export const MuiNumberField: React.FC<IMuiNumberField> = (props) => {
       value={value}
       onChange={onChange}
       {...otherProps}
-      InputProps={
-        {
+      slotProps={{
+        input: {
           disableUnderline: true,
           inputComponent: NumericFormatCustom as unknown,
           inputProps: {
@@ -98,8 +98,8 @@ export const MuiNumberField: React.FC<IMuiNumberField> = (props) => {
             min: min,
             max: max,
           },
-        } as Partial<OutlinedInputProps>
-      }
+        } as Partial<OutlinedInputProps>,
+      }}
     />
   );
 };

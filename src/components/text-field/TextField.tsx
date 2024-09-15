@@ -12,9 +12,12 @@ const DEFAULT_PROPS: TextFieldProps = {
   size: "small",
 };
 
-export const CustomMuiTextField = styled(({ InputProps, ...props }: TextFieldProps) => (
+export const CustomMuiTextField = styled(({ slotProps, ...props }: TextFieldProps) => (
   <TextField
-    InputProps={{ disableUnderline: true, ...InputProps } as Partial<OutlinedInputProps>}
+    slotProps={{
+      ...slotProps,
+      input: { disableUnderline: true, ...slotProps?.input } as Partial<OutlinedInputProps>,
+    }}
     {...props}
     {...DEFAULT_PROPS}
   />
@@ -40,17 +43,20 @@ export type IMuiTextField = {
 } & TextFieldProps;
 
 const MuiTextField = (props: IMuiTextField) => {
-  const { label, id, name, inputProps, maxLength, errorText, ...cleanProps } = props;
+  const { label, id, name, slotProps, maxLength, errorText, ...cleanProps } = props;
   const _id = formatToId(id || String(label));
   return (
     <CustomMuiTextField
       id={_id}
       name={name || _id}
       label={label}
-      inputProps={{
-        max: props.type === "date" ? "9999-12-31" : undefined,
-        maxLength: maxLength ?? TEXT.MAX.NAME,
-        ...inputProps,
+      slotProps={{
+        ...slotProps,
+        htmlInput: {
+          max: props.type === "date" ? "9999-12-31" : undefined,
+          maxLength: maxLength ?? TEXT.MAX.NAME,
+          ...slotProps?.htmlInput,
+        },
       }}
       error={Boolean(errorText)}
       helperText={errorText}
