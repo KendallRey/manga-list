@@ -26,9 +26,17 @@ export const MANGA_LIST_MODEL = {
   USER_ID: "user_id",
 } as const;
 
+export const MANGA_IMAGE_MODEL = {
+  ...BASE_MODEL,
+  name: "manga_image",
+  MANGA_ID: "manga_id",
+  URL: "url",
+} as const;
+
 export const MODEL = {
   BASE: BASE_MODEL,
   USER_PROFILE: USER_PROFILE_MODEL,
   MANGA: MANGA_MODEL,
   MANGA_LIST: MANGA_LIST_MODEL,
+  MANGA_IMAGE: MANGA_IMAGE_MODEL,
 } as const;

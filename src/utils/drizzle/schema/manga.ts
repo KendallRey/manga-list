@@ -24,3 +24,15 @@ export const MangaTable = pgTable(MODEL.MANGA.name, {
   [MODEL.MANGA.DELETED_AT]: timestamp(MODEL.MANGA.DELETED_AT, { withTimezone: true }),
   [MODEL.MANGA.ARCHIVED]: boolean(MODEL.MANGA.ARCHIVED).default(false),
 });
+
+export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
+  [MODEL.MANGA_IMAGE.ID]: uuid(MODEL.MANGA.ID).primaryKey().defaultRandom(),
+  [MODEL.MANGA_IMAGE.MANGA_ID]: uuid(MODEL.MANGA_IMAGE.MANGA_ID).references(() => MangaTable.id, {
+    onDelete: "set null",
+  }),
+  [MODEL.MANGA_IMAGE.URL]: varchar(MODEL.MANGA_IMAGE.URL, { length: 500 }),
+  [MODEL.MANGA_IMAGE.CREATED_AT]: timestamp(MODEL.MANGA_IMAGE.CREATED_AT, { withTimezone: true }).default(sql`NOW()`),
+  [MODEL.MANGA_IMAGE.UPDATED_AT]: timestamp(MODEL.MANGA_IMAGE.UPDATED_AT, { withTimezone: true }).default(sql`NOW()`),
+  [MODEL.MANGA_IMAGE.DELETED_AT]: timestamp(MODEL.MANGA_IMAGE.DELETED_AT, { withTimezone: true }),
+  [MODEL.MANGA_IMAGE.ARCHIVED]: boolean(MODEL.MANGA_IMAGE.ARCHIVED).default(false),
+});
