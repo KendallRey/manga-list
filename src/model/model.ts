@@ -16,6 +16,7 @@ export const MANGA_MODEL = {
   ...BASE_MODEL,
   name: "manga",
   NAME: "name",
+  NAME_IDX: "name_idx",
   LIST: "list_id",
 } as const;
 
