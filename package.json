@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "prettier": "prettier --write \"src/**/*\"",
+    "prettier:check": "prettier --check \"src/**/*\""
   },
   "dependencies": {
     "@auth/supabase-adapter": "^1.4.2",
@@ -14,6 +18,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
     "drizzle-orm": "^0.33.0",
@@ -28,6 +33,7 @@
     "react-dom": "^18",
     "react-redux": "^9.1.2",
     "redux-persist": "^6.0.0",
+    "sass": "^1.78.0",
     "sweetalert2": "^11.14.0",
     "use-debounce": "^10.0.3",
     "zod": "^3.23.8"

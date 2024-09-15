@@ -1,0 +1,33 @@
+export const BASE_MODEL = {
+  ID: "id",
+  CREATED_AT: "created_at",
+  UPDATED_AT: "updated_at",
+  DELETED_AT: "deleted_at",
+  ARCHIVED: "archived",
+} as const;
+
+export const USER_MODEL = {
+  ID: "id",
+  name: "auth.users",
+} as const;
+
+export const MANGA_MODEL = {
+  ...BASE_MODEL,
+  name: "manga",
+  NAME: "name",
+  LIST: "list_id",
+} as const;
+
+export const MANGA_LIST_MODEL = {
+  ...BASE_MODEL,
+  name: "manga_list",
+  NAME: "name",
+  USER_ID: "user_id",
+} as const;
+
+export const MODEL = {
+  BASE: BASE_MODEL,
+  USER: USER_MODEL,
+  MANGA: MANGA_MODEL,
+  MANGA_LIST: MANGA_LIST_MODEL,
+} as const;

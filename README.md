@@ -6,9 +6,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 npm i drizzle-orm postgres
 npm i -D drizzle-kit
 npm install @supabase/supabase-js
-npm install @supabase/supabase-js @auth/supabase-adapter
-npm install next-auth
+npm install @supabase/supabase-js @supabase/ssr
 npm i pg
+
 npm i -D prettier
 npm install @mui/material @emotion/react @emotion/styled
 npm install @reduxjs/toolkit
@@ -22,6 +22,23 @@ npm install -D tailwindcss
 npm i redux-persist
 npm install axios
 npm install framer-motion
+
+npm install @supabase/supabase-js @auth/supabase-adapter
+npm install next-auth
+```
+
+## Supabase & Drizzle ORM
+
+We are using Drizzle ORM for database migrations and schema generation. The following commands will help you manage the database schema and migrations.
+
+To generate the database schema from your TypeScript models, run:
+```bash
+npm run db:generate
+```
+
+To apply the migrations to your database, run:
+```bash
+npm run db:migrate
 ```
 
 ## Getting Started
