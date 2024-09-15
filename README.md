@@ -1,5 +1,29 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Installed Packages Command
+
+```bash
+npm i drizzle-orm postgres
+npm i -D drizzle-kit
+npm install @supabase/supabase-js
+npm install @supabase/supabase-js @auth/supabase-adapter
+npm install next-auth
+npm i pg
+npm i -D prettier
+npm install @mui/material @emotion/react @emotion/styled
+npm install @reduxjs/toolkit
+npm install react-redux
+npm install moment --save
+npm install sass
+npm install sweetalert2
+npm install zod
+npm i use-debounce
+npm install -D tailwindcss
+npm i redux-persist
+npm install axios
+npm install framer-motion
+```
+
 ## Getting Started
 
 First, run the development server:
