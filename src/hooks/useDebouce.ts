@@ -1,7 +1,8 @@
-import { useDebounce, type Options } from 'use-debounce';
+import { useDebounce, type Options } from "use-debounce";
 
 export const DEBOUNCE = {
   DELAY: 500,
-}
+};
 
-export const useAppDebounce = <T>(data: T, number?: number, options?: Options) => useDebounce(data, number ?? DEBOUNCE.DELAY, options)
+export const useAppDebounce = <T>(data: T, number?: number, options?: Options) =>
+  useDebounce(data, number ?? DEBOUNCE.DELAY, options);
