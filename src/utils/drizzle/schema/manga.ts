@@ -1,7 +1,7 @@
 import { pgTable, varchar, timestamp, boolean, uuid, index } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { MODEL } from "@/model/model";
-import { UserProfileTable } from "./user-profile";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const MangaListTable = pgTable(MODEL.MANGA_LIST.name, {
   [MODEL.MANGA_LIST.ID]: uuid(MODEL.MANGA_LIST.ID).primaryKey().defaultRandom(),
@@ -12,6 +12,10 @@ export const MangaListTable = pgTable(MODEL.MANGA_LIST.name, {
   [MODEL.MANGA_LIST.DELETED_AT]: timestamp(MODEL.MANGA_LIST.DELETED_AT, { withTimezone: true }),
   [MODEL.MANGA_LIST.ARCHIVED]: boolean(MODEL.MANGA_LIST.ARCHIVED).default(false),
 });
+export type IMangaListTableInsert = typeof MangaListTable.$inferInsert;
+export type IMangaListTableSelect = typeof MangaListTable.$inferSelect;
+export const insertMangaListSchema = createInsertSchema(MangaListTable);
+export const selectMangaListSchema = createSelectSchema(MangaListTable);
 
 export const MangaTable = pgTable(
   MODEL.MANGA.name,
@@ -30,6 +34,10 @@ export const MangaTable = pgTable(
     };
   },
 );
+export type IMangaTableInsert = typeof MangaTable.$inferInsert;
+export type IMangaTableSelect = typeof MangaTable.$inferSelect;
+export const insertMangaSchema = createInsertSchema(MangaTable);
+export const selectMangaSchema = createSelectSchema(MangaTable);
 
 export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
   [MODEL.MANGA_IMAGE.ID]: uuid(MODEL.MANGA.ID).primaryKey().defaultRandom(),
@@ -42,3 +50,7 @@ export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
   [MODEL.MANGA_IMAGE.DELETED_AT]: timestamp(MODEL.MANGA_IMAGE.DELETED_AT, { withTimezone: true }),
   [MODEL.MANGA_IMAGE.ARCHIVED]: boolean(MODEL.MANGA_IMAGE.ARCHIVED).default(false),
 });
+export type IMangaImageTableInsert = typeof MangaImageTable.$inferInsert;
+export type IMangaImageTableSelect = typeof MangaImageTable.$inferSelect;
+export const insertMangaImageSchema = createInsertSchema(MangaImageTable);
+export const selectMangaImageSchema = createSelectSchema(MangaImageTable);
