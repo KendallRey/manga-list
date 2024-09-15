@@ -1,5 +1,5 @@
 {
-  "id": "312bf352-97d6-423e-9222-027b6b49ceba",
+  "id": "9385804e-f2e8-4dce-80fe-5f0212920cf8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,6 +14,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -54,8 +60,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.manga_list": {
-      "name": "manga_list",
+    "public.manga_image": {
+      "name": "manga_image",
       "schema": "",
       "columns": {
         "id": {
@@ -65,15 +71,15 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
+        "manga_id": {
+          "name": "manga_id",
           "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
         },
@@ -107,12 +113,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "manga_list_user_id_user_profile_id_fk": {
-          "name": "manga_list_user_id_user_profile_id_fk",
-          "tableFrom": "manga_list",
-          "tableTo": "user_profile",
+        "manga_image_manga_id_manga_id_fk": {
+          "name": "manga_image_manga_id_manga_id_fk",
+          "tableFrom": "manga_image",
+          "tableTo": "manga",
           "columnsFrom": [
-            "user_id"
+            "manga_id"
           ],
           "columnsTo": [
             "id"
@@ -121,6 +127,62 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.manga_list": {
+      "name": "manga_list",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "NOW()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "archived": {
+          "name": "archived",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -175,7 +237,23 @@
           "default": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "name_idx": {
+          "name": "name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "manga_list_id_manga_list_id_fk": {
           "name": "manga_list_id_manga_list_id_fk",

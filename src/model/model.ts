@@ -10,6 +10,7 @@ export const USER_PROFILE_MODEL = {
   ...BASE_MODEL,
   NAME: "name",
   name: "user_profile",
+  USER_ID: "user_id",
 } as const;
 
 export const MANGA_MODEL = {

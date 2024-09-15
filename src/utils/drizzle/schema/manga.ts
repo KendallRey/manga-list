@@ -6,9 +6,7 @@ import { UserProfileTable } from "./user-profile";
 export const MangaListTable = pgTable(MODEL.MANGA_LIST.name, {
   [MODEL.MANGA_LIST.ID]: uuid(MODEL.MANGA_LIST.ID).primaryKey().defaultRandom(),
   [MODEL.MANGA_LIST.NAME]: varchar(MODEL.MANGA_LIST.NAME, { length: 255 }).notNull(),
-  [MODEL.MANGA_LIST.USER_ID]: uuid(MODEL.MANGA_LIST.USER_ID).references(() => UserProfileTable.id, {
-    onDelete: "set null",
-  }),
+  [MODEL.MANGA_LIST.USER_ID]: varchar(MODEL.MANGA_LIST.USER_ID, { length: 255 }).notNull(),
   [MODEL.MANGA_LIST.CREATED_AT]: timestamp(MODEL.MANGA_LIST.CREATED_AT, { withTimezone: true }).default(sql`NOW()`),
   [MODEL.MANGA_LIST.UPDATED_AT]: timestamp(MODEL.MANGA_LIST.UPDATED_AT, { withTimezone: true }).default(sql`NOW()`),
   [MODEL.MANGA_LIST.DELETED_AT]: timestamp(MODEL.MANGA_LIST.DELETED_AT, { withTimezone: true }),

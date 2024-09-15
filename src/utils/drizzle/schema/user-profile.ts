@@ -4,6 +4,7 @@ import { boolean, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
 
 export const UserProfileTable = pgTable(MODEL.USER_PROFILE.name, {
   [MODEL.USER_PROFILE.ID]: uuid(MODEL.USER_PROFILE.ID).primaryKey().defaultRandom(),
+  [MODEL.USER_PROFILE.USER_ID]: varchar(MODEL.MANGA_LIST.USER_ID, { length: 255 }).notNull(),
   [MODEL.USER_PROFILE.NAME]: varchar(MODEL.USER_PROFILE.NAME, { length: 255 }).notNull(),
   [MODEL.USER_PROFILE.CREATED_AT]: timestamp(MODEL.USER_PROFILE.CREATED_AT, { withTimezone: true }).default(sql`NOW()`),
   [MODEL.USER_PROFILE.UPDATED_AT]: timestamp(MODEL.USER_PROFILE.UPDATED_AT, { withTimezone: true }).default(sql`NOW()`),
