@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ```bash
 npm i drizzle-orm postgres
 npm i -D drizzle-kit
+npm i drizzle-zod
 npm install @supabase/supabase-js
 npm install @supabase/supabase-js @supabase/ssr
 npm i pg
@@ -22,6 +23,8 @@ npm install -D tailwindcss
 npm i redux-persist
 npm install axios
 npm install framer-motion
+npm i react-number-format
+npm install react-icons --save
 
 npm install @supabase/supabase-js @auth/supabase-adapter
 npm install next-auth
