@@ -8,6 +8,13 @@
       "when": 1726400092870,
       "tag": "0000_colossal_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1726456586673,
+      "tag": "0001_green_nicolaos",
+      "breakpoints": true
     }
   ]
 }

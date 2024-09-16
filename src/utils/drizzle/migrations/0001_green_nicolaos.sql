@@ -1,0 +1,1 @@
+ALTER TABLE "manga" ADD COLUMN "url" varchar(255);

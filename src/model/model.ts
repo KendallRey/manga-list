@@ -18,6 +18,7 @@ export const MANGA_MODEL = {
   name: "manga",
   NAME: "name",
   NAME_IDX: "name_idx",
+  URL: "url",
   LIST: "list_id",
 } as const;
 
