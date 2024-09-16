@@ -48,14 +48,16 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
         </MuiTd>
         <MuiTd>{item.name}</MuiTd>
         <MuiTd>
-          <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
-            <MuiIconButton>
-              <HiEye />
+          <div className="flex items-center">
+            <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
+              <MuiIconButton>
+                <HiEye />
+              </MuiIconButton>
+            </MuiLink>
+            <MuiIconButton className="text-red-500" onClick={onDelete}>
+              <HiTrash />
             </MuiIconButton>
-          </MuiLink>
-          <MuiIconButton className="text-red-500" onClick={onDelete}>
-            <HiTrash />
-          </MuiIconButton>
+          </div>
         </MuiTd>
       </MuiTr>
     </>

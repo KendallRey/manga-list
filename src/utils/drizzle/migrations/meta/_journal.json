@@ -15,6 +15,13 @@
       "when": 1726456586673,
       "tag": "0001_green_nicolaos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726496202020,
+      "tag": "0002_safe_cannonball",
+      "breakpoints": true
     }
   ]
 }

@@ -25,17 +25,17 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
     if (skip) return successResponse({ data: [] });
 
     const totalCount = await db
-    .select({
-      count: sql<number>`count(*)`.as('count')
-    })
-    .from(MangaTable)
-    .where(
-      and(
-        eq(MangaTable[MODEL.MANGA.LIST], listId),
-        eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
-        q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
-      ),
-    );
+      .select({
+        count: sql<number>`count(*)`.as("count"),
+      })
+      .from(MangaTable)
+      .where(
+        and(
+          eq(MangaTable[MODEL.MANGA.LIST], listId),
+          eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
+        ),
+      );
 
     const baseQuery = db
       .select()
