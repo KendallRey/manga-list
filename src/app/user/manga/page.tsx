@@ -7,10 +7,10 @@ import MangaList from "./ui/MangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import CreateMangaList from "./ui/CreateMangaList";
-import { List, ListItem } from "@mui/material";
 import MuiButton from "@/components/button/Button";
 import { addMangaAction } from "./ui/action";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
+import MuiList, { MuiListItem } from "@/components/list/List";
 
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -41,7 +41,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
     <Dashboard>
       <MuiPaper className="p-4" elevation={2} color="primary">
         <div className="flex gap-2">
-          <Search />{" "}
+          <Search />
           <form className="flex">
             <input value={mangaList.id} name="list_id" className="hidden" readOnly />
             <input value={searchParam.get("q") ?? ""} name="name" className="hidden" readOnly />
@@ -50,12 +50,13 @@ const MangaPage: React.FC<INextPage> = async (props) => {
             </MuiButton>
           </form>
         </div>
-        <List className="flex flex-col ga-2">
+        <MuiList className="flex flex-col gap-1">
           {mangasResponse.data.map((manga) => (
-            <ListItem key={manga.id}>{manga.name}</ListItem>
+            <MuiListItem key={manga.id}>{manga.name}</MuiListItem>
           ))}
-        </List>
+        </MuiList>
       </MuiPaper>
+
       <MuiPaper className="flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
         <MangaList list={mangaList} />
       </MuiPaper>
