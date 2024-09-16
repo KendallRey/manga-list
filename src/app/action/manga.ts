@@ -4,10 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { CreateUserMangaList } from "@/app/api/manga-list/manga-list-api";
-import { AddUserManga } from "@/app/api/manga/manga-api";
+import { AddUserManga, ArchivedUserManga } from "@/app/api/manga/manga-api";
 import { insertMangaSchema } from "@/utils/drizzle/schema";
-import { getValidationErrors } from "@/model/helper/validation";
-import { formDataToObject } from "@/model/helper/form";
 
 export async function createMangaListAction() {
   const { error } = await CreateUserMangaList({});
@@ -19,22 +17,26 @@ export async function createMangaListAction() {
   revalidatePath("/", "layout");
 }
 
-export async function addMangaAction(formData: FormData) {
-  const payload = formDataToObject(formData);
-
+export async function addMangaAction(payload: object) {
   const validation = insertMangaSchema.safeParse(payload);
 
   if (!validation.success) {
-    const error = getValidationErrors(validation);
-
-    return;
+    return {
+      status: null,
+      error: "Fetching Failed",
+      code: 500,
+    };
   }
 
-  const { error } = await AddUserManga({ payload: validation.data });
-
-  if (error) {
-    redirect("/error");
-  }
+  const response = await AddUserManga({ payload: validation.data });
 
   revalidatePath("/", "layout");
+  return response;
+}
+
+export async function archivedMangaAction(id: ID) {
+  const response = await ArchivedUserManga({ payload: id });
+
+  revalidatePath("/", "layout");
+  return response;
 }

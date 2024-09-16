@@ -1,8 +1,8 @@
 import React from "react";
-import { createMangaListAction } from "./action";
 import MuiButton from "@/components/button/Button";
 import MuiTypography from "@/components/typography/Typograph";
 import PageTitle from "@/components/custom/PageTitle";
+import { createMangaListAction } from "@/app/action/manga";
 
 const CreateMangaList = () => {
   return (

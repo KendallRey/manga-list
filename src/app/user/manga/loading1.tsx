@@ -13,8 +13,8 @@ const MangaPageLoading: React.FC<INextPage> = async (props) => {
     <Dashboard>
       <MuiPaper className="p-4" elevation={2} color="primary">
         <div className="flex gap-2">
-          <MuiSkeleton height={52} className="flex-grow" />
-          <MuiSkeleton height={52} width={64} />
+          <MuiSkeleton height={52} component={"div"} className="flex-grow" />
+          <MuiSkeleton height={52} component={"div"} width={64} />
         </div>
         <MuiSkeleton width={90} />
         <List className="flex flex-col gap-2"></List>
@@ -43,7 +43,10 @@ const MangaPageLoading: React.FC<INextPage> = async (props) => {
                   <MuiSkeleton variant="text" sx={{ fontSize: 24 }} />
                 </MuiTd>
                 <MuiTd>
-                  <MuiSkeleton variant="rounded" width={30} height={30} />
+                  <div className="mx-1 flex gap-2">
+                    <MuiSkeleton variant="rounded" width={30} height={30} />
+                    <MuiSkeleton variant="rounded" width={30} height={30} />
+                  </div>
                 </MuiTd>
               </MuiTr>
             </ComponentList>

@@ -1,7 +1,9 @@
+"use server";
+
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
-import { and, eq, ilike } from "drizzle-orm";
+import { and, eq, ilike, sql } from "drizzle-orm";
 import { toSearchParams } from "../helper/apiHelper";
 
 type IGetUserMangas = {
@@ -80,10 +82,7 @@ export const AddUserManga = async (
 ): Promise<IApiResponse<IMangaTableSelect>> => {
   const { payload } = props;
   try {
-    const manga = await db.insert(MangaTable).values({
-      [MODEL.MANGA.NAME]: payload.name,
-      [MODEL.MANGA.LIST]: payload.list_id,
-    });
+    const manga = await db.insert(MangaTable).values(payload).returning();
 
     return {
       status: "ok",
@@ -94,6 +93,32 @@ export const AddUserManga = async (
     return {
       status: null,
       error: "Fetching Failed",
+      code: 500,
+    };
+  }
+};
+
+export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiResponse<IMangaTableSelect>> => {
+  const { payload } = props;
+  try {
+    const manga = await db
+      .update(MangaTable)
+      .set({
+        [MODEL.MANGA.ARCHIVED]: true,
+        [MODEL.MANGA.DELETED_AT]: sql`NOW()`,
+      })
+      .where(eq(MangaTable[MODEL.MANGA.ID], String(payload)))
+      .returning();
+
+    return {
+      status: "ok",
+      code: 200,
+      data: manga[0],
+    };
+  } catch (error) {
+    return {
+      status: null,
+      error: "Archived Failed",
       code: 500,
     };
   }

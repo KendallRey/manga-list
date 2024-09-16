@@ -4,7 +4,6 @@ import PageBreadCrumbs from "@/components/custom/PageBreadCrumbs";
 import MuiPaper from "@/components/paper/Paper";
 import MuiTypography from "@/components/typography/Typograph";
 import Dashboard from "@/components/ui/Dashboard";
-import Image from "next/image";
 import React from "react";
 
 const ViewMangaPage: React.FC<INextPage> = async (props) => {
