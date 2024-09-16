@@ -4,25 +4,27 @@ import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
 import { and, eq, ilike, sql } from "drizzle-orm";
-import { toSearchParams } from "../helper/apiHelper";
+import { errorResponse, successResponse, toSearchParams } from "../helper/apiHelper";
+import API from "../API";
 
 type IGetUserMangas = {
   listId: string;
 } & IApiProps;
 
+const DEFAULT_LIMIT = 100;
+
 export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
-  const { params, skip, listId } = props;
+  const { params, ignore, skip, listId } = props;
+
   try {
     const search = toSearchParams(params);
     const q = search.get("q");
+    const page = Number(search.get("page") || 1) - 1;
+    const limit = Number(search.get("limit") || DEFAULT_LIMIT);
 
-    if (skip)
-      return {
-        status: "ok",
-        code: 200,
-        data: [],
-      };
-    const mangas = await db
+    if (skip) return successResponse({ data: [] });
+
+    const baseQuery = db
       .select()
       .from(MangaTable)
       .where(
@@ -31,19 +33,15 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
           eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
-      );
+      )
+      .limit(limit)
+      .offset(page * limit);
 
-    return {
-      status: "ok",
-      code: 200,
-      data: mangas,
-    };
+    const mangas = await baseQuery;
+
+    return successResponse({ data: mangas });
   } catch (error) {
-    return {
-      status: null,
-      error: "Fetching Failed",
-      code: 500,
-    };
+    return errorResponse({ data: {}, code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -52,28 +50,15 @@ export type IGetUserManga = {
 } & IApiProps;
 
 export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<IMangaTableSelect>> => {
-  const { params, skip, id } = props;
+  const { id } = props;
   try {
     const mangas = await db.select().from(MangaTable).where(eq(MangaTable[MODEL.MANGA.ID], id));
 
-    if (!mangas.length)
-      return {
-        status: null,
-        error: "Fetching Failed",
-        code: 404,
-      };
+    if (!mangas.length) return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST, data: {} });
 
-    return {
-      status: "ok",
-      code: 200,
-      data: mangas[0],
-    };
+    return successResponse({ data: mangas[0] });
   } catch (error) {
-    return {
-      status: null,
-      error: "Fetching Failed",
-      code: 500,
-    };
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
   }
 };
 
@@ -84,17 +69,9 @@ export const AddUserManga = async (
   try {
     const manga = await db.insert(MangaTable).values(payload).returning();
 
-    return {
-      status: "ok",
-      code: 200,
-      data: manga[0],
-    };
+    return successResponse({ data: manga[0], code: API.CODE.SUCCESS.CREATED });
   } catch (error) {
-    return {
-      status: null,
-      error: "Fetching Failed",
-      code: 500,
-    };
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
   }
 };
 
@@ -110,16 +87,8 @@ export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiR
       .where(eq(MangaTable[MODEL.MANGA.ID], String(payload)))
       .returning();
 
-    return {
-      status: "ok",
-      code: 200,
-      data: manga[0],
-    };
+    return successResponse({ data: manga[0], code: API.CODE.SUCCESS.CREATED });
   } catch (error) {
-    return {
-      status: null,
-      error: "Archived Failed",
-      code: 500,
-    };
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
   }
 };

@@ -122,12 +122,19 @@ export const MuiTableBody: React.FC<IMuiTableBody> = (props) => {
 
 type IMuiTable = {
   containerProps?: TableContainerProps;
-  paginationProps?: PaginationProps;
+  paginationProps?: PaginationProps & { limit?: number };
   colsWidth?: (string | number | IColGroupItem)[];
 } & TableProps;
 
 const MuiTable: React.FC<IMuiTable> = (props) => {
   const { containerProps, children, paginationProps, colsWidth, ...cleanProps } = props;
+
+  const pageCount = React.useMemo(() => {
+    const limit = paginationProps?.limit || 10;
+    if (!paginationProps?.count) return;
+    return Math.ceil(paginationProps.count / limit);
+  }, [paginationProps]);
+
   return (
     <>
       <TableContainer {...containerProps}>
@@ -136,7 +143,9 @@ const MuiTable: React.FC<IMuiTable> = (props) => {
           {children}
         </Table>
       </TableContainer>
-      <div onClick={(e) => e.stopPropagation()}>{paginationProps && <MuiPagination {...paginationProps} />}</div>
+      <div onClick={(e) => e.stopPropagation()} className="py-2">
+        {paginationProps && <MuiPagination {...paginationProps} count={pageCount} />}
+      </div>
     </>
   );
 };
