@@ -45,6 +45,36 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   }
 };
 
+export type IGetUserManga = {
+  id: string;
+} & IApiProps;
+
+export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<IMangaTableSelect>> => {
+  const { params, skip, id } = props;
+  try {
+    const mangas = await db.select().from(MangaTable).where(eq(MangaTable[MODEL.MANGA.ID], id));
+
+    if (!mangas.length)
+      return {
+        status: null,
+        error: "Fetching Failed",
+        code: 404,
+      };
+
+    return {
+      status: "ok",
+      code: 200,
+      data: mangas[0],
+    };
+  } catch (error) {
+    return {
+      status: null,
+      error: "Fetching Failed",
+      code: 500,
+    };
+  }
+};
+
 export const AddUserManga = async (
   props: IApiPostProps<IMangaTableInsert>,
 ): Promise<IApiResponse<IMangaTableSelect>> => {
