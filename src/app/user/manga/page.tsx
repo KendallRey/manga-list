@@ -11,6 +11,7 @@ import MuiButton from "@/components/button/Button";
 import { addMangaAction } from "./ui/action";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
 import MuiList, { MuiListItem } from "@/components/list/List";
+import MuiTypography from "@/components/typography/Typograph";
 
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -50,6 +51,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
             </MuiButton>
           </form>
         </div>
+        <MuiTypography variant="caption">{mangasResponse.data.length} results</MuiTypography>
         <MuiList className="flex flex-col gap-1">
           {mangasResponse.data.map((manga) => (
             <MuiListItem key={manga.id}>{manga.name}</MuiListItem>

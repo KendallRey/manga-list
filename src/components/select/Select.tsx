@@ -44,7 +44,7 @@ const MuiSelect: React.FC<IMuiSelect> = (props) => {
 export default MuiSelect;
 
 export type IMuiFormSelect = {
-  fCProps?: DefaultComponentProps<FormControlTypeMap<{}, "div">>;
+  fCProps?: DefaultComponentProps<FormControlTypeMap<object, "div">>;
   minWidth?: number;
   maxWidth?: number;
   helperText?: string;

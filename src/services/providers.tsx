@@ -1,5 +1,5 @@
-import { ThemeProvider } from "@mui/material";
-import { MuiTheme } from "@/components/theme/theme";
+// import { ThemeProvider } from "@mui/material";
+// import { MuiTheme } from "@/components/theme/theme";
 
 type IProviders = {
   children: React.ReactNode;

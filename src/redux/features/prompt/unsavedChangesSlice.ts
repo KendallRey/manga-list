@@ -2,7 +2,7 @@ import { clearFieldAction, setFieldAction } from "@/redux/helper/action";
 import { createSlice } from "@reduxjs/toolkit";
 
 type IUnsavedChangesSliceState = {
-  state: Object;
+  state: object;
 };
 
 const INITIAL_STATE: Partial<IUnsavedChangesSliceState> = {};

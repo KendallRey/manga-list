@@ -1,4 +1,4 @@
 type INextPage = {
-  params?: Record<string, any>;
-  searchParams?: Record<string, any>;
+  params?: Record<string, unknown>;
+  searchParams?: Record<string, unknown>;
 };

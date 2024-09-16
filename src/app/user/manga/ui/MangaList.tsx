@@ -6,6 +6,8 @@ import { GetUserMangas } from "@/app/api/manga/manga-api";
 import { IMangaListTableSelect } from "@/utils/drizzle/schema";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import { HiEye } from "react-icons/hi2";
+import MangaListItem from "./MangaListItem";
+import TableList from "@/components/helper-components/TableList";
 
 type IMangaList = {
   list: IMangaListTableSelect;
@@ -28,19 +30,13 @@ const MangaList: React.FC<IMangaList> = async (props) => {
         </MuiHeadTr>
       </MuiTableHead>
       <MuiTableBody>
-        {mangasResponse.data.map((manga) => (
-          <MuiTr key={manga.id}>
-            <MuiTd>
-              <Avatar />
-            </MuiTd>
-            <MuiTd>{manga.name}</MuiTd>
-            <MuiTd>
-              <MuiIconButton>
-                <HiEye />
-              </MuiIconButton>
-            </MuiTd>
-          </MuiTr>
-        ))}
+        <TableList
+          colSpan={3}
+          isLoading={false}
+          isError={false}
+          data={mangasResponse.data}
+          render={(manga) => <MangaListItem key={manga.id} item={manga} />}
+        />
       </MuiTableBody>
     </MuiTable>
   );

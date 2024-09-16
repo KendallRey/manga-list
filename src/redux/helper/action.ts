@@ -9,7 +9,7 @@ import { clearDataArrayOf } from "@/components/helper/array";
  * @param field - The field to be set in the state.
  * @returns A function that takes the state and action, and sets the specified field.
  */
-export const setAction = <T extends Record<string, any>, D = any>(field: keyof T) => {
+export const setAction = <T extends Record<string, IValue>, D = unknown>(field: keyof T) => {
   return (state: T, action: PayloadAction<D>) => {
     state[field] = action.payload as T[keyof T];
   };
@@ -21,7 +21,7 @@ export const setAction = <T extends Record<string, any>, D = any>(field: keyof T
  * @param field - The field to be cleared in the state.
  * @returns A function that takes the state and clears the specified field.
  */
-export const clearAction = <T extends Record<string, any>>(field: keyof T) => {
+export const clearAction = <T extends Record<string, unknown>>(field: keyof T) => {
   return (state: T) => {
     state[field] = undefined as T[keyof T];
   };
@@ -34,13 +34,13 @@ export const clearAction = <T extends Record<string, any>>(field: keyof T) => {
  * @param INITIAL_STATE - The initial state for the views.
  * @returns An object containing setView and resetViews functions.
  */
-export const viewActions = <T extends string, D extends Record<string, any>>(INITIAL_STATE: D) => {
+export const viewActions = <T extends string, D extends Record<string, unknown>>(INITIAL_STATE: D) => {
   /**
    * Sets the view state.
    * @param state - The current state.
    * @param action - The action containing view name and open state.
    */
-  const setView = (state: Record<string, any>, action: PayloadAction<{ view: T; open: boolean }>) => {
+  const setView = (state: Record<string, unknown>, action: PayloadAction<{ view: T; open: boolean }>) => {
     const { payload } = action;
     const { view, open } = payload;
     state[view] = open;
@@ -50,7 +50,7 @@ export const viewActions = <T extends string, D extends Record<string, any>>(INI
    * Resets the view state to the initial state.
    * @param state - The current state.
    */
-  const resetViews = (state: Record<string, any>) => {
+  const resetViews = (state: Record<string, unknown>) => {
     state = INITIAL_STATE;
   };
 
@@ -67,7 +67,7 @@ export const viewActions = <T extends string, D extends Record<string, any>>(INI
  * @param action - The action containing the payload to set.
  * @returns The updated form state.
  */
-export const setFormAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, any>>) => {
+export const setFormAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, unknown>>) => {
   const { payload } = action;
   return { ...state, ...payload, error: {} };
 };
@@ -79,7 +79,7 @@ export const setFormAction = <T>(state: IReduxFormState<T>, action: PayloadActio
  * @param action - The action containing the payload to edit.
  * @returns The updated form state.
  */
-export const editFormAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, any>>) => {
+export const editFormAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, IValue>>) => {
   const { payload } = action;
   const error = { ...state.error, [payload[REDUX.FIELD.KEY]]: "" };
   return { ...state, error, ...payload };
@@ -91,9 +91,9 @@ export const editFormAction = <T>(state: IReduxFormState<T>, action: PayloadActi
  * @param state - The current form state.
  * @param action - The action containing the error payload to set.
  */
-export const setFormErrorAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, any>>) => {
+export const setFormErrorAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, unknown>>) => {
   const { payload } = action;
-  state.error = payload as any;
+  state.error = payload as Partial<Record<keyof T, string>> | undefined;
 };
 
 /**
@@ -114,28 +114,11 @@ export const clearFormErrorAction = <T>(state: IReduxFormState<T>) => {
  * @returns {Function} The set field action function.
  */
 export const setFieldAction = <T>(field: keyof T) => {
-  const setField = (state: T, action: PayloadAction<Record<string, any>>) => {
+  const setField = (state: T, action: PayloadAction<Record<string, IValue>>) => {
     const { payload } = action;
     state[field] = { ...state[field], ...payload, error: {} };
   };
   return setField;
-};
-
-/**
- * Creates an action to edit a field in the state.
- * Merges the payload with the existing field value and updates the error.
- *
- * @template T - The type of the state object.
- * @param {keyof T} field - The field in the state to be edited.
- * @returns {Function} The edit field action function.
- */
-export const editFieldAction = <T extends Record<string, any>>(field: keyof T) => {
-  const editField = (state: T, action: PayloadAction<Record<string, any>>) => {
-    const { payload } = action;
-    const error = { ...state[field].error, [payload[REDUX.FIELD.KEY]]: "" };
-    state[field] = { ...state[field], error, ...payload };
-  };
-  return editField;
 };
 
 /**
@@ -155,40 +138,11 @@ export const clearFieldAction = <T>(initialState: T, field: keyof T) => {
 };
 
 /**
- * Creates an action to set an error for a field in the state.
- *
- * @template T - The type of the state object.
- * @param {keyof T} field - The field in the state to set the error for.
- * @returns {Function} The set field error action function.
- */
-export const setFieldErrorAction = <T extends Record<string, any>>(field: keyof T) => {
-  const setFieldError = (state: T, action: PayloadAction<Record<string, any>>) => {
-    const { payload } = action;
-    state[field].error = payload;
-  };
-  return setFieldError;
-};
-
-/**
- * Creates an action to clear the error for a field in the state.
- *
- * @template T - The type of the state object.
- * @param {keyof T} field - The field in the state to clear the error for.
- * @returns {Function} The clear field error action function.
- */
-export const clearFieldErrorAction = <T extends Record<string, any>>(field: keyof T) => {
-  const clearFieldError = (state: T) => {
-    state[field].error = {};
-  };
-  return clearFieldError;
-};
-
-/**
  * Set array of object to object array field.
  * @param field Object array field name.
  */
-export const setArrayAction = <T extends Record<string, any>>(field: keyof T) => {
-  return (state: T, action: PayloadAction<{}[]>) => {
+export const setArrayAction = <T extends Record<string, unknown>>(field: keyof T) => {
+  return (state: T, action: PayloadAction<IWithID[]>) => {
     const { payload } = action;
     state[field] = payload as T[keyof T];
   };
@@ -199,16 +153,17 @@ export const setArrayAction = <T extends Record<string, any>>(field: keyof T) =>
  * @note Object to add / remove must have `id` field
  * @param  field Array field name.
  */
-export const selectItemAction = <T extends Record<string, any>, D>(field: keyof T) => {
+export const selectItemAction = <T extends Record<string, unknown>, D extends IWithID>(field: keyof T) => {
   return (state: T, action: PayloadAction<{ item: D; select?: boolean }>) => {
     const { payload } = action;
     const { item, select } = payload;
+    const list = state[field] as IWithID[];
     if (select) {
-      const cleanList = clearDataArrayOf(state[field], [item]);
+      const cleanList = clearDataArrayOf(list, [item]);
       cleanList.push(item);
       state[field] = cleanList as T[keyof T];
     } else {
-      const cleanList = clearDataArrayOf(state[field], [item]);
+      const cleanList = clearDataArrayOf(list, [item]);
       state[field] = cleanList as T[keyof T];
     }
   };
@@ -233,7 +188,7 @@ type IProcessFormActionOptions<T> = {
 
 export const processFormAction = <T>(initialState: T, options?: IProcessFormActionOptions<T>) => {
   const keysToClear = options?.keyRelations;
-  const setFormFunction = (state: IReduxFormState<T>, action: PayloadAction<Record<string, any>>) => {
+  const setFormFunction = (state: IReduxFormState<T>, action: PayloadAction<Record<string, unknown>>) => {
     const { payload: initialPayload } = action;
 
     const { [REDUX.FIELD.KEY]: _key, ...payload } = initialPayload;

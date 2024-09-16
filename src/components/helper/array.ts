@@ -1,32 +1,30 @@
-import { IModel } from "@/model/base/model";
-
 /**
  * Returns array of ID.
  * @param {Array<string>} list List of Data with `id`.
  * @returns {Array<string>} An array of IDs.
  */
-export const toIdsOfDataArray = <T extends IModel>(list: T[]): Array<string> => {
+export const toIdsOfDataArray = <T extends IWithID>(list: T[]): Array<ID> => {
   return list.map((item) => item.id);
 };
 
 /**
  * Returns an array of objects by subtracting the array `toClear` from the array `list`.
- * @param  {Array<IModel>} list - The original list of objects with `id` properties.
- * @param  {Array<IModel>} toClear - The list of objects with `id` properties to be subtracted from the original list.
- * @returns {Array<IModel>} An array of objects.
+ * @param  {Array<IWithID>} list - The original list of objects with `id` properties.
+ * @param  {Array<IWithID>} toClear - The list of objects with `id` properties to be subtracted from the original list.
+ * @returns {Array<IWithID>} An array of objects.
  */
-export const clearDataArrayOf = <T extends IModel>(list: T[], toClear: T[]): Array<IModel> => {
+export const clearDataArrayOf = <T extends IWithID>(list: T[], toClear: T[]): Array<IWithID> => {
   const ids = toIdsOfDataArray(toClear);
   return list.filter((item) => !ids.includes(item.id));
 };
 
 /**
  * Returns an array of objects by array of IDs.
- * @param  {Array<IModel>} list - The original list of objects with `id` properties.
- * @param  {Array<IModel>} ids - The list of `id` to be selected from the original list.
- * @returns {Array<IModel>} An array of objects.
+ * @param  {Array<IWithID>} list - The original list of objects with `id` properties.
+ * @param  {Array<IWithID>} ids - The list of `id` to be selected from the original list.
+ * @returns {Array<IWithID>} An array of objects.
  */
-export const selectDataArrayOfByIDs = <T extends IModel>(list: T[] | undefined, ids: string[]): Array<T> => {
+export const selectDataArrayOfByIDs = <T extends IWithID>(list: T[] | undefined, ids: ID[]): Array<T> => {
   if (!list) return [];
   return list.filter((item) => ids.includes(item.id));
 };

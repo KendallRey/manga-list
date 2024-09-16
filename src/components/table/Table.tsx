@@ -48,7 +48,7 @@ type IMuiSortTh = {
 
 type IMuiTr = {
   children?: React.ReactNode;
-} & Omit<OverridableComponent<TableRowTypeMap<{}, "tr">>, "children"> &
+} & Omit<OverridableComponent<TableRowTypeMap<object, "tr">>, "children"> &
   React.ComponentPropsWithoutRef<"tr">;
 
 export const MuiSortTh: React.FC<IMuiSortTh> = (props) => {

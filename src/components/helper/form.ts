@@ -1,6 +1,6 @@
 import { REDUX } from "@/redux/constant/slice";
 
-type FormObject = Record<string, any>;
+type FormObject = Record<string, IValue>;
 
 /**
  * Trim all string fields in an object.
@@ -13,7 +13,7 @@ export const formatFormObject = (obj: FormObject): FormObject => {
     if (typeof obj[key] === "string") {
       trimmedObject[key] = obj[key].trim();
     } else if (typeof obj[key] === "object" && obj[key] !== null) {
-      trimmedObject[key] = formatFormObject(obj[key]);
+      trimmedObject[key] = formatFormObject(obj[key]) as unknown as IValue;
     } else {
       trimmedObject[key] = obj[key];
     }

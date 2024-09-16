@@ -3,13 +3,13 @@ type IApiProps = {
   skip?: boolean;
 };
 
-type IApiPostProps<T = Record<string, any>> = {
+type IApiPostProps<T = Record<string, IValue>> = {
   payload: T;
 };
 
 type IApiParams = Record<string, any>;
 
-type IOrdering = Record<string, any> & {
+type IOrdering = Record<string, IValue> & {
   order?: "asc" | "desc" | false;
   orderBy?: string;
 };
@@ -25,6 +25,7 @@ type IApiErrorResponse<T> = {
   status: null;
   code: number;
   error: string;
+  data?: T;
 };
 
-type IApiResponse<T, U = any> = IApiSuccessResponse<T> | IApiErrorResponse<U>;
+type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<U>;
