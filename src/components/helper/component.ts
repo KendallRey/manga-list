@@ -1,6 +1,29 @@
 import { MONEY } from "../constants/config";
 
 /**
+ * Checks if the provided string is a valid UUID (version 4).
+ *
+ * A UUID (Universally Unique Identifier) is a 128-bit number used to identify information in computer systems.
+ * This function validates the string against the UUID v4 format: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.
+ *
+ * @param {string} str - The string to be checked if it is a valid UUID.
+ * @returns {boolean} - Returns `true` if the string is a valid UUID, otherwise `false`.
+ *
+ * @example
+ * ```
+ * const validUUID = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
+ * const invalidUUID = 'invalid-uuid';
+ *
+ * console.log(isUUID(validUUID)); // true
+ * console.log(isUUID(invalidUUID)); // false
+ * ```
+ */
+export const isUUID = (str: string): boolean => {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str);
+};
+
+/**
  * Format string to Label / Display.
  * @sample first_year -> First Year
  * @sample another_example_string -> Another Example String
