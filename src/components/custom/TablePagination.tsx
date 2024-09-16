@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import MuiPagination from "../pagination/Pagination";
 import { useRouter, useSearchParams } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import API from "@/app/api/API";
 
 type ITablePagination = {
   count: number;
@@ -49,7 +49,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   };
 
   const pageCount = React.useMemo(() => {
-    const _limit = limit || 10;
+    const _limit = limit || API.PARAMS.DEFAULT.LIMIT;
     if (!count) return;
     return Math.ceil(count / _limit);
   }, [limit, count]);

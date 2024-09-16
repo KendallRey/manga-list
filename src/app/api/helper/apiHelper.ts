@@ -5,6 +5,21 @@ export const toSearchParams = (params?: IApiParams) => {
   return newParams;
 };
 
+export const getSearchParams = (params?: IApiParams | URLSearchParams) => {
+  const search = toSearchParams(params);
+
+  const q = search.get("q");
+  const page = Number(search.get("page")) || 1;
+
+  const limit = Number(search.get("limit")) || API.PARAMS.DEFAULT.LIMIT;
+
+  return {
+    q,
+    page,
+    limit,
+  };
+};
+
 type ISuccessResponse<T> = {
   data: T;
   code?: number;

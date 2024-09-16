@@ -18,8 +18,14 @@ import {
 import { visuallyHidden } from "@mui/utils";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import MuiPagination from "../pagination/Pagination";
+import MuiTypography from "../typography/Typograph";
+import TablePagination from "../custom/TablePagination";
 
 const CustomMuiTd = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
@@ -129,12 +135,6 @@ type IMuiTable = {
 const MuiTable: React.FC<IMuiTable> = (props) => {
   const { containerProps, children, paginationProps, colsWidth, ...cleanProps } = props;
 
-  const pageCount = React.useMemo(() => {
-    const limit = paginationProps?.limit || 10;
-    if (!paginationProps?.count) return;
-    return Math.ceil(paginationProps.count / limit);
-  }, [paginationProps]);
-
   return (
     <>
       <TableContainer {...containerProps}>
@@ -143,8 +143,9 @@ const MuiTable: React.FC<IMuiTable> = (props) => {
           {children}
         </Table>
       </TableContainer>
-      <div onClick={(e) => e.stopPropagation()} className="py-2">
-        {paginationProps && <MuiPagination {...paginationProps} count={pageCount} />}
+      <div onClick={(e) => e.stopPropagation()} className="flex items-center justify-between py-2 px-2">
+        {paginationProps ? <TablePagination count={paginationProps.count || 1} /> : <span></span>}
+        <MuiTypography variant="caption">{paginationProps?.count ?? 0} results</MuiTypography>
       </div>
     </>
   );

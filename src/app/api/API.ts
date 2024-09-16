@@ -19,6 +19,11 @@ const API = {
       SERVICE_UNAVAILABLE: 503,
     },
   },
+  PARAMS: {
+    DEFAULT: {
+      LIMIT: 10,
+    },
+  },
 } as const;
 
 export default API;

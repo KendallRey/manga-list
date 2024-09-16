@@ -7,10 +7,11 @@ import MangaList from "./ui/MangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import CreateMangaList from "./ui/CreateMangaList";
-import { toSearchParams } from "@/app/api/helper/apiHelper";
+import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MuiList, { MuiListItem } from "@/components/list/List";
 import MuiTypography from "@/components/typography/Typograph";
 import AddMangaList from "./ui/AddMangaList";
+import MangaListFilter from "./ui/MangaListFilter";
 
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -26,12 +27,12 @@ const MangaPage: React.FC<INextPage> = async (props) => {
 
   const mangaList = mangaListResponse.data[0];
 
-  const searchParam = toSearchParams(searchParams);
+  const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: searchParams,
+    params: { q },
     listId: mangaList.id,
-    skip: !searchParam.get("q"),
+    skip: !q,
   });
   if (!mangasResponse.status) {
     return <ErrorPage />;
@@ -42,7 +43,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
       <MuiPaper className="p-4" elevation={2} color="primary">
         <div className="flex gap-2">
           <Search />
-          <AddMangaList id={mangaList.id} name={searchParam.get("q")} />
+          <AddMangaList id={mangaList.id} name={q} />
         </div>
         <MuiTypography variant="caption">{mangasResponse.data.length} results</MuiTypography>
         <MuiList className="flex flex-col gap-1">
@@ -52,7 +53,8 @@ const MangaPage: React.FC<INextPage> = async (props) => {
         </MuiList>
       </MuiPaper>
 
-      <MuiPaper className="flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
+      <MuiPaper className="flex flex-col flex-grow-[2] gap-1 min-h-[320px] p-4" elevation={2} color="primary">
+        <MangaListFilter />
         <MangaList list={mangaList} searchParams={searchParams} />
       </MuiPaper>
     </Dashboard>

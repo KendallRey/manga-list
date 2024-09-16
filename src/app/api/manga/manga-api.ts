@@ -4,25 +4,51 @@ import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
 import { and, eq, ilike, sql } from "drizzle-orm";
-import { errorResponse, successResponse, toSearchParams } from "../helper/apiHelper";
+import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
 
 type IGetUserMangas = {
   listId: string;
 } & IApiProps;
 
-const DEFAULT_LIMIT = 100;
-
 export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
-  const { params, ignore, skip, listId } = props;
+  const { params, skip, listId } = props;
 
   try {
-    const search = toSearchParams(params);
-    const q = search.get("q");
-    const page = Number(search.get("page") || 1) - 1;
-    const limit = Number(search.get("limit") || DEFAULT_LIMIT);
+    const { q, page, limit } = getSearchParams(params);
 
     if (skip) return successResponse({ data: [] });
+
+    const baseQuery = db
+      .select()
+      .from(MangaTable)
+      .where(
+        and(
+          eq(MangaTable[MODEL.MANGA.LIST], listId),
+          eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
+        ),
+      );
+
+    const mangas = await baseQuery;
+
+    return successResponse({ data: mangas });
+  } catch (error) {
+    return errorResponse({ data: {}, code: API.CODE.ERROR.SERVER_ERROR });
+  }
+};
+
+type IGetUserMangaList = {
+  listId: string;
+} & IApiProps;
+
+export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
+  const { params, skip, listId } = props;
+
+  try {
+    const { q, page, limit } = getSearchParams(params);
+
+    if (skip) return successResponse({ data: { count: 0, results: [] } });
 
     const totalCount = await db
       .select({
@@ -48,11 +74,11 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
         ),
       )
       .limit(limit)
-      .offset(page * limit);
+      .offset((page - 1) * limit);
 
     const mangas = await baseQuery;
 
-    return successResponse({ data: mangas });
+    return successResponse({ data: { count: totalCount[0].count, results: mangas } });
   } catch (error) {
     return errorResponse({ data: {}, code: API.CODE.ERROR.SERVER_ERROR });
   }

@@ -30,3 +30,8 @@ type IApiErrorResponse<T> = {
 };
 
 type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<U>;
+
+type IList<T> = {
+  count: number;
+  results: T[];
+};
