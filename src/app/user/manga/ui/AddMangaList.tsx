@@ -36,7 +36,7 @@ const AddMangaList: React.FC<IAddMangaList> = (props) => {
 
   return (
     <>
-      <MuiButton onClick={onAddManga} disabled={isLoading}>
+      <MuiButton onClick={onAddManga} disabled={isLoading || !Boolean(name)}>
         Add
       </MuiButton>
     </>

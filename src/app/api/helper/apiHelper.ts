@@ -37,10 +37,10 @@ export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record
   search.forEach((value, key) => {
     if (USED_KEYS.includes(key)) return;
     const numberValue = Number(value);
-    const booleanValue = value === 'true' ? true : value === 'false' ? false : null;
+    const booleanValue = value === "true" ? true : value === "false" ? false : null;
     if (!isNaN(numberValue)) {
       paramsObj[key] = numberValue;
-    } else if (typeof booleanValue === 'boolean') {
+    } else if (typeof booleanValue === "boolean") {
       paramsObj[key] = booleanValue;
     } else {
       paramsObj[key] = value;

@@ -50,7 +50,6 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
   const { params, skip, listId } = props;
 
   try {
-
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
     const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams);
 
