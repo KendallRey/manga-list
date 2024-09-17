@@ -3,14 +3,10 @@
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
-import { and, asc, eq, ilike, sql } from "drizzle-orm";
+import { and, eq, ilike, sql } from "drizzle-orm";
 import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
-import {
-  generateSqlFilterFromModel,
-  generateSqlOrderByFromModel,
-  generateSqlQueriesFromModel,
-} from "@/utils/drizzle/helper/filter";
+import { generateSqlQueriesFromModel } from "@/utils/drizzle/helper/filter";
 
 type IGetUserMangas = {
   listId: string;
@@ -20,7 +16,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   const { params, skip, listId } = props;
 
   try {
-    const { q, page, limit, ...sqlParams } = getSearchParams(params);
+    const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
 
     const { filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, { default: { hide: false } });
 
