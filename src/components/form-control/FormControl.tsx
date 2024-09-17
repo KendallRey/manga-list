@@ -1,4 +1,14 @@
-import { FormControl, InputLabel, FormControlProps, styled, alpha } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  FormControlProps,
+  styled,
+  alpha,
+  FormControlLabel,
+  FormControlLabelProps,
+  FormGroup,
+  FormGroupProps,
+} from "@mui/material";
 import { COLOR } from "../constants/color";
 import { BASE_INPUT } from "../constants/style";
 
@@ -53,3 +63,15 @@ const MuiFormControl: React.FC<IMuiFormControl> = (props) => {
 };
 
 export default MuiFormControl;
+
+type IFormControlLabel = FormControlLabelProps;
+
+export const MuiFormControlLabel: React.FC<IFormControlLabel> = (props) => {
+  return <FormControlLabel {...props} />;
+};
+
+type IFormGroup = FormGroupProps;
+
+export const MuiFormGroup: React.FC<IFormGroup> = (props) => {
+  return <FormGroup {...props} />;
+};
