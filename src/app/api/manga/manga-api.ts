@@ -3,10 +3,14 @@
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
-import { and, eq, ilike, sql } from "drizzle-orm";
+import { and, asc, eq, ilike, sql } from "drizzle-orm";
 import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
-import { generateSqlFilterFromModel } from "@/utils/drizzle/helper/filter";
+import {
+  generateSqlFilterFromModel,
+  generateSqlOrderByFromModel,
+  generateSqlQueriesFromModel,
+} from "@/utils/drizzle/helper/filter";
 
 type IGetUserMangas = {
   listId: string;
@@ -18,7 +22,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   try {
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
 
-    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams);
+    const { filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, { default: { hide: false } });
 
     if (skip) return successResponse({ data: [] });
 
@@ -29,7 +33,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
         and(
           eq(MangaTable[MODEL.MANGA.LIST], listId),
           eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
-          ...sqlTableParams,
+          ...filterBys,
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
       );
@@ -51,14 +55,16 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
 
   try {
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
-    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams, { default: { hide: false } });
 
+    const { orderBys, groupByColumns, filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, {
+      default: { hide: false },
+    });
     if (skip) return successResponse({ data: { count: 0, results: [] } });
 
     const filters = and(
       eq(MangaTable[MODEL.MANGA.LIST], listId),
       eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
-      ...sqlTableParams,
+      ...filterBys,
       q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
     );
 
@@ -73,6 +79,8 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
       .select()
       .from(MangaTable)
       .where(filters)
+      // .groupBy(groupByColumns)
+      .orderBy(...orderBys)
       .limit(limit)
       .offset((page - 1) * limit);
 
@@ -83,6 +91,7 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
     if (isOverPage) return errorResponse({ code: API.CODE.ERROR.NOT_FOUND, error: API.MESSAGE.ERROR.INVALID_PAGE });
     return successResponse({ data: { count: count, results: mangas } });
   } catch (error) {
+    console.log("test", error);
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };

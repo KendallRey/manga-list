@@ -72,9 +72,8 @@ export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record
  * ```
  */
 export const getSearchParams = (params?: IApiParams | URLSearchParams): Record<string, any> => {
-  // console.log('params', params)
   const search = toSearchParams(params);
-  // console.log('search', search)
+
   const q = search.get(API.PARAMS.KEYS.Q);
   const page = Number(search.get(API.PARAMS.KEYS.PAGE)) || 1;
   const limit = Number(search.get(API.PARAMS.KEYS.LIMIT)) || API.PARAMS.DEFAULT.LIMIT;
