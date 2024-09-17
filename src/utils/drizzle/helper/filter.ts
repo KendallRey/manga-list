@@ -56,6 +56,9 @@ export const generateSqlFilterFromModel = <T extends TableConfig>(
 
     const paramValue = allParams[key];
 
+    // To fetch all entries regardless of the filter in column
+    if (paramValue === "all") return;
+
     // Apply filters based on the type of paramValue
     switch (typeof paramValue) {
       case "number":
