@@ -56,7 +56,7 @@ const MuiFormControl: React.FC<IMuiFormControl> = (props) => {
 
   return (
     <CustomMuiFormControl {...otherProps}>
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <InputLabel id={`${String(label)}"-simple-form-label"`}>{label}</InputLabel>
       {children}
     </CustomMuiFormControl>
   );
