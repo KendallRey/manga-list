@@ -6,6 +6,7 @@ import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzl
 import { and, eq, ilike, sql } from "drizzle-orm";
 import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
+import { generateSqlFilterFromModel } from "@/utils/drizzle/helper/filter";
 
 type IGetUserMangas = {
   listId: string;
@@ -15,7 +16,9 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   const { params, skip, listId } = props;
 
   try {
-    const { q, page, limit } = getSearchParams(params);
+    const { q, page, limit, ...sqlParams } = getSearchParams(params);
+
+    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams);
 
     if (skip) return successResponse({ data: [] });
 
@@ -26,6 +29,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
         and(
           eq(MangaTable[MODEL.MANGA.LIST], listId),
           eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          ...sqlTableParams,
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
       );
@@ -46,7 +50,9 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
   const { params, skip, listId } = props;
 
   try {
-    const { q, page, limit } = getSearchParams(params);
+
+    const { q, page, limit, ...sqlParams } = getSearchParams(params);
+    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams);
 
     if (skip) return successResponse({ data: { count: 0, results: [] } });
 
@@ -59,6 +65,7 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
         and(
           eq(MangaTable[MODEL.MANGA.LIST], listId),
           eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          ...sqlTableParams,
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
       );
@@ -70,6 +77,7 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
         and(
           eq(MangaTable[MODEL.MANGA.LIST], listId),
           eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          ...sqlTableParams,
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
       )

@@ -23,6 +23,11 @@ const API = {
     DEFAULT: {
       LIMIT: 10,
     },
+    KEYS: {
+      Q: 'q',
+      LIMIT: 'limit',
+      PAGE: 'page',
+    }
   },
 } as const;
 

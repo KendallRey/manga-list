@@ -1,19 +1,78 @@
 import API from "../API";
 
-export const toSearchParams = (params?: IApiParams) => {
+/**
+ * Converts an object or IApiParams into URLSearchParams.
+ *
+ * @param {IApiParams} [params] - The parameters to be converted.
+ * @returns {URLSearchParams} - The URLSearchParams object generated from the input parameters.
+ *
+ * @example
+ * ```ts
+ * const params = toSearchParams({ q: 'search', limit: 10 });
+ * console.log(params.toString()); // Output: "q=search&limit=10"
+ * ```
+ */
+export const toSearchParams = (params?: IApiParams): URLSearchParams => {
   const newParams = new URLSearchParams(params);
   return newParams;
 };
 
-export const getSearchParams = (params?: IApiParams | URLSearchParams) => {
+/**
+ * Parses URLSearchParams or IApiParams into a plain object, converting strings to numbers or booleans where possible.
+ *
+ * @param {IApiParams | URLSearchParams} [params] - The input parameters to parse.
+ * @returns {Record<string, any>} - An object containing parsed values, with numbers and booleans automatically converted.
+ *
+ * @example
+ * ```ts
+ * const paramsObj = parseSearchParams('q=search&limit=10');
+ * console.log(paramsObj); // Output: { limit: 10 }
+ * ```
+ */
+export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record<string, any> => {
+  const search = toSearchParams(params);
+  const USED_KEYS = Object.values(API.PARAMS.KEYS) as string[];
+
+  const paramsObj: Record<string, any> = {};
+  search.forEach((value, key) => {
+    if (USED_KEYS.includes(key)) return;
+    const numberValue = Number(value);
+    const booleanValue = value === 'true' ? true : value === 'false' ? false : null;
+    if (!isNaN(numberValue)) {
+      paramsObj[key] = numberValue;
+    } else if (typeof booleanValue === 'boolean') {
+      paramsObj[key] = booleanValue;
+    } else {
+      paramsObj[key] = value;
+    }
+  });
+
+  return paramsObj;
+};
+
+/**
+ * Extracts search parameters and converts them into an object with predefined keys and defaults.
+ *
+ * @param {IApiParams | URLSearchParams} [params] - The input search parameters.
+ * @returns {Record<string, any>} - An object with parsed search parameters, including defaults for `q`, `page`, and `limit`.
+ *
+ * @example
+ * ```ts
+ * const searchParams = getSearchParams('q=search&page=2');
+ * console.log(searchParams); // Output: { q: 'search', page: 2, limit: 10 }
+ * ```
+ */
+export const getSearchParams = (params?: IApiParams | URLSearchParams): Record<string, any> => {
   const search = toSearchParams(params);
 
-  const q = search.get("q");
-  const page = Number(search.get("page")) || 1;
+  const q = search.get(API.PARAMS.KEYS.Q);
+  const page = Number(search.get(API.PARAMS.KEYS.PAGE)) || 1;
+  const limit = Number(search.get(API.PARAMS.KEYS.LIMIT)) || API.PARAMS.DEFAULT.LIMIT;
 
-  const limit = Number(search.get("limit")) || API.PARAMS.DEFAULT.LIMIT;
+  const paramsObj = parseSearchParams(search);
 
   return {
+    ...paramsObj,
     q,
     page,
     limit,
@@ -25,6 +84,19 @@ type ISuccessResponse<T> = {
   code?: number;
 };
 
+/**
+ * Creates a success response object.
+ *
+ * @template T
+ * @param {ISuccessResponse<T>} props - The properties for the success response.
+ * @returns {IApiSuccessResponse<T>} - The formatted success response object.
+ *
+ * @example
+ * ```ts
+ * const response = successResponse({ data: { id: 1, name: 'John' } });
+ * console.log(response); // Output: { status: "ok", code: 200, data: { id: 1, name: "John" } }
+ * ```
+ */
 export const successResponse = <T>(props: ISuccessResponse<T>): IApiSuccessResponse<T> => {
   const { code = API.CODE.SUCCESS.OK, data } = props;
   return {
@@ -39,6 +111,19 @@ type IErrorResponse<T> = {
   code?: number;
 };
 
+/**
+ * Creates an error response object.
+ *
+ * @template T
+ * @param {IErrorResponse<T>} props - The properties for the error response.
+ * @returns {IApiErrorResponse<T>} - The formatted error response object.
+ *
+ * @example
+ * ```ts
+ * const response = errorResponse({ data: null });
+ * console.log(response); // Output: { status: null, code: 400, data: {}, error: "Process failed..." }
+ * ```
+ */
 export const errorResponse = <T = Record<string, IValue>>(props: IErrorResponse<T>): IApiErrorResponse<T> => {
   const { code = API.CODE.ERROR.BAD_REQUEST, data = {} } = props;
   return {

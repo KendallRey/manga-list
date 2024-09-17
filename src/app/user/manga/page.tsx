@@ -30,10 +30,11 @@ const MangaPage: React.FC<INextPage> = async (props) => {
   const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q },
+    params: { q, ...searchParams },
     listId: mangaList.id,
     skip: !q,
   });
+
   if (!mangasResponse.status) {
     return <ErrorPage />;
   }
