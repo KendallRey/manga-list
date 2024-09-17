@@ -15,6 +15,13 @@ export const MuiTheme = createTheme({
     },
   },
   components: {
+    MuiPopover: {
+      styleOverrides: {
+        root: {
+          zIndex: 999,
+        },
+      },
+    },
     MuiMenuItem: {
       styleOverrides: {
         root: {
