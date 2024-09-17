@@ -2,16 +2,7 @@ import { createTheme } from "@mui/material";
 import { COLOR } from "../constants/color";
 
 export const MuiTheme = createTheme({
-  palette: {
-    primary: {
-      main: "#FE7240",
-      contrastText: "#FFF",
-    },
-    secondary: {
-      main: "#FFC529",
-      contrastText: "#FFF",
-    },
-  },
+  palette: {},
   transitions: {
     duration: {
       shortest: 200,
@@ -28,7 +19,7 @@ export const MuiTheme = createTheme({
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            borderLeft: `4px solid ${COLOR.PRIMARY[500]}`,
+            // borderLeft: `4px solid ${COLOR.PRIMARY[500]}`,
           },
         },
       },
