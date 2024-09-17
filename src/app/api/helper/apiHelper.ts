@@ -119,6 +119,7 @@ export const successResponse = <T>(props: ISuccessResponse<T>): IApiSuccessRespo
 type IErrorResponse<T> = {
   data?: T;
   code?: number;
+  error?: string;
 };
 
 /**
@@ -134,12 +135,12 @@ type IErrorResponse<T> = {
  * console.log(response); // Output: { status: null, code: 400, data: {}, error: "Process failed..." }
  * ```
  */
-export const errorResponse = <T = Record<string, IValue>>(props: IErrorResponse<T>): IApiErrorResponse<T> => {
-  const { code = API.CODE.ERROR.BAD_REQUEST, data = {} } = props;
+export const errorResponse = <T = any>(props: IErrorResponse<T>): IApiErrorResponse<T> => {
+  const { code = API.CODE.ERROR.BAD_REQUEST, data = {}, error } = props;
   return {
     status: null,
     code: code,
     data: data as T,
-    error: "Process failed...",
+    error: error || "Process failed...",
   };
 };

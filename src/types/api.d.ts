@@ -34,7 +34,7 @@ type IApiErrorResponse<T> = {
   data?: T;
 };
 
-type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<U>;
+type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<T>;
 
 type IList<T> = {
   count: number;

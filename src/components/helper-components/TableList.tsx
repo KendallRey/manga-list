@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react";
 import { MuiTd, MuiTr } from "../table/Table";
 import { Skeleton } from "@mui/material";
+import MuiTypography from "../typography/Typograph";
+import MuiButton from "../button/Button";
 
 type ITableList<T> = {
   isLoading: boolean;
   isError?: boolean;
   errorText?: string | null;
-  errorNode?: React.ReactNode;
   emptyDataText?: string;
-  emptyDataNode?: React.ReactNode;
   data?: T[] | null;
   colSpan: number;
   onRefresh?: () => void;
@@ -22,7 +22,6 @@ const TableList = <T,>(props: ITableList<T>) => {
     isError,
     data = [],
     emptyDataText,
-    emptyDataNode,
     colSpan,
     onRefresh,
     render,
@@ -31,14 +30,23 @@ const TableList = <T,>(props: ITableList<T>) => {
   if (isError)
     return (
       <MuiTr>
-        <MuiTd colSpan={colSpan}>{emptyDataNode ?? errorText}</MuiTd>
+        <MuiTd colSpan={colSpan} className="text-center text-red-600">
+          <MuiTypography className="py-6" fontSize={24}>
+            {errorText}
+          </MuiTypography>
+          {onRefresh && (
+            <MuiButton className="p-4 m-6" onClick={onRefresh}>
+              Refresh List
+            </MuiButton>
+          )}
+        </MuiTd>
       </MuiTr>
     );
 
   if (isLoading)
     return (
       <MuiTr>
-        <MuiTd colSpan={colSpan}>
+        <MuiTd colSpan={colSpan} className="text-center">
           <Skeleton height={56} />
         </MuiTd>
       </MuiTr>
@@ -47,7 +55,16 @@ const TableList = <T,>(props: ITableList<T>) => {
   if (!data?.length)
     return (
       <MuiTr>
-        <MuiTd colSpan={colSpan}>{emptyDataNode ?? emptyDataText}</MuiTd>
+        <MuiTd colSpan={colSpan} className="text-center text-gray-700">
+          <MuiTypography className="py-6" fontSize={24}>
+            {emptyDataText}
+          </MuiTypography>
+          {onRefresh && (
+            <MuiButton className="p-4 m-6" onClick={onRefresh}>
+              Refresh List
+            </MuiButton>
+          )}
+        </MuiTd>
       </MuiTr>
     );
 

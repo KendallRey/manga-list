@@ -19,10 +19,6 @@ const MangaList: React.FC<IMangaList> = async (props) => {
 
   const mangasResponse = await GetUserMangaList({ ...searchParams, params, listId: list.id });
 
-  if (!mangasResponse.status) {
-    return <ErrorPage />;
-  }
-
   return (
     <>
       <MuiTable
@@ -30,7 +26,7 @@ const MangaList: React.FC<IMangaList> = async (props) => {
         size="small"
         stickyHeader
         containerProps={{ sx: { maxHeight: 480, minHeight: 480 } }}
-        paginationProps={{ count: mangasResponse.data.count }}
+        paginationProps={{ count: mangasResponse?.data?.count }}
       >
         <MuiTableHead>
           <MuiHeadTr>
@@ -43,8 +39,9 @@ const MangaList: React.FC<IMangaList> = async (props) => {
           <TableList
             colSpan={3}
             isLoading={false}
-            isError={false}
-            data={mangasResponse.data.results}
+            errorText={mangasResponse.error}
+            isError={Boolean(mangasResponse.error)}
+            data={mangasResponse?.data?.results}
             render={(manga) => <MangaListItem key={manga.id} item={manga} />}
           />
         </MuiTableBody>

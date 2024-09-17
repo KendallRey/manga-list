@@ -38,7 +38,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
 
     return successResponse({ data: mangas });
   } catch (error) {
-    return errorResponse({ data: {}, code: API.CODE.ERROR.SERVER_ERROR });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -62,8 +62,6 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
       q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
     );
 
-    // sqlTableParams[0].
-
     const totalCount = await db
       .select({
         count: sql<number>`count(*)`.as("count"),
@@ -78,11 +76,14 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
       .limit(limit)
       .offset((page - 1) * limit);
 
+    const count = totalCount[0].count;
     const mangas = await baseQuery;
 
-    return successResponse({ data: { count: totalCount[0].count, results: mangas } });
+    const isOverPage = Math.ceil(count / limit) < page;
+    if (isOverPage) return errorResponse({ code: API.CODE.ERROR.NOT_FOUND, error: API.MESSAGE.ERROR.INVALID_PAGE });
+    return successResponse({ data: { count: count, results: mangas } });
   } catch (error) {
-    return errorResponse({ data: {}, code: API.CODE.ERROR.SERVER_ERROR });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -95,11 +96,11 @@ export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<I
   try {
     const mangas = await db.select().from(MangaTable).where(eq(MangaTable[MODEL.MANGA.ID], id));
 
-    if (!mangas.length) return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST, data: {} });
+    if (!mangas.length) return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST });
 
     return successResponse({ data: mangas[0] });
   } catch (error) {
-    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -112,7 +113,7 @@ export const AddUserManga = async (
 
     return successResponse({ data: manga[0], code: API.CODE.SUCCESS.CREATED });
   } catch (error) {
-    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -130,7 +131,7 @@ export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiR
 
     return successResponse({ data: manga[0], code: API.CODE.SUCCESS.CREATED });
   } catch (error) {
-    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
@@ -150,6 +151,6 @@ export const UpdateUserManga = async (
 
     return successResponse({ data: manga[0], code: API.CODE.SUCCESS.OK });
   } catch (error) {
-    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };

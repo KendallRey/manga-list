@@ -19,6 +19,11 @@ const API = {
       SERVICE_UNAVAILABLE: 503,
     },
   },
+  MESSAGE: {
+    ERROR: {
+      INVALID_PAGE: "Invalid Page",
+    },
+  },
   PARAMS: {
     DEFAULT: {
       LIMIT: 10,
