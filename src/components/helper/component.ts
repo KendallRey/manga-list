@@ -91,3 +91,35 @@ export const shortParseToMoney = (value: number | undefined): string => {
  * @returns {string} - The formatted count string.
  */
 export const formatToCount = (value: number | undefined): string => new Intl.NumberFormat(undefined).format(value || 0);
+
+/**
+ * Parses the provided value to a valid page number, ensuring it stays within a defined range.
+ * Returns 1 by default if the value is invalid or out of range. The optional `max` argument
+ * limits the maximum page number that can be returned.
+ *
+ * @param {unknown} value - The value to parse into a page number.
+ * @param {number} [max] - The optional maximum allowed page number. If provided, the returned page will not exceed this value.
+ * @returns {number} - The parsed page number, defaulting to 1 if validation fails or if the page number exceeds the maximum.
+ *
+ * @example
+ * ```ts
+ * const page = parseToPage("3", 5); // Returns 3
+ * const exceededPage = parseToPage("10", 5); // Returns 5 (max)
+ * const invalidPage = parseToPage("invalid"); // Returns 1 (default)
+ * ```
+ */
+export const parseToPage = (value: unknown, max?: number): number => {
+  const page = Number(value);
+
+  // Validate if value is a valid number, greater than or equal to 1
+  if (isNaN(page) || page < 1 || !Number.isInteger(page)) {
+    return 1; // Default to page 1 if invalid
+  }
+
+  // If max is provided, ensure the page does not exceed the maximum
+  if (max && page > max) {
+    return max;
+  }
+
+  return page;
+};

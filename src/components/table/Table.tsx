@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import MuiPagination from "../pagination/Pagination";
 import MuiTypography from "../typography/Typograph";
 import TablePagination from "../custom/TablePagination";
 
