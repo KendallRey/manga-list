@@ -8,6 +8,11 @@ type IApiPostProps<T = Record<string, IValue>> = {
   payload: T;
 };
 
+type IApiPutProps<T = Record<string, IValue>> = {
+  id: ID;
+  payload: T;
+};
+
 type IApiParams = Record<string, any>;
 
 type IOrdering = Record<string, IValue> & {
