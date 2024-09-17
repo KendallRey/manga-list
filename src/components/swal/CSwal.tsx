@@ -18,7 +18,7 @@ export const CSwal = async (props: SweetAlertOptions) => {
   return swal;
 };
 
-type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide";
+type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide" | "Unhide";
 
 type IHtmlAskAction = {
   name: string;

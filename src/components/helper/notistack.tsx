@@ -54,7 +54,7 @@ export const displaySnackbar = (props: IDisplaySnackbar) => {
     });
 };
 
-type INotifMessageAction = "create" | "update" | "delete" | "hide";
+type INotifMessageAction = "create" | "update" | "delete" | "hide" | "unhide";
 
 type INotifMessage = {
   item?: symbol | number | string | null;

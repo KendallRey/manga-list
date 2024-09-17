@@ -51,35 +51,30 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
 
   try {
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
-    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams);
+    const sqlTableParams = generateSqlFilterFromModel(MangaTable, MODEL.MANGA, sqlParams, { default: { hide: false } });
 
     if (skip) return successResponse({ data: { count: 0, results: [] } });
+
+    const filters = and(
+      eq(MangaTable[MODEL.MANGA.LIST], listId),
+      eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+      ...sqlTableParams,
+      q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
+    );
+
+    // sqlTableParams[0].
 
     const totalCount = await db
       .select({
         count: sql<number>`count(*)`.as("count"),
       })
       .from(MangaTable)
-      .where(
-        and(
-          eq(MangaTable[MODEL.MANGA.LIST], listId),
-          eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
-          ...sqlTableParams,
-          q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
-        ),
-      );
+      .where(filters);
 
     const baseQuery = db
       .select()
       .from(MangaTable)
-      .where(
-        and(
-          eq(MangaTable[MODEL.MANGA.LIST], listId),
-          eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
-          ...sqlTableParams,
-          q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
-        ),
-      )
+      .where(filters)
       .limit(limit)
       .offset((page - 1) * limit);
 
@@ -134,6 +129,26 @@ export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiR
       .returning();
 
     return successResponse({ data: manga[0], code: API.CODE.SUCCESS.CREATED });
+  } catch (error) {
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
+  }
+};
+
+export const UpdateUserManga = async (
+  props: IApiPutProps<Record<string, any>>,
+): Promise<IApiResponse<IMangaTableSelect>> => {
+  const { id, payload } = props;
+  try {
+    const manga = await db
+      .update(MangaTable)
+      .set({
+        ...payload,
+        [MODEL.MANGA.UPDATED_AT]: sql`NOW()`,
+      })
+      .where(eq(MangaTable[MODEL.MANGA.ID], String(id)))
+      .returning();
+
+    return successResponse({ data: manga[0], code: API.CODE.SUCCESS.OK });
   } catch (error) {
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR, data: {} });
   }
