@@ -1,19 +1,28 @@
 import API from "../API";
 
 /**
- * Converts an object or IApiParams into URLSearchParams.
+ * Converts an object or IApiParams into URLSearchParams, with optional default parameters.
  *
  * @param {IApiParams} [params] - The parameters to be converted.
- * @returns {URLSearchParams} - The URLSearchParams object generated from the input parameters.
+ * @param {Record<string, any>} [defaultParams] - Default parameters that will be merged with the provided `params`. These will only be included if not overridden by `params`.
+ * @returns {URLSearchParams} - The URLSearchParams object generated from the combined `params` and `defaultParams`.
  *
  * @example
  * ```ts
- * const params = toSearchParams({ q: 'search', limit: 10 });
+ * const params = toSearchParams({ q: 'search' }, { limit: 10 });
  * console.log(params.toString()); // Output: "q=search&limit=10"
  * ```
  */
-export const toSearchParams = (params?: IApiParams): URLSearchParams => {
-  const newParams = new URLSearchParams(params);
+export const toSearchParams = (params?: IApiParams, defaultParams?: Record<string, any>): URLSearchParams => {
+  let _params: IApiParams = {};
+  if (params instanceof URLSearchParams) {
+    params.forEach((value, key) => {
+      _params[key] = value;
+    });
+  } else {
+    _params = params ?? {};
+  }
+  const newParams = new URLSearchParams({ ..._params, ...defaultParams });
   return newParams;
 };
 
@@ -63,8 +72,9 @@ export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record
  * ```
  */
 export const getSearchParams = (params?: IApiParams | URLSearchParams): Record<string, any> => {
+  // console.log('params', params)
   const search = toSearchParams(params);
-
+  // console.log('search', search)
   const q = search.get(API.PARAMS.KEYS.Q);
   const page = Number(search.get(API.PARAMS.KEYS.PAGE)) || 1;
   const limit = Number(search.get(API.PARAMS.KEYS.LIMIT)) || API.PARAMS.DEFAULT.LIMIT;

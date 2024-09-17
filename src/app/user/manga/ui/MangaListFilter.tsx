@@ -22,13 +22,17 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
     return toSearchParams(searchParams);
   }, [searchParams]);
 
-  const onChange = useCallback((e: RCE<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    const _params = toSearchParams(searchParams);
-    if (value === API.PARAMS.DEFAULT.KEY) _params.delete(name);
-    else _params.set(name, value);
-    router.replace(`?${_params.toString()}`, { scroll: false });
-  }, []);
+  const onChange = useCallback(
+    (e: RCE<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      const _params = toSearchParams(searchParams, { page: 1 });
+
+      if (value === API.PARAMS.DEFAULT.KEY) _params.delete(name);
+      else _params.set(name, value);
+      router.replace(`?${_params.toString()}`, { scroll: false });
+    },
+    [router, searchParams],
+  );
 
   return (
     <>
