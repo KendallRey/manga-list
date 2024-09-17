@@ -1,4 +1,4 @@
-import Swal, { SweetAlertOptions } from "sweetalert2";
+import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2";
 
 export const CSwal = async (props: SweetAlertOptions) => {
   const { showCancelButton, showConfirmButton, reverseButtons, confirmButtonText, showCloseButton, ...cleanProps } =
@@ -16,4 +16,48 @@ export const CSwal = async (props: SweetAlertOptions) => {
   });
 
   return swal;
+};
+
+type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide";
+
+type IHtmlAskAction = {
+  name: string;
+  type: IHtmlAskActionType;
+};
+
+export const htmlAskAction = (props: IHtmlAskAction) => {
+  const { type, name } = props;
+  return `${type} <strong>${name}</strong> ?`;
+};
+
+type ISwalActionProps = {
+  model: string;
+  name: string;
+  type: IHtmlAskActionType;
+  action?: string;
+};
+
+export const swalActionProps = (props: ISwalActionProps): SweetAlertOptions => {
+  const { model, name, type } = props;
+
+  let icon: SweetAlertIcon | undefined = undefined;
+
+  switch (type) {
+    case "Delete":
+      icon = "warning";
+      break;
+    case "Update":
+      icon = "question";
+      break;
+    case "Save":
+      icon = "question";
+      break;
+  }
+
+  return {
+    icon,
+    title: `${type} ${model}?`,
+    html: htmlAskAction({ name, type }),
+    confirmButtonText: type,
+  };
 };
