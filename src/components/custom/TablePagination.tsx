@@ -40,16 +40,19 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
     [router, searchParams, name],
   );
 
-  const syncURLParams = useCallback(() => {
+  useEffect(() => {
     // Sync the input with the URL params when query param changes
     if (searchParams.get(name ?? DEFAULT_KEY) !== searchValue) {
       setSearchValue(searchParams.get(name ?? DEFAULT_KEY) || "1");
     }
+  }, [searchParams, name]);
+
+  const syncPage = useCallback(() => {
     const page = parseToPage(searchParams.get("page"), 1000);
     setPage(page);
   }, [searchParams, name]);
 
-  useCallOnce(syncURLParams);
+  useCallOnce(syncPage);
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setSearchValue(String(page));
