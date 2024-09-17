@@ -1,6 +1,14 @@
-import { FormControlLabelProps, FormControlProps, Radio, RadioGroup, RadioGroupProps, RadioProps } from "@mui/material";
+import {
+  FormControlLabelProps,
+  FormControlProps,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  RadioGroupProps,
+  RadioProps,
+} from "@mui/material";
 import React from "react";
-import MuiFormControl, { MuiFormControlLabel } from "../form-control/FormControl";
+import { CustomMuiFormControl, MuiFormControlLabel } from "../form-control/FormControl";
 
 type IMuiRadio = RadioProps;
 
@@ -34,8 +42,9 @@ type IFormRadioGroup = {
 export const FormRadioGroup: React.FC<IFormRadioGroup> = (props) => {
   const { label, fcProps, ...otherProps } = props;
   return (
-    <MuiFormControl label={label} {...fcProps}>
-      <MuiRadioGroup {...otherProps} />
-    </MuiFormControl>
+    <CustomMuiFormControl {...fcProps}>
+      <FormLabel>{label}</FormLabel>
+      <MuiRadioGroup aria-labelledby={`${String(label)}-simple-form-label`} {...otherProps} />
+    </CustomMuiFormControl>
   );
 };
