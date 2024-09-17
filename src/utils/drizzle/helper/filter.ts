@@ -33,9 +33,8 @@ export const generateSqlFilterFromModel = <T extends TableConfig>(
   table: PgTableWithColumns<T>,
   model: Record<string, string>,
   params: Record<string, any>,
-  options?: IGenerateSqlFilterFromModelOptions
+  options?: IGenerateSqlFilterFromModelOptions,
 ): SQL<unknown>[] => {
-
   const { default: defaultParams } = options ?? {}; // Extract default parameters from options if provided
 
   const allParams = { ...defaultParams, ...params }; // Merge default and input params
