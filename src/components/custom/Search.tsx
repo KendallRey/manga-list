@@ -5,6 +5,7 @@ import { useAppDebounce } from "@/hooks/useDebouce";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { TEXT } from "../helper/field";
+import { useCallOnce } from "../hooks/useCallOnce";
 
 type ISearch = {
   label?: string;
@@ -36,12 +37,14 @@ const Search: React.FC<ISearch> = (props) => {
     [router, searchParams, name],
   );
 
-  useEffect(() => {
-    // Sync the input with the URL params when query param changes
+  // Sync the input with the URL params when query param changes
+  const syncURLParams = useCallback(() => {
     if (searchParams.get(name ?? DEFAULT_KEY) !== searchValue) {
       setSearchValue(searchParams.get(name ?? DEFAULT_KEY) || "");
     }
   }, [searchParams, name]);
+
+  useCallOnce(syncURLParams);
 
   const [deSearch] = useAppDebounce(searchValue);
 
