@@ -22,6 +22,7 @@ const API = {
   PARAMS: {
     DEFAULT: {
       LIMIT: 10,
+      KEY: "default",
     },
     KEYS: {
       Q: "q",

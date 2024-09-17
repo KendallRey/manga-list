@@ -55,7 +55,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
       </MuiPaper>
 
       <MuiPaper className="flex flex-col flex-grow-[2] gap-1 min-h-[320px] p-4" elevation={2} color="primary">
-        <MangaListFilter />
+        <MangaListFilter searchParams={searchParams} />
         <MangaList list={mangaList} searchParams={searchParams} />
       </MuiPaper>
     </Dashboard>
