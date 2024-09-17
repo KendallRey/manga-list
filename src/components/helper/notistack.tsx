@@ -25,18 +25,39 @@ export const customEnqueueSnackbar = (props: ICustomSnackbar) => {
   });
 };
 
-type ICustomToast = {
-  title?: string;
-  message: SnackbarMessage;
-  color: string;
-  variant?: string;
-  Icon?: React.ElementType;
+type IDisplaySnackbar = {
+  status: unknown;
+  action: INotifMessageAction;
+  name?: symbol | number | string | null;
+  variant?: "default" | "error" | "success" | "warning" | "info";
 };
 
-type INotifMessageAction = "create" | "update" | "delete";
+export const displaySnackbar = (props: IDisplaySnackbar) => {
+  const { status, action, name, variant } = props;
+  if (variant) {
+    customEnqueueSnackbar({
+      variant: variant,
+      message: <NotifMessage item={name} action={action} />,
+    });
+    return;
+  }
+  const _status = Boolean(status);
+  if (!_status)
+    customEnqueueSnackbar({
+      variant: "error",
+      message: <NotifMessage action={action} status="failed" />,
+    });
+  else
+    customEnqueueSnackbar({
+      variant: "success",
+      message: <NotifMessage item={name} action={action} />,
+    });
+};
+
+type INotifMessageAction = "create" | "update" | "delete" | "hide";
 
 type INotifMessage = {
-  item?: string;
+  item?: symbol | number | string | null;
   action: INotifMessageAction;
   status?: "success" | "failed";
 };
@@ -46,12 +67,12 @@ export const NotifMessage: React.FC<INotifMessage> = (props) => {
   if (status === "failed")
     return (
       <div>
-        Failed to {action} <strong>{item}</strong>.
+        Failed to {action} <strong>{String(item)}</strong>.
       </div>
     );
   return (
     <div>
-      {formatToLabel(action)} <strong>{item}</strong> successful.
+      {formatToLabel(action)} <strong>{String(item)}</strong> successful.
     </div>
   );
 };
