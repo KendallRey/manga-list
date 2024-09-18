@@ -70,10 +70,10 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   const onChangePage = useCallback(
     (e: RCE<HTMLInputElement>) => {
       const { value } = e.target;
-      const page = parseToPage(value, 1000);
+      const page = parseToPage(value, pageCount ?? 1000);
       setPage(page);
     },
-    [setPage],
+    [setPage, pageCount],
   );
 
   const onSubmitGotoPage = useCallback(
