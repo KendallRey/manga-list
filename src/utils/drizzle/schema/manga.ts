@@ -47,7 +47,7 @@ export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
   [MODEL.MANGA_IMAGE.MANGA_ID]: uuid(MODEL.MANGA_IMAGE.MANGA_ID).references(() => MangaTable.id, {
     onDelete: "set null",
   }),
-  [MODEL.MANGA_IMAGE.URL]: varchar(MODEL.MANGA_IMAGE.URL, { length: 500 }),
+  [MODEL.MANGA_IMAGE.URL]: varchar(MODEL.MANGA_IMAGE.URL, { length: 500 }).notNull(),
   [MODEL.MANGA_IMAGE.IMAGE_ID]: varchar(MODEL.MANGA_IMAGE.IMAGE_ID, { length: 255 }).notNull(),
   [MODEL.MANGA_IMAGE.PATH]: varchar(MODEL.MANGA_IMAGE.PATH, { length: 500 }).notNull(),
   [MODEL.MANGA_IMAGE.FULL_PATH]: varchar(MODEL.MANGA_IMAGE.FULL_PATH, { length: 500 }).notNull(),
