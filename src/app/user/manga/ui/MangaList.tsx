@@ -1,5 +1,5 @@
 import ErrorPage from "@/app/error/page";
-import MuiTable, { MuiHeadTr, MuiTableBody, MuiTableHead, MuiTh } from "@/components/table/Table";
+import MuiTable, { MuiHeadTr, MuiSortTh, MuiTableBody, MuiTableHead, MuiTh } from "@/components/table/Table";
 import React from "react";
 import { GetUserMangaList } from "@/app/api/manga/manga-api";
 import { IMangaListTableSelect } from "@/utils/drizzle/schema";
@@ -7,6 +7,7 @@ import MangaListItem from "./MangaListItem";
 import TableList from "@/components/helper-components/TableList";
 import TablePagination from "@/components/custom/TablePagination";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
+import MangaListHead from "./MangaListHead";
 
 type IMangaList = {
   list: IMangaListTableSelect;
@@ -28,13 +29,7 @@ const MangaList: React.FC<IMangaList> = async (props) => {
         containerProps={{ sx: { maxHeight: 480, minHeight: 480 } }}
         paginationProps={{ count: mangasResponse?.data?.count }}
       >
-        <MuiTableHead>
-          <MuiHeadTr>
-            <MuiTh>Icon</MuiTh>
-            <MuiTh>Title</MuiTh>
-            <MuiTh>Action</MuiTh>
-          </MuiHeadTr>
-        </MuiTableHead>
+        <MangaListHead />
         <MuiTableBody>
           <TableList
             colSpan={3}

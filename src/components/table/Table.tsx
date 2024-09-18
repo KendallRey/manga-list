@@ -19,6 +19,8 @@ import { visuallyHidden } from "@mui/utils";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import MuiTypography from "../typography/Typograph";
 import TablePagination from "../custom/TablePagination";
+import MuiIconButton from "../icon-button/IconButton";
+import { HiXMark } from "react-icons/hi2";
 
 const CustomMuiTd = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,6 +29,9 @@ const CustomMuiTd = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+  },
+  " .MuiTableSortLabel-root": {
+    color: theme.palette.primary.contrastText,
   },
 }));
 
@@ -49,6 +54,7 @@ type IMuiSortTh = {
   ordering?: IOrdering;
   name: string;
   onClick: (name: string) => void;
+  onCancel?: (name: string) => void;
 } & Omit<IMuiTd, "onClick">;
 
 type IMuiTr = {
@@ -57,7 +63,7 @@ type IMuiTr = {
   React.ComponentPropsWithoutRef<"tr">;
 
 export const MuiSortTh: React.FC<IMuiSortTh> = (props) => {
-  const { name, ordering, children, onClick, ...otherProps } = props;
+  const { name, ordering, children, onClick, onCancel, ...otherProps } = props;
   const { orderBy, order } = ordering || {};
   return (
     <MuiTh sortDirection={orderBy === name ? order : false} {...otherProps}>
@@ -74,6 +80,11 @@ export const MuiSortTh: React.FC<IMuiSortTh> = (props) => {
           </Box>
         ) : null}
       </TableSortLabel>
+      {onCancel && orderBy === name && (
+        <MuiIconButton size="small" onClick={() => onCancel(name)}>
+          <HiXMark />
+        </MuiIconButton>
+      )}
     </MuiTh>
   );
 };
@@ -81,6 +92,7 @@ export const MuiSortTh: React.FC<IMuiSortTh> = (props) => {
 const StyledMuiHeadTr = styled(TableRow)(({ theme }) => ({
   "& th": {
     fontWeight: 600,
+    padding: 16,
     color: "#7c8ca1",
   },
 }));

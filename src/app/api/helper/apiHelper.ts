@@ -88,6 +88,32 @@ export const getSearchParams = (params?: IApiParams | URLSearchParams): Record<s
   };
 };
 
+export const getOrderingParams = (params?: IApiParams | URLSearchParams): Record<string | "order" | "key", any> => {
+  const search = toSearchParams(params);
+
+  let _key = "";
+  let _order = "";
+  const orderingParams: Record<string, any> = {};
+  const paramsObj = parseSearchParams(search);
+
+  const paramsKeys = Object.keys(paramsObj);
+
+  paramsKeys.forEach((key) => {
+    const value = paramsObj[key];
+    if (value !== "desc" && value !== "asc") return;
+    orderingParams[key] = value;
+    _key = key;
+    _order = value;
+  });
+
+  return {
+    ...orderingParams,
+    key: _key,
+    order: _order,
+    ordering: { order: _order, orderBy: _key },
+  };
+};
+
 type ISuccessResponse<T> = {
   data: T;
   code?: number;
