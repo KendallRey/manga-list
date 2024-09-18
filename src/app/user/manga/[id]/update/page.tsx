@@ -30,7 +30,13 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
         <form action={updateMangaFormAction} className="flex flex-col gap-6">
           <div className="grid xl:grid-cols-2 grid-cols-1 gap-4 ">
             <input className="hidden" name="id" defaultValue={manga.data.id} />
-            <MuiTextField required label={"Title"} name="name" defaultValue={manga.data.name} />
+            <MuiTextField
+              required
+              label={"Title"}
+              name="name"
+              defaultValue={manga.data.name}
+              maxLength={TEXT.MAX.LONG}
+            />
             <MuiTextField
               label={"Description"}
               name="description"
