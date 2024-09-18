@@ -26,15 +26,23 @@ export const customEnqueueSnackbar = (props: ICustomSnackbar) => {
 };
 
 type IDisplaySnackbar = {
-  status: unknown;
+  status?: unknown;
   action: INotifMessageAction;
+  message?: string;
   name?: symbol | number | string | null;
   variant?: "default" | "error" | "success" | "warning" | "info";
 };
 
 export const displaySnackbar = (props: IDisplaySnackbar) => {
   const { status, action, name, variant } = props;
-  if (variant) {
+  if (variant || action) {
+    customEnqueueSnackbar({
+      variant: variant,
+      message: <NotifMessage item={name} action={action} />,
+    });
+    return;
+  }
+  if (variant || action) {
     customEnqueueSnackbar({
       variant: variant,
       message: <NotifMessage item={name} action={action} />,
@@ -54,7 +62,7 @@ export const displaySnackbar = (props: IDisplaySnackbar) => {
     });
 };
 
-type INotifMessageAction = "create" | "update" | "delete" | "hide" | "unhide";
+type INotifMessageAction = "create" | "update" | "delete" | "hide" | "unhide" | "upload" | "loading" | "wait";
 
 type INotifMessage = {
   item?: symbol | number | string | null;
@@ -64,6 +72,9 @@ type INotifMessage = {
 
 export const NotifMessage: React.FC<INotifMessage> = (props) => {
   const { item = "Record", action, status = "success" } = props;
+  if (action === "wait") {
+    return <div>Please wait...</div>;
+  }
   if (status === "failed")
     return (
       <div>
