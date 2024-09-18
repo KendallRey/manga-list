@@ -8,10 +8,14 @@ import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import CreateMangaList from "./ui/CreateMangaList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
-import MuiList, { MuiListItem } from "@/components/list/List";
+import MuiList, { MuiListItem, MuiListItemText } from "@/components/list/List";
 import MuiTypography from "@/components/typography/Typograph";
 import AddMangaList from "./ui/AddMangaList";
 import MangaListFilter from "./ui/MangaListFilter";
+import MuiLink from "@/components/link/Link";
+import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
+import { MODEL } from "@/model/model";
+import { BiEdit } from "react-icons/bi";
 
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -49,7 +53,12 @@ const MangaPage: React.FC<INextPage> = async (props) => {
         <MuiTypography variant="caption">{mangasResponse.data.length} results</MuiTypography>
         <MuiList className="flex flex-col gap-1">
           {mangasResponse.data.map((manga) => (
-            <MuiListItem key={manga.id}>{manga.name}</MuiListItem>
+            <MuiListItem key={manga.id}>
+              <MuiListItemText>{manga.name}</MuiListItemText>
+              <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
+                <BiEdit />
+              </MuiLink>
+            </MuiListItem>
           ))}
         </MuiList>
       </MuiPaper>
