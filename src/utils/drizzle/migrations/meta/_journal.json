@@ -22,6 +22,27 @@
       "when": 1726496202020,
       "tag": "0002_safe_cannonball",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1726620383635,
+      "tag": "0003_loose_bucky",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1726620868143,
+      "tag": "0004_violet_jean_grey",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1726634400800,
+      "tag": "0005_chunky_madame_hydra",
+      "breakpoints": true
     }
   ]
 }

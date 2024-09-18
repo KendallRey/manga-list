@@ -19,6 +19,7 @@ export const MANGA_MODEL = {
   NAME: "name",
   NAME_IDX: "name_idx",
   URL: "url",
+  THUMBNAIL: "thumbnail",
   DESCRIPTION: "description",
   HIDE: "hide",
   LIST: "list_id",
@@ -36,6 +37,10 @@ export const MANGA_IMAGE_MODEL = {
   name: "manga_image",
   MANGA_ID: "manga_id",
   URL: "url",
+  IMAGE_ID: "image_id",
+  PATH: "path",
+  FULL_PATH: "full_path",
+  PUBLIC_URL: "public_url",
 } as const;
 
 export const MODEL = {
