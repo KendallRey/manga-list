@@ -38,12 +38,12 @@ const MANGA_ADD = {
 
 const MANGA_UPDATE = {
   name: "Update Manga",
-  href: `/user/manga/update/${ROUTE_ID}`,
+  href: `/user/manga/${ROUTE_ID}/update`,
 } as const;
 
 const MANGA_VIEW = {
   name: "Manga Details",
-  href: `/user/manga/view/${ROUTE_ID}`,
+  href: `/user/manga/${ROUTE_ID}/view`,
 } as const;
 
 const MANGA_USER = {

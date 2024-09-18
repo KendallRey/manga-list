@@ -22,6 +22,7 @@ const API = {
   MESSAGE: {
     ERROR: {
       INVALID_PAGE: "Invalid Page",
+      INCOMPLETE_FORM: "Please fill out the form",
     },
   },
   PARAMS: {

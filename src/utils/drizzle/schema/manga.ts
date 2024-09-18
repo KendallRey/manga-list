@@ -41,6 +41,11 @@ export const MangaTable = pgTable(
 export type IMangaTableInsert = typeof MangaTable.$inferInsert;
 export type IMangaTableSelect = typeof MangaTable.$inferSelect;
 export const insertMangaSchema = createInsertSchema(MangaTable);
+export const upsertMangaSchema = createSelectSchema(MangaTable).pick({
+  [MODEL.MANGA.ID]: true,
+  [MODEL.MANGA.NAME]: true,
+  [MODEL.MANGA.DESCRIPTION]: true,
+});
 export const selectMangaSchema = createSelectSchema(MangaTable);
 
 export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {

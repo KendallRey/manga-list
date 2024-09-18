@@ -12,6 +12,8 @@ import {
   insertMangaSchema,
   MangaImageTable,
   MangaTable,
+  selectMangaSchema,
+  upsertMangaSchema,
 } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
@@ -19,6 +21,7 @@ import API from "../api/API";
 import { errorResponse, successResponse } from "../api/helper/apiHelper";
 import { uploadMangaImageToStorage } from "../api/storage/upload";
 import { eq, sql } from "drizzle-orm";
+import { getValidationErrors } from "@/model/helper/validation";
 
 export async function createMangaListAction() {
   const { error } = await CreateUserMangaList({});
@@ -54,6 +57,27 @@ export async function archivedMangaAction(id: ID) {
   return response;
 }
 
+export async function updateMangaFormAction(formData: FormData) {
+  const data: Record<string, any> = {};
+
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+
+  const validation = upsertMangaSchema.safeParse(data);
+  if (!validation.success) {
+    return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST, error: API.MESSAGE.ERROR.INCOMPLETE_FORM });
+  }
+
+  const {
+    data: { id, ...payload },
+  } = validation;
+  const response = await UpdateUserManga({ id, payload });
+
+  revalidatePath("/", "layout");
+  return response;
+}
+
 export async function hideMangaAction(id: ID) {
   const payload = {
     [MODEL.MANGA.HIDE]: true,
@@ -84,7 +108,7 @@ export async function uploadMangaImageAction(id: ID) {
   return response;
 }
 
-export const AddMangaImageAction = async (
+export const addMangaImageAction = async (
   props: IApiPostProps<{
     manga: IMangaTableSelect;
     imageData: IUploadFileToStorageSuccessResponse;

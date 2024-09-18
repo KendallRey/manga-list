@@ -1,6 +1,6 @@
 "use client";
 
-import { AddMangaImageAction } from "@/app/action/manga";
+import { addMangaImageAction } from "@/app/action/manga";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import React from "react";
 import UploadFile from "../../components/custom/UploadFile";
@@ -22,7 +22,7 @@ const MangaUploadImage: React.FC<IMangaUploadImage> = (props) => {
       return { error: error.message };
     }
     const payload = { manga: manga, imageData: data, setAsThumbnail: true };
-    const response = await AddMangaImageAction({ payload });
+    const response = await addMangaImageAction({ payload });
     if (response.error) {
       displaySnackbar({ action: "upload", status: "error", variant: "error" });
       return { error: response.error };
