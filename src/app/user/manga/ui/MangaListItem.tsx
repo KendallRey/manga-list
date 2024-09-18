@@ -8,15 +8,16 @@ import MuiMenuItem from "@/components/menu-item/MenuItem";
 import ActionMenu from "@/components/menu/ActionMenu";
 import { CSwal, swalActionProps } from "@/components/swal/CSwal";
 import { MuiTd, MuiTr } from "@/components/table/Table";
-import USER_ROUTE from "@/constants/ROUTES";
+import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { Avatar } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import { HiEye, HiTrash } from "react-icons/hi2";
-import { BiHide } from "react-icons/bi";
+import { BiEdit, BiHide } from "react-icons/bi";
 import { useCallOnce } from "@/components/hooks/useCallOnce";
 import { getSignedUrlClient } from "@/utils/supabase/helper/client-storage";
 import { MODEL } from "@/model/model";
+import { useRouter } from "next/navigation";
 
 type IMangaListItem = {
   item: IMangaTableSelect;
@@ -25,6 +26,7 @@ type IMangaListItem = {
 const MangaListItem: React.FC<IMangaListItem> = (props) => {
   const { item } = props;
 
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   // #region Delete Action
@@ -69,6 +71,14 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
 
   // #endregion
 
+  // #region Go to Update
+
+  const onUpdate = useCallback(() => {
+    router.push(USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, item.id));
+  }, [router, item]);
+
+  // #endregion
+
   const [src, setSrc] = useState<string>();
 
   const getSignedUrl = useCallback(async () => {
@@ -102,6 +112,9 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
                   <BiHide fontSize={20} /> Hide
                 </MuiMenuItem>
               )}
+              <MuiMenuItem className="flex items-center gap-2 justify-between" onClick={onUpdate} disabled={loading}>
+                <BiEdit fontSize={20} /> Update
+              </MuiMenuItem>
               <MuiMenuItem
                 className="flex items-center gap-2 justify-between text-red-500"
                 onClick={onDelete}
