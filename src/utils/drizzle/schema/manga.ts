@@ -23,6 +23,7 @@ export const MangaTable = pgTable(
     [MODEL.MANGA.ID]: uuid(MODEL.MANGA.ID).primaryKey().defaultRandom(),
     [MODEL.MANGA.NAME]: varchar(MODEL.MANGA.NAME, { length: 255 }).notNull(),
     [MODEL.MANGA.URL]: varchar(MODEL.MANGA.URL, { length: 255 }),
+    [MODEL.MANGA.THUMBNAIL]: varchar(MODEL.MANGA.THUMBNAIL, { length: 255 }),
     [MODEL.MANGA.DESCRIPTION]: varchar(MODEL.MANGA.DESCRIPTION, { length: 255 }),
     [MODEL.MANGA.LIST]: uuid(MODEL.MANGA.LIST).references(() => MangaListTable.id, { onDelete: "set null" }),
     [MODEL.MANGA.CREATED_AT]: timestamp(MODEL.MANGA.CREATED_AT, { withTimezone: true }).default(sql`NOW()`),

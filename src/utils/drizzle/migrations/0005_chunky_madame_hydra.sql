@@ -1,0 +1,1 @@
+ALTER TABLE "manga" ADD COLUMN "thumbnail" varchar(255);
