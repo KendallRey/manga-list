@@ -93,13 +93,16 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
 };
 
 export type IGetUserManga = {
-  id: string;
+  id: unknown;
 } & IApiProps;
 
 export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<IMangaTableSelect>> => {
   const { id } = props;
   try {
-    const mangas = await db.select().from(MangaTable).where(eq(MangaTable[MODEL.MANGA.ID], id));
+    const mangas = await db
+      .select()
+      .from(MangaTable)
+      .where(eq(MangaTable[MODEL.MANGA.ID], String(id)));
 
     if (!mangas.length) return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST });
 

@@ -42,7 +42,7 @@ const Search: React.FC<ISearch> = (props) => {
     if (searchParams.get(name ?? DEFAULT_KEY) !== searchValue) {
       setSearchValue(searchParams.get(name ?? DEFAULT_KEY) || "");
     }
-  }, [searchParams, name]);
+  }, [searchParams, name, searchValue]);
 
   useCallOnce(syncURLParams);
 

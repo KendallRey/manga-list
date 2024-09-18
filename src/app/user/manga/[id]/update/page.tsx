@@ -14,7 +14,9 @@ import { TEXT } from "@/components/helper/field";
 const UpdateMangaPage: React.FC<INextPage> = async (props) => {
   const { params } = props;
 
-  const manga = await GetUserManga({ id: params?.id! as string });
+  if (!params?.id) return <ErrorPage />;
+
+  const manga = await GetUserManga({ id: params?.id });
 
   if (!manga.status) return <ErrorPage />;
 

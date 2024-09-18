@@ -50,7 +50,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   const syncPage = useCallback(() => {
     const page = parseToPage(searchParams.get("page"), 1000);
     setPage(page);
-  }, [searchParams, name]);
+  }, [searchParams]);
 
   useCallOnce(syncPage);
 

@@ -18,7 +18,7 @@ const MangaListHead = () => {
       params.set(name, order === "desc" ? "asc" : "desc");
       router.replace(`?${params.toString()}`, { scroll: false });
     },
-    [router, searchParams, router, order, key],
+    [router, searchParams, order, key],
   );
 
   const onCancel = useCallback(
@@ -27,7 +27,7 @@ const MangaListHead = () => {
       params.delete(name);
       router.replace(`?${params.toString()}`, { scroll: false });
     },
-    [router, searchParams, router],
+    [router, searchParams],
   );
 
   return (
