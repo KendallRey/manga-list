@@ -1,5 +1,21 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+```
+NEXT_PUBLIC_SUPABASE_URL = <supabase_url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY = <supabase_anon_key>
+NEXT_PUBLIC_SUPABASE_DATABASE_URL = <supabase_postgres_url>
+
+NEXT_PUBLIC_FRONTEND_URL = http://localhost:3050/
+
+NEXT_PUBLIC_HOSTNAMES = <supabase_url>, <another_url>, <sample_url>
+
+NEXT_PUBLIC_S3_ACCESS_KEY = <supabase_s3_access_key>
+NEXT_PUBLIC_S3_SECRET_KEY = <supabase_s3_secret_key>
+
+NEXT_PUBLIC_SUPABASE_BUCKET_NAME = manga_image
+```
+
 ## Installed Packages Command
 
 ```bash
