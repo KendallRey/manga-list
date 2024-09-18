@@ -1,7 +1,7 @@
 "use client";
 
 import { archivedMangaAction, hideMangaAction, unhideMangaAction } from "@/app/action/manga";
-import { customEnqueueSnackbar, displaySnackbar, NotifMessage } from "@/components/helper/notistack";
+import { displaySnackbar } from "@/components/helper/notistack";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import MuiLink from "@/components/link/Link";
 import MuiMenuItem from "@/components/menu-item/MenuItem";
@@ -14,6 +14,9 @@ import { Avatar } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import { HiEye, HiTrash } from "react-icons/hi2";
 import { BiHide } from "react-icons/bi";
+import { useCallOnce } from "@/components/hooks/useCallOnce";
+import { getSignedUrlClient } from "@/utils/supabase/helper/client-storage";
+import { MODEL } from "@/model/model";
 
 type IMangaListItem = {
   item: IMangaTableSelect;
@@ -66,11 +69,20 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
 
   // #endregion
 
+  const [src, setSrc] = useState<string>();
+
+  const getSignedUrl = useCallback(async () => {
+    const response = await getSignedUrlClient(item[MODEL.MANGA.THUMBNAIL]);
+    setSrc(response?.data?.signedUrl);
+  }, [item]);
+
+  useCallOnce(getSignedUrl);
+
   return (
     <>
       <MuiTr>
         <MuiTd>
-          <Avatar />
+          <Avatar src={src || ""} sizes="100px" alt={item.name} />
         </MuiTd>
         <MuiTd>{item.name}</MuiTd>
         <MuiTd>
