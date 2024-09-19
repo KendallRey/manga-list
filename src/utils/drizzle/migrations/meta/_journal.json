@@ -43,6 +43,13 @@
       "when": 1726634400800,
       "tag": "0005_chunky_madame_hydra",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726723154759,
+      "tag": "0006_optimal_rattler",
+      "breakpoints": true
     }
   ]
 }

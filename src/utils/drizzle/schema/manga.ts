@@ -24,13 +24,15 @@ export const MangaTable = pgTable(
     [MODEL.MANGA.NAME]: varchar(MODEL.MANGA.NAME, { length: 255 }).notNull(),
     [MODEL.MANGA.URL]: varchar(MODEL.MANGA.URL, { length: 255 }),
     [MODEL.MANGA.THUMBNAIL]: varchar(MODEL.MANGA.THUMBNAIL, { length: 255 }),
-    [MODEL.MANGA.DESCRIPTION]: varchar(MODEL.MANGA.DESCRIPTION, { length: 255 }),
+    [MODEL.MANGA.DESCRIPTION]: varchar(MODEL.MANGA.DESCRIPTION, { length: 2048 }),
     [MODEL.MANGA.LIST]: uuid(MODEL.MANGA.LIST).references(() => MangaListTable.id, { onDelete: "set null" }),
     [MODEL.MANGA.CREATED_AT]: timestamp(MODEL.MANGA.CREATED_AT, { withTimezone: true }).default(sql`NOW()`),
     [MODEL.MANGA.UPDATED_AT]: timestamp(MODEL.MANGA.UPDATED_AT, { withTimezone: true }).default(sql`NOW()`),
     [MODEL.MANGA.DELETED_AT]: timestamp(MODEL.MANGA.DELETED_AT, { withTimezone: true }),
     [MODEL.MANGA.ARCHIVED]: boolean(MODEL.MANGA.ARCHIVED).default(false),
     [MODEL.MANGA.HIDE]: boolean(MODEL.MANGA.HIDE).default(false),
+    [MODEL.MANGA.DANGER]: boolean(MODEL.MANGA.DANGER).default(false),
+    [MODEL.MANGA.SPICY]: boolean(MODEL.MANGA.SPICY).default(false),
   },
   (table) => {
     return {

@@ -22,6 +22,8 @@ export const MANGA_MODEL = {
   THUMBNAIL: "thumbnail",
   DESCRIPTION: "description",
   HIDE: "hide",
+  DANGER: "danger", // 😉
+  SPICY: "spicy", // 😏
   LIST: "list_id",
 } as const;
 
