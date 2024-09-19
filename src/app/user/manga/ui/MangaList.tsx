@@ -26,8 +26,7 @@ const MangaList: React.FC<IMangaList> = async (props) => {
         colsWidth={["10%", "80%", "10%"]}
         size="small"
         stickyHeader
-        containerProps={{ sx: { maxHeight: 480, minHeight: 480 } }}
-        paginationProps={{ count: mangasResponse?.data?.count }}
+        paginationProps={{ count: mangasResponse?.data?.count, limit: Number(params.limit) }}
       >
         <MangaListHead />
         <MuiTableBody>

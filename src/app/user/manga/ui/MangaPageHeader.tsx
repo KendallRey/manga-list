@@ -45,6 +45,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
         {mangasResponse.data.map((manga) => (
           <MuiListItem
             key={manga.id}
+            className="border-b"
             secondaryAction={
               <div className="flex gap-2 items-center">
                 <MuiLink href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>

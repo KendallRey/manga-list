@@ -11,6 +11,7 @@ import { updateMangaFormAction } from "@/app/action/manga";
 import MuiButton from "@/components/button/Button";
 import { TEXT } from "@/components/helper/field";
 import MangaBanner from "@/app/ui/MangaBanner";
+import MangaImageList from "@/app/ui/MangaImageList";
 
 const UpdateMangaPage: React.FC<INextPage> = async (props) => {
   const { params } = props;
@@ -60,6 +61,9 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
         </MuiPaper>
         <MuiPaper className="flex-grow p-4" elevation={2} color="primary"></MuiPaper>
       </div>
+      <MuiPaper className="p-6">
+        <MangaImageList manga={manga.data} viewAction />
+      </MuiPaper>
     </Dashboard>
   );
 };

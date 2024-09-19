@@ -153,3 +153,13 @@ export const addMangaImageAction = async (
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
+
+export const setMangaThumbnailAction = async (id: ID, imagePath: string) => {
+  const payload = {
+    [MODEL.MANGA.THUMBNAIL]: imagePath,
+  };
+  const response = await UpdateUserManga({ id, payload });
+
+  revalidatePath("/", "layout");
+  return response;
+};

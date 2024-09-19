@@ -17,6 +17,7 @@ import { BiEdit, BiHide } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { MODEL } from "@/model/model";
+import MuiBadge from "@/components/badge/Badge";
 
 type IMangaListItem = {
   item: IMangaTableSelect;

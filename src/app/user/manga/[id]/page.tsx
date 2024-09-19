@@ -4,11 +4,11 @@ import PageBreadCrumbs from "@/components/custom/PageBreadCrumbs";
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
-import MangaUploadImage from "../../../ui/MangaUploadImage";
 import MangaPageHeader from "@/app/ui/MangaPageHeader";
 import MuiLink from "@/components/link/Link";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
+import MangaImageList from "@/app/ui/MangaImageList";
 
 const ViewMangaPage: React.FC<INextPage> = async (props) => {
   const { params } = props;
@@ -31,6 +31,9 @@ const ViewMangaPage: React.FC<INextPage> = async (props) => {
             Edit Manga Info
           </MuiLink>
         </div>
+      </MuiPaper>
+      <MuiPaper className="p-6">
+        <MangaImageList manga={manga.data} />
       </MuiPaper>
     </Dashboard>
   );
