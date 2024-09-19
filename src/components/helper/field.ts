@@ -5,6 +5,7 @@ export const TEXT = {
     MEDIUM: 128,
     LONG: 256,
     ADDRESS: 255,
+    DESCRIPTION: 2048,
   },
 } as const;
 
