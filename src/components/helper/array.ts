@@ -42,3 +42,26 @@ export const extractFieldValues = <T extends Record<string, any>, K extends keyo
   if (!list) return [];
   return list.map((item) => item[field]);
 };
+
+/**
+ * Retrieves the index of a value in a list. If the value is not found, it returns the index of a default value.
+ *
+ * @param {unknown[]} list - The array to search in.
+ * @param {unknown} value - The value to find in the array.
+ * @param {unknown} [defaultValue] - An optional default value to search for if the primary value is not found.
+ *
+ * @returns {number} - The index of the value in the list, or the index of the default value if the primary value is not found. If neither is found, returns -1.
+ *
+ * @example
+ * ```ts
+ * const list = ['apple', 'banana', 'cherry'];
+ * const index = getIndexOf(list, 'banana'); // Output: 1
+ * const notFoundIndex = getIndexOf(list, 'orange', 'banana'); // Output: 1 (since 'orange' is not found, but 'banana' is)
+ * const noDefaultIndex = getIndexOf(list, 'orange'); // Output: -1 (since neither 'orange' nor a default value are found)
+ * ```
+ */
+export const getIndexOf = (list: unknown[], value: unknown, defaultValue?: unknown) => {
+  const index = list.indexOf(value);
+  if (index === -1) return list.indexOf(defaultValue);
+  return index;
+};
