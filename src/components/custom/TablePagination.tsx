@@ -153,7 +153,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
         {LIMIT_OPTIONS.map((option, i) => (
           <MuiMenuItem
             key={option}
-            disabled={i === 0}
+            disabled={i === selectedIndex}
             selected={i === selectedIndex}
             onClick={(event) => onClickLimitOption(event, i)}
           >
