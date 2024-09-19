@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
 import supabaseImageLoader from "@/utils/supabase/loader/loader";
 import Image from "next/image";
 import React from "react";
+import { toBucketPublicBlurUrl } from "../../helper/image";
 
 type ISupabasePublicImage = {
   path?: string | null;
@@ -22,6 +23,7 @@ const SupabasePublicImage: React.FC<ISupabasePublicImage> = async (props) => {
       width={w ?? 400}
       height={h ?? 600}
       loading="lazy"
+      blurDataURL={toBucketPublicBlurUrl(path)}
       style={{ objectFit: "contain" }}
     />
   );
