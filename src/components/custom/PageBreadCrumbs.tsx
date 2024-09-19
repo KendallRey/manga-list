@@ -6,6 +6,7 @@ import React, { useMemo } from "react";
 import MuiLink from "../link/Link";
 import Link from "next/link";
 import { formatToLabel, isUUID } from "../helper/component";
+import MuiTypography from "../typography/Typograph";
 
 type IPageBreadCrumbs = {
   route: string;
@@ -47,7 +48,9 @@ const PageBreadCrumbs: React.FC<IPageBreadCrumbs> = (props) => {
     <Breadcrumbs className="p-2">
       {routes.map((item) => (
         <MuiLink key={item.name} href={item.href} component={Link}>
-          {item.name}
+          <MuiTypography className="truncate" maxWidth={400}>
+            {item.name}
+          </MuiTypography>
         </MuiLink>
       ))}
     </Breadcrumbs>
