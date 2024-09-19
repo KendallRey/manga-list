@@ -82,7 +82,7 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
     <>
       <MuiTr>
         <MuiTd>
-          <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} />
+          <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
         </MuiTd>
         <MuiTd>{item.name}</MuiTd>
         <MuiTd>
