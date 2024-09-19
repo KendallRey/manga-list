@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import MuiPagination from "../pagination/Pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import API from "@/app/api/API";
@@ -8,6 +8,10 @@ import MuiTypography from "../typography/Typograph";
 import MuiIconButton from "../icon-button/IconButton";
 import { parseToPage } from "../helper/component";
 import { useCallOnce } from "../hooks/useCallOnce";
+import MuiMenu from "../menu/Menu";
+import MuiMenuItem from "../menu-item/MenuItem";
+import MuiList, { MuiListItemButton, MuiListItemText } from "../list/List";
+import { getIndexOf } from "../helper/array";
 
 type ITablePagination = {
   count: number;
@@ -60,7 +64,8 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   };
 
   const pageCount = React.useMemo(() => {
-    const _limit = limit || API.PARAMS.DEFAULT.LIMIT;
+    let _tempLimit = limit !== undefined ? Number(limit) : API.PARAMS.DEFAULT.LIMIT;
+    const _limit = isNaN(_tempLimit) ? API.PARAMS.DEFAULT.LIMIT : _tempLimit;
     if (!count) return;
     return Math.ceil(count / _limit);
   }, [limit, count]);
@@ -84,6 +89,35 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
     [page, updateSearchParams],
   );
 
+  // #region Limit
+
+  const LIMIT_OPTIONS = [10, 25, 50, 100];
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const [selectedIndex, setSelectedIndex] = useState(getIndexOf(LIMIT_OPTIONS, limit, 10));
+
+  const onClickLimitOptionView = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
+
+  const onClickLimitOption = useCallback(
+    (event: React.MouseEvent<HTMLElement>, index: number) => {
+      setSelectedIndex(index);
+      updateSearchParams(LIMIT_OPTIONS[index], "limit");
+      setAnchorEl(null);
+    },
+    [LIMIT_OPTIONS, updateSearchParams],
+  );
+
+  const onCloseLimit = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  // #endregion
+
   return (
     <div className="flex items-center gap-2">
       <MuiPagination onChange={handleChange} page={Number(searchValue)} count={pageCount} />
@@ -102,6 +136,31 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
           Go
         </MuiIconButton>
       </form>
+      <MuiList>
+        <MuiListItemButton
+          id="lock-button"
+          aria-haspopup="listbox"
+          aria-controls="lock-menu"
+          aria-expanded={open ? "true" : undefined}
+          onClick={onClickLimitOptionView}
+          className="flex gap-2"
+        >
+          <MuiListItemText secondary={"Rows per page:"} />
+          <MuiListItemText primary={LIMIT_OPTIONS[selectedIndex]} />
+        </MuiListItemButton>
+      </MuiList>
+      <MuiMenu id="lock-menu" anchorEl={anchorEl} open={open} onClose={onCloseLimit}>
+        {LIMIT_OPTIONS.map((option, i) => (
+          <MuiMenuItem
+            key={option}
+            disabled={i === 0}
+            selected={i === selectedIndex}
+            onClick={(event) => onClickLimitOption(event, i)}
+          >
+            {option}
+          </MuiMenuItem>
+        ))}
+      </MuiMenu>
     </div>
   );
 };

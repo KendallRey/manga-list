@@ -21,6 +21,7 @@ import MuiTypography from "../typography/Typograph";
 import TablePagination from "../custom/TablePagination";
 import MuiIconButton from "../icon-button/IconButton";
 import { HiXMark } from "react-icons/hi2";
+import MuiSelect from "../select/Select";
 
 const CustomMuiTd = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -155,7 +156,11 @@ const MuiTable: React.FC<IMuiTable> = (props) => {
         </Table>
       </TableContainer>
       <div onClick={(e) => e.stopPropagation()} className="flex items-center justify-between py-2 px-2">
-        {paginationProps ? <TablePagination count={paginationProps.count || 1} /> : <span></span>}
+        {paginationProps ? (
+          <TablePagination limit={paginationProps.limit} count={paginationProps.count || 1} />
+        ) : (
+          <span></span>
+        )}
         <MuiTypography variant="caption">{paginationProps?.count ?? 0} results</MuiTypography>
       </div>
     </>
