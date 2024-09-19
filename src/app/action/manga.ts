@@ -78,9 +78,9 @@ export async function updateMangaFormAction(formData: FormData) {
   return response;
 }
 
-export async function hideMangaAction(id: ID) {
+export async function setMangaHideAction(id: ID, hide: boolean) {
   const payload = {
-    [MODEL.MANGA.HIDE]: true,
+    [MODEL.MANGA.HIDE]: hide,
   };
   const response = await UpdateUserManga({ id, payload });
 
@@ -88,9 +88,19 @@ export async function hideMangaAction(id: ID) {
   return response;
 }
 
-export async function unhideMangaAction(id: ID) {
+export async function setMangaSpicyAction(id: ID, isSpicy: boolean) {
   const payload = {
-    [MODEL.MANGA.HIDE]: false,
+    [MODEL.MANGA.SPICY]: isSpicy,
+  };
+  const response = await UpdateUserManga({ id, payload });
+
+  revalidatePath("/", "layout");
+  return response;
+}
+
+export async function setMangaDangerAction(id: ID, isDanger: boolean) {
+  const payload = {
+    [MODEL.MANGA.DANGER]: isDanger,
   };
   const response = await UpdateUserManga({ id, payload });
 

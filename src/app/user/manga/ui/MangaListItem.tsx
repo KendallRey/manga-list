@@ -1,6 +1,6 @@
 "use client";
 
-import { archivedMangaAction, hideMangaAction, unhideMangaAction } from "@/app/action/manga";
+import { archivedMangaAction, setMangaDangerAction, setMangaHideAction, setMangaSpicyAction } from "@/app/action/manga";
 import { displaySnackbar } from "@/components/helper/notistack";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import MuiLink from "@/components/link/Link";
@@ -12,12 +12,17 @@ import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { Avatar } from "@mui/material";
 import React, { useCallback, useState } from "react";
-import { HiEye, HiTrash } from "react-icons/hi2";
+import { HiEye, HiEyeSlash, HiTrash } from "react-icons/hi2";
 import { BiEdit, BiHide } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { MODEL } from "@/model/model";
-import MuiBadge from "@/components/badge/Badge";
+import { GiSunglasses } from "react-icons/gi";
+import { FaChampagneGlasses } from "react-icons/fa6";
+import { AiFillSafetyCertificate } from "react-icons/ai";
+import { MdHealthAndSafety } from "react-icons/md";
+import MuiTypography from "@/components/typography/Typograph";
+import MuiChip from "@/components/chip/Chip";
 
 type IMangaListItem = {
   item: IMangaTableSelect;
@@ -43,31 +48,65 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
 
   // #endregion
 
-  // #region Hide Action
+  // #region Set Hide Action
 
-  const onHide = useCallback(async () => {
-    const { isConfirmed } = await CSwal(swalActionProps({ model: "Manga", name: item.name, type: "Hide" }));
-    if (!isConfirmed) return;
+  const onHide = useCallback(
+    async (hide: boolean) => {
+      const { isConfirmed } = await CSwal(
+        swalActionProps({ model: "Manga", name: item.name, type: hide ? "Hide" : "Unhide" }),
+      );
+      if (!isConfirmed) return;
 
-    setLoading(true);
-    const response = await hideMangaAction(item.id);
-    displaySnackbar({ status: response.status, name: response?.data?.name, action: "hide", variant: "info" });
-    setLoading(false);
-  }, [item]);
+      setLoading(true);
+      const response = await setMangaHideAction(item.id, hide);
+      displaySnackbar({
+        status: response.status,
+        name: response?.data?.name,
+        action: hide ? "hide" : "unhide",
+        variant: "info",
+      });
+      setLoading(false);
+    },
+    [item],
+  );
 
   // #endregion
 
-  // #region Unhide Action
+  // #region Set Spicy Action
 
-  const onUnhide = useCallback(async () => {
-    const { isConfirmed } = await CSwal(swalActionProps({ model: "Manga", name: item.name, type: "Unhide" }));
-    if (!isConfirmed) return;
+  const onSetSpicy = useCallback(
+    async (isSpicy: boolean) => {
+      const { isConfirmed } = await CSwal(
+        swalActionProps({ model: "Manga", name: item.name, action: isSpicy ? "Set spicy" : "Unset spicy" }),
+      );
+      if (!isConfirmed) return;
 
-    setLoading(true);
-    const response = await unhideMangaAction(item.id);
-    displaySnackbar({ status: response.status, name: response?.data?.name, action: "unhide", variant: "info" });
-    setLoading(false);
-  }, [item]);
+      setLoading(true);
+      const response = await setMangaSpicyAction(item.id, isSpicy);
+      displaySnackbar({ status: response.status, name: response?.data?.name, action: "update" });
+      setLoading(false);
+    },
+    [item],
+  );
+
+  // #endregion
+
+  // #region Set Spicy Action
+
+  const onSetDanger = useCallback(
+    async (isSpicy: boolean) => {
+      const { isConfirmed } = await CSwal(
+        swalActionProps({ model: "Manga", name: item.name, action: isSpicy ? "Set danger" : "Unset danger" }),
+      );
+      if (!isConfirmed) return;
+
+      setLoading(true);
+      const response = await setMangaDangerAction(item.id, isSpicy);
+      displaySnackbar({ status: response.status, name: response?.data?.name, action: "update" });
+      setLoading(false);
+    },
+    [item],
+  );
 
   // #endregion
 
@@ -82,12 +121,18 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
   return (
     <>
       <MuiTr>
-        <MuiTd>
+        <MuiTd className="pt-3">
           <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
             <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
           </MuiLink>
         </MuiTd>
-        <MuiTd>{item.name}</MuiTd>
+        <MuiTd>
+          <div className="flex items-center gap-2">
+            {item[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
+            {item[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+            <MuiTypography variant="body2">{item.name}</MuiTypography>
+          </div>
+        </MuiTd>
         <MuiTd>
           <div className="flex items-center">
             <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
@@ -96,15 +141,51 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
               </MuiIconButton>
             </MuiLink>
             <ActionMenu>
-              {item.hide ? (
-                <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onUnhide} disabled={loading}>
-                  <BiHide fontSize={20} /> Unhide
-                </MuiMenuItem>
-              ) : (
-                <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onHide} disabled={loading}>
-                  <BiHide fontSize={20} /> Hide
-                </MuiMenuItem>
-              )}
+              <MuiMenuItem
+                className="flex items-center gap-4 justify-between"
+                onClick={() => onHide(!item[MODEL.MANGA.HIDE])}
+                disabled={loading}
+              >
+                {!item[MODEL.MANGA.HIDE] ? (
+                  <>
+                    <HiEyeSlash fontSize={20} /> Hide
+                  </>
+                ) : (
+                  <>
+                    <BiHide fontSize={20} /> Unhide
+                  </>
+                )}
+              </MuiMenuItem>
+              <MuiMenuItem
+                className="flex items-center gap-4 justify-between"
+                onClick={() => onSetDanger(!item[MODEL.MANGA.DANGER])}
+                disabled={loading}
+              >
+                {!item[MODEL.MANGA.DANGER] ? (
+                  <>
+                    <AiFillSafetyCertificate fontSize={20} /> Set Danger
+                  </>
+                ) : (
+                  <>
+                    <MdHealthAndSafety fontSize={20} /> Unset Danger
+                  </>
+                )}
+              </MuiMenuItem>
+              <MuiMenuItem
+                className="flex items-center gap-4 justify-between"
+                onClick={() => onSetSpicy(!item[MODEL.MANGA.SPICY])}
+                disabled={loading}
+              >
+                {!item[MODEL.MANGA.SPICY] ? (
+                  <>
+                    <GiSunglasses fontSize={20} /> Set Spicy
+                  </>
+                ) : (
+                  <>
+                    <FaChampagneGlasses fontSize={20} /> Unset Spicy
+                  </>
+                )}
+              </MuiMenuItem>
               <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onUpdate} disabled={loading}>
                 <BiEdit fontSize={20} /> Update
               </MuiMenuItem>

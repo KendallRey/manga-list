@@ -35,7 +35,7 @@ type IDisplaySnackbar = {
 
 export const displaySnackbar = (props: IDisplaySnackbar) => {
   const { status, action, name, variant } = props;
-  if (variant || action) {
+  if (variant) {
     customEnqueueSnackbar({
       variant: variant,
       message: <NotifMessage item={name} action={action} />,

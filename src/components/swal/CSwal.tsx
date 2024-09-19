@@ -22,42 +22,44 @@ type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide" | "Unhide" | "Ad
 
 type IHtmlAskAction = {
   name?: string | null;
-  type: IHtmlAskActionType;
+  type?: IHtmlAskActionType;
 };
 
 export const htmlAskAction = (props: IHtmlAskAction) => {
   const { type, name } = props;
-  return `${type} <strong>${name || "Record"}</strong> ?`;
+  return `${type ?? "Process"} <strong>${name || "Record"}</strong> ?`;
 };
 
 type ISwalActionProps = {
   model: string;
   name: string;
-  type: IHtmlAskActionType;
+  type?: IHtmlAskActionType;
   action?: string;
+  icon?: SweetAlertIcon;
 };
 
 export const swalActionProps = (props: ISwalActionProps): SweetAlertOptions => {
-  const { model, name, type } = props;
+  const { model, name, type, icon, action } = props;
 
-  let icon: SweetAlertIcon | undefined = undefined;
+  let _icon: SweetAlertIcon | undefined = undefined;
 
   switch (type) {
     case "Delete":
-      icon = "warning";
+      _icon = "warning";
       break;
     case "Update":
-      icon = "question";
+      _icon = "question";
       break;
     case "Save":
-      icon = "question";
+      _icon = "question";
       break;
   }
 
   return {
-    icon,
-    title: `${type} ${model}?`,
-    html: htmlAskAction({ name, type }),
+    icon: icon ?? _icon,
+    title: `${action ?? type} ${model}?`,
+    html: htmlAskAction({ name, type: type }),
+    text: action,
     confirmButtonText: type,
   };
 };

@@ -1,11 +1,9 @@
-import ErrorPage from "@/app/error/page";
-import MuiTable, { MuiHeadTr, MuiSortTh, MuiTableBody, MuiTableHead, MuiTh } from "@/components/table/Table";
+import MuiTable, { MuiTableBody } from "@/components/table/Table";
 import React from "react";
 import { GetUserMangaList } from "@/app/api/manga/manga-api";
 import { IMangaListTableSelect } from "@/utils/drizzle/schema";
 import MangaListItem from "./MangaListItem";
 import TableList from "@/components/helper-components/TableList";
-import TablePagination from "@/components/custom/TablePagination";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MangaListHead from "./MangaListHead";
 
@@ -23,7 +21,7 @@ const MangaList: React.FC<IMangaList> = async (props) => {
   return (
     <>
       <MuiTable
-        colsWidth={["10%", "80%", "10%"]}
+        colsWidth={["5%", "90%", "5%"]}
         size="small"
         stickyHeader
         paginationProps={{ count: mangasResponse?.data?.count, limit: Number(params.limit) }}

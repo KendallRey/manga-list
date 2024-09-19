@@ -1,10 +1,11 @@
 import { createTheme } from "@mui/material";
 import { COLOR } from "../constants/color";
-import { pink } from "@mui/material/colors";
+import { pink, red } from "@mui/material/colors";
 
 export const MuiTheme = createTheme({
   palette: {
     secondary: pink,
+    error: red,
   },
   transitions: {
     duration: {
