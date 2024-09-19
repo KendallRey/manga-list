@@ -13,12 +13,15 @@ type IGetUserMangas = {
 } & IApiProps;
 
 export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
-  const { params, skip, listId } = props;
+  const { params, skip, listId, defaultParams, overrideParams } = props;
 
   try {
     const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
 
-    const { filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, { default: { hide: false } });
+    const { filterBys, orderBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, {
+      default: { ...defaultParams, hide: false },
+      override: { ...overrideParams },
+    });
 
     if (skip) return successResponse({ data: [] });
 
@@ -32,7 +35,8 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
           ...filterBys,
           q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
         ),
-      );
+      )
+      .orderBy(...orderBys);
 
     const mangas = await baseQuery;
 
@@ -47,13 +51,14 @@ type IGetUserMangaList = {
 } & IApiProps;
 
 export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
-  const { params, skip, listId } = props;
+  const { params, skip, listId, defaultParams, overrideParams } = props;
 
   try {
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
 
     const { orderBys, groupByColumns, filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, {
-      default: { hide: false },
+      default: { ...defaultParams, hide: false },
+      override: { ...overrideParams },
     });
     if (skip) return successResponse({ data: { count: 0, results: [] } });
 

@@ -13,6 +13,7 @@ import { GetUserMangas } from "@/app/api/manga/manga-api";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import ErrorPage from "@/app/error/page";
 import { HiEye } from "react-icons/hi2";
+import MuiChip from "@/components/chip/Chip";
 
 type IMangaPageHeader = {
   listId: ID;
@@ -25,7 +26,8 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
   const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q, ...searchParams },
+    params: { q, name: "asc" },
+    overrideParams: { hide: "all" },
     listId: String(listId),
     skip: !q,
   });
@@ -44,7 +46,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
       <MuiList className="flex flex-col gap-1">
         {mangasResponse.data.map((manga) => (
           <MuiListItem
-            key={manga.id}
+            key={manga[MODEL.MANGA.ID]}
             className="border-b"
             secondaryAction={
               <div className="flex gap-2 items-center">
@@ -58,7 +60,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
             }
           >
             <MuiListItemIcon>
-              <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${manga.id}`}>
+              <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
                 <Avatar
                   src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
                   alt={manga.name}
@@ -66,7 +68,19 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
                 />
               </MuiLink>
             </MuiListItemIcon>
-            <MuiListItemText className="pr-12">{manga.name}</MuiListItemText>
+            <MuiListItemText
+              className="pr-12"
+              secondary={
+                <div className="flex gap-2">
+                  {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
+                  {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
+                  {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+                </div>
+              }
+              disableTypography
+            >
+              {manga[MODEL.MANGA.NAME]}
+            </MuiListItemText>
           </MuiListItem>
         ))}
       </MuiList>

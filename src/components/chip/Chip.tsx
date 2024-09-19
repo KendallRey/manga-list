@@ -3,6 +3,7 @@ import React from "react";
 
 const DEFAULT_PROPS: ChipProps = {
   color: "primary",
+  size: "small",
 };
 
 // extend props here

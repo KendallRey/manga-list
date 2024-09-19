@@ -41,6 +41,7 @@ import { eq, ilike, SQL, asc, desc } from "drizzle-orm/sql";
 
 type IGenerateSqlFilterFromModelOptions = {
   default?: Record<string, any>;
+  override?: Record<string, any>;
 };
 
 export const generateSqlFilterFromModel = <T extends TableConfig>(
@@ -49,9 +50,9 @@ export const generateSqlFilterFromModel = <T extends TableConfig>(
   params: Record<string, any>,
   options?: IGenerateSqlFilterFromModelOptions,
 ) => {
-  const { default: defaultParams } = options ?? {}; // Extract default parameters from options if provided
+  const { default: defaultParams, override: overrideParams } = options ?? {}; // Extract default parameters from options if provided
 
-  const allParams = { ...defaultParams, ...params }; // Merge default and input params
+  const allParams = { ...defaultParams, ...params, ...overrideParams }; // Merge default and input params
 
   const filterBys: SQL<unknown>[] = [];
   const paramKeys = Object.keys(allParams); // Get keys from all params
@@ -142,6 +143,7 @@ export const generateSqlFilterFromModel = <T extends TableConfig>(
 
 type IGenerateSqlOrderByFromModelOptions = {
   default?: Record<string, any>;
+  override?: Record<string, any>;
 };
 
 export const generateSqlOrderByFromModel = <T extends TableConfig>(
@@ -150,9 +152,9 @@ export const generateSqlOrderByFromModel = <T extends TableConfig>(
   params: Record<string, any>,
   options?: IGenerateSqlOrderByFromModelOptions,
 ) => {
-  const { default: defaultParams } = options ?? {}; // Extract default parameters from options if provided
+  const { default: defaultParams, override: overrideParams } = options ?? {}; // Extract default parameters from options if provided
 
-  const allParams = { ...defaultParams, ...params }; // Merge default and input params
+  const allParams = { ...defaultParams, ...params, ...overrideParams }; // Merge default and input params
 
   const groupByColumns: T["columns"][string][] = [];
   const orderBys: SQL<unknown>[] = [];
