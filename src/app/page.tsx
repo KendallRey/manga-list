@@ -2,8 +2,17 @@ import MuiButton from "@/components/button/Button";
 import MuiTextField from "@/components/text-field/TextField";
 import Image from "next/image";
 import { userLoginAction, userSignupAction } from "./login/ui/action";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import USER_ROUTE from "@/constants/ROUTES";
 
-export default function Home() {
+const LandingPage = async () => {
+  const client = createClient();
+
+  const session = await client.auth.getSession();
+
+  if (!session.error) redirect(USER_ROUTE.MANGA_PAGE.href);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gray-100">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -52,4 +61,6 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+export default LandingPage;

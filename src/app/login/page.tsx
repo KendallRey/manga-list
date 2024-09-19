@@ -1,6 +1,6 @@
-import Home from "../page";
+import LandingPage from "../page";
 import { userLoginAction, userSignupAction } from "./ui/action";
 
 export default function LoginPage() {
-  return <Home />;
+  return <LandingPage />;
 }
