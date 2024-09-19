@@ -62,7 +62,7 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
         <MuiPaper className="flex-grow p-4" elevation={2} color="primary"></MuiPaper>
       </div>
       <MuiPaper className="p-6">
-        <MangaImageList mangaId={manga.data.id} viewAction />
+        <MangaImageList manga={manga.data} viewAction />
       </MuiPaper>
     </Dashboard>
   );

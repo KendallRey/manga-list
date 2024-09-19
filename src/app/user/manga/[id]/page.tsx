@@ -33,7 +33,7 @@ const ViewMangaPage: React.FC<INextPage> = async (props) => {
         </div>
       </MuiPaper>
       <MuiPaper className="p-6">
-        <MangaImageList mangaId={manga.data.id} />
+        <MangaImageList manga={manga.data} />
       </MuiPaper>
     </Dashboard>
   );

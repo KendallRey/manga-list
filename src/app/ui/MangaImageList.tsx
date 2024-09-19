@@ -1,46 +1,27 @@
-import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
+import MuiImageList from "@/components/image/Image";
 import React from "react";
 import { GetMangaImages } from "../api/manga-image/manga-image-api";
 import ErrorPage from "../error/page";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
-import { HiPhoto } from "react-icons/hi2";
-import MuiIconButton from "@/components/icon-button/IconButton";
+import MangaImageListItem from "./MangaImageListItem";
+import { IMangaTableSelect } from "@/utils/drizzle/schema";
+import { MODEL } from "@/model/model";
 
 type IMangaImageList = {
-  mangaId: string;
+  manga: IMangaTableSelect;
   viewAction?: boolean;
 };
 
 const MangaImageList: React.FC<IMangaImageList> = async (props) => {
-  const { mangaId, viewAction } = props;
+  const { manga, viewAction } = props;
 
-  const images = await GetMangaImages({ mangaId: mangaId });
+  const images = await GetMangaImages({ mangaId: manga[MODEL.MANGA.ID] });
 
   if (!images.status) return <ErrorPage />;
 
   return (
     <MuiImageList sx={{ height: 600 }} cols={5} rowHeight={320}>
       {images.data.map((item) => (
-        <MuiImageListItem key={item.id}>
-          <img
-            srcSet={`${toBucketPublicUrl(item.path)}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            src={`${toBucketPublicUrl(item.path)}?w=164&h=164&fit=crop&auto=format`}
-            alt={item.path}
-            loading="lazy"
-          />
-          {viewAction && (
-            <MuiImageListItemBar
-              title=""
-              position="below"
-              subtitle="set as cover"
-              actionIcon={
-                <MuiIconButton color="secondary">
-                  <HiPhoto />
-                </MuiIconButton>
-              }
-            />
-          )}
-        </MuiImageListItem>
+        <MangaImageListItem image={item} manga={manga} viewAction={viewAction} />
       ))}
     </MuiImageList>
   );
