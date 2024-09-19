@@ -1,4 +1,5 @@
 import PageActionBar from "@/components/custom/PageActionBar";
+import PageAppBar from "@/components/custom/PageAppBar";
 import Navigation from "@/components/ui/Navigation";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -9,14 +10,17 @@ const UserLayout: React.FC<ILayout> = async ({ children }) => {
 
   const session = await client.auth.getSession();
 
-  if (session.error) redirect("/");
+  if (!session.data.session) redirect("/");
 
   return (
-    <div className="flex min-h-screen justify-between p-20 gap-8 bg-zinc-100">
-      <Navigation />
-      {children}
-      <PageActionBar />
-    </div>
+    <>
+      <PageAppBar />
+      <div className="flex min-h-screen justify-between p-20 gap-8 bg-zinc-100">
+        <Navigation />
+        {children}
+        <PageActionBar />
+      </div>
+    </>
   );
 };
 

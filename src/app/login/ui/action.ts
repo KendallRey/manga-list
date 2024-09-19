@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import USER_ROUTE from "@/constants/ROUTES";
@@ -23,7 +23,7 @@ export async function userLoginAction(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect(USER_ROUTE.MANGA_PAGE.href);
+  redirect(USER_ROUTE.MANGA_PAGE.href, RedirectType.replace);
 }
 
 export async function userSignupAction(formData: FormData) {
