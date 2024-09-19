@@ -12,6 +12,7 @@ import MuiMenu from "../menu/Menu";
 import MuiMenuItem from "../menu-item/MenuItem";
 import MuiList, { MuiListItemButton, MuiListItemText } from "../list/List";
 import { getIndexOf } from "../helper/array";
+import { toSearchParams } from "@/app/api/helper/apiHelper";
 
 type ITablePagination = {
   count: number;
@@ -29,9 +30,8 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   const [searchValue, setSearchValue] = useState<string>(searchParams.get(name ?? DEFAULT_KEY) || "1");
 
   const updateSearchParams = useCallback(
-    (query: string | number, overrideName?: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-
+    (query: string | number, overrideName?: string, additionalParams?: Record<string, any>) => {
+      const params = toSearchParams(searchParams, additionalParams);
       if (query) {
         params.set(overrideName || name || DEFAULT_KEY, String(query)); // Set the query parameter
       } else {
@@ -106,8 +106,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   const onClickLimitOption = useCallback(
     (event: React.MouseEvent<HTMLElement>, index: number) => {
       setSelectedIndex(index);
-      updateSearchParams(LIMIT_OPTIONS[index], "limit");
-      updateSearchParams(1, "page");
+      updateSearchParams(LIMIT_OPTIONS[index], "limit", { page: 1 });
       setAnchorEl(null);
     },
     [LIMIT_OPTIONS, updateSearchParams],
