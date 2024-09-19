@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import supabaseImageLoader from "@/utils/supabase/loader/loader";
 import Image from "next/image";
@@ -12,7 +12,7 @@ type ISupabasePublicImage = {
   h?: number;
 };
 
-const SupabasePublicImage: React.FC<ISupabasePublicImage> = async (props) => {
+const SupabasePublicImage: React.FC<ISupabasePublicImage> = (props) => {
   const { path, alt, w, h } = props;
 
   return (
