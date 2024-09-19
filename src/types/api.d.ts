@@ -2,6 +2,8 @@ type IApiProps = {
   params?: IApiParams;
   skip?: boolean;
   ignore?: string[];
+  defaultParams?: IApiParams;
+  overrideParams?: IApiParams;
 };
 
 type IApiPostProps<T = Record<string, IValue>> = {
