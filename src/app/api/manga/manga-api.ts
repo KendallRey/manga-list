@@ -87,7 +87,6 @@ export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiRe
     if (isOverPage) return errorResponse({ code: API.CODE.ERROR.NOT_FOUND, error: API.MESSAGE.ERROR.INVALID_PAGE });
     return successResponse({ data: { count: count, results: mangas } });
   } catch (error) {
-    console.log("test", error);
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
