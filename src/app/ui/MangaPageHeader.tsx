@@ -4,6 +4,7 @@ import ImageServer from "./ImageServer";
 import { MODEL } from "@/model/model";
 import { getSignedUrlServer } from "@/utils/supabase/helper/server-storage";
 import MuiTypography from "@/components/typography/Typograph";
+import SupabasePublicImage from "@/utils/supabase/components/image/Image";
 
 type IMangaPageHeader = {
   manga: IMangaTableSelect;
@@ -28,7 +29,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
           }}
         ></div>
         <div className="flex z-10 justify-center max-h-[400px] min-h-[400px]">
-          <ImageServer path={manga[MODEL.MANGA.THUMBNAIL]} alt={manga[MODEL.MANGA.NAME]} />
+          <SupabasePublicImage path={manga[MODEL.MANGA.THUMBNAIL]} alt={manga[MODEL.MANGA.NAME]} />
         </div>
       </div>
       <MuiTypography fontSize={24}>{manga[MODEL.MANGA.NAME]}</MuiTypography>
