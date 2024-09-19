@@ -64,7 +64,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   };
 
   const pageCount = React.useMemo(() => {
-    let _tempLimit = limit !== undefined ? Number(limit) : API.PARAMS.DEFAULT.LIMIT;
+    const _tempLimit = limit !== undefined ? Number(limit) : API.PARAMS.DEFAULT.LIMIT;
     const _limit = isNaN(_tempLimit) ? API.PARAMS.DEFAULT.LIMIT : _tempLimit;
     if (!count) return;
     return Math.ceil(count / _limit);

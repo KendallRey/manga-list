@@ -21,7 +21,7 @@ const MangaImageList: React.FC<IMangaImageList> = async (props) => {
   return (
     <MuiImageList sx={{ height: 600 }} cols={5} rowHeight={320}>
       {images.data.map((item) => (
-        <MangaImageListItem image={item} manga={manga} viewAction={viewAction} />
+        <MangaImageListItem key={item.id} image={item} manga={manga} viewAction={viewAction} />
       ))}
     </MuiImageList>
   );
