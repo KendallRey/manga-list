@@ -6,6 +6,8 @@ NEXT_PUBLIC_SUPABASE_URL = <supabase_url>
 NEXT_PUBLIC_SUPABASE_ANON_KEY = <supabase_anon_key>
 NEXT_PUBLIC_SUPABASE_DATABASE_URL = <supabase_postgres_url>
 
+NEXT_PUBLIC_SUPABASE_PUBLIC_LOADER_URL = <bucket_url>
+
 NEXT_PUBLIC_FRONTEND_URL = http://localhost:3050/
 
 NEXT_PUBLIC_HOSTNAMES = <supabase_url>, <another_url>, <sample_url>
