@@ -128,6 +128,7 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
         </MuiTd>
         <MuiTd>
           <div className="flex items-center gap-2">
+            {item[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
             {item[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
             {item[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
             <MuiTypography variant="body2">{item.name}</MuiTypography>
