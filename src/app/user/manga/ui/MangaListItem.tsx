@@ -82,7 +82,9 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
     <>
       <MuiTr>
         <MuiTd>
-          <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
+          <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
+            <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
+          </MuiLink>
         </MuiTd>
         <MuiTd>{item.name}</MuiTd>
         <MuiTd>
@@ -94,19 +96,19 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
             </MuiLink>
             <ActionMenu>
               {item.hide ? (
-                <MuiMenuItem className="flex items-center gap-2 justify-between" onClick={onUnhide} disabled={loading}>
+                <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onUnhide} disabled={loading}>
                   <BiHide fontSize={20} /> Unhide
                 </MuiMenuItem>
               ) : (
-                <MuiMenuItem className="flex items-center gap-2 justify-between" onClick={onHide} disabled={loading}>
+                <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onHide} disabled={loading}>
                   <BiHide fontSize={20} /> Hide
                 </MuiMenuItem>
               )}
-              <MuiMenuItem className="flex items-center gap-2 justify-between" onClick={onUpdate} disabled={loading}>
+              <MuiMenuItem className="flex items-center gap-4 justify-between" onClick={onUpdate} disabled={loading}>
                 <BiEdit fontSize={20} /> Update
               </MuiMenuItem>
               <MuiMenuItem
-                className="flex items-center gap-2 justify-between text-red-500"
+                className="flex items-center gap-4 justify-between text-red-500"
                 onClick={onDelete}
                 disabled={loading}
               >

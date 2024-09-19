@@ -18,16 +18,16 @@ export const CSwal = async (props: SweetAlertOptions) => {
   return swal;
 };
 
-type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide" | "Unhide";
+type IHtmlAskActionType = "Delete" | "Update" | "Save" | "Hide" | "Unhide" | "Add";
 
 type IHtmlAskAction = {
-  name: string;
+  name?: string | null;
   type: IHtmlAskActionType;
 };
 
 export const htmlAskAction = (props: IHtmlAskAction) => {
   const { type, name } = props;
-  return `${type} <strong>${name}</strong> ?`;
+  return `${type} <strong>${name || "Record"}</strong> ?`;
 };
 
 type ISwalActionProps = {
