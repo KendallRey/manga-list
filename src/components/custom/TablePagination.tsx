@@ -107,6 +107,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
     (event: React.MouseEvent<HTMLElement>, index: number) => {
       setSelectedIndex(index);
       updateSearchParams(LIMIT_OPTIONS[index], "limit");
+      updateSearchParams(1, "page");
       setAnchorEl(null);
     },
     [LIMIT_OPTIONS, updateSearchParams],
