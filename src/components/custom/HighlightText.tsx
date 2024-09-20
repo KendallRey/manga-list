@@ -15,16 +15,18 @@ const HighlightText: React.FC<IHighlightText> = (props) => {
   const { text, subString } = props;
 
   const textStrings = useMemo((): IText[] => {
-    if (!subString || !text) return [{ type: "bold", value: text }];
+    if (!subString || !text) return [{ type: "normal", value: text }];
     const strings: IText[] = [];
     const _text = text.toLowerCase();
     const _subString = subString.toLowerCase();
     const hasTheValue = _text.indexOf(_subString);
-    if (hasTheValue === -1) return [{ type: "bold", value: text }];
+    if (hasTheValue === -1) return [{ type: "normal", value: text }];
 
     const subStrings = _text.split(_subString);
     const isHighlightFirst = hasTheValue === 0;
-    if (isHighlightFirst) subStrings.shift();
+    if (isHighlightFirst) {
+      subStrings.shift();
+    }
     let lastRealSubIndex = 0;
     let lastRealIndex = 0;
     subStrings.forEach((sub) => {
