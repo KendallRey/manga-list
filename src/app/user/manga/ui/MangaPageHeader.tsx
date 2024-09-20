@@ -14,6 +14,7 @@ import { getSearchParams } from "@/app/api/helper/apiHelper";
 import ErrorPage from "@/app/error/page";
 import { HiEye } from "react-icons/hi2";
 import MuiChip from "@/components/chip/Chip";
+import HighlightText from "@/components/custom/HighlightText";
 
 type IMangaPageHeader = {
   listId: ID;
@@ -79,7 +80,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
               }
               disableTypography
             >
-              {manga[MODEL.MANGA.NAME]}
+              <HighlightText text={manga[MODEL.MANGA.NAME]} subString={q ? String(q) : null} />
             </MuiListItemText>
           </MuiListItem>
         ))}
