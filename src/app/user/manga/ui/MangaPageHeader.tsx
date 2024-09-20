@@ -15,6 +15,7 @@ import ErrorPage from "@/app/error/page";
 import { HiEye } from "react-icons/hi2";
 import MuiChip from "@/components/chip/Chip";
 import HighlightText from "@/components/custom/HighlightText";
+import MangaItemActions from "./MangaItemActions";
 
 type IMangaPageHeader = {
   listId: ID;
@@ -57,6 +58,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
                 <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
                   <BiEdit fontSize={24} />
                 </MuiLink>
+                <MangaItemActions manga={manga} hideUpdate />
               </div>
             }
           >
