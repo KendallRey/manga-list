@@ -29,13 +29,14 @@ const HighlightText: React.FC<IHighlightText> = (props) => {
     }
     let lastRealSubIndex = 0;
     let lastRealIndex = 0;
+    const subStringOffset = subString.length <= 1 ? 1 : subString.length - 1;
     subStrings.forEach((sub) => {
       const realSubIndex = _text.indexOf(sub, lastRealSubIndex);
       lastRealSubIndex = realSubIndex;
       const realSub = text.substring(realSubIndex, realSubIndex + sub.length);
 
       const realIndex = _text.indexOf(subString, lastRealIndex);
-      lastRealIndex = realIndex + subString.length - 1;
+      lastRealIndex = realIndex + subStringOffset;
       const real = text.substring(realIndex, realIndex + subString.length);
       if (isHighlightFirst) {
         strings.push({
