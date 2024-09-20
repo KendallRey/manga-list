@@ -27,7 +27,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
   const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q, name: "asc" },
+    params: { q, name: "desc" },
     overrideParams: { hide: "all" },
     listId: String(listId),
     skip: !q,
