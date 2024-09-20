@@ -1,10 +1,12 @@
 "use client";
 
 import API from "@/app/api/API";
-import { toSearchParams } from "@/app/api/helper/apiHelper";
+import { removeKeySearchParams, toSearchParams } from "@/app/api/helper/apiHelper";
 import MuiButton from "@/components/button/Button";
 import MuiCheckbox, { FormCheckbox } from "@/components/checkbox/Checkbox";
+import MuiChip from "@/components/chip/Chip";
 import MuiDrawer from "@/components/drawer/Drawer";
+import { formatToLabel } from "@/components/helper/component";
 import { FormRadio, FormRadioGroup } from "@/components/radio/Radio";
 import MuiTypography from "@/components/typography/Typograph";
 import { useRouter } from "next/navigation";
@@ -18,9 +20,7 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
 
   const [open, setOpen] = useState(false);
 
-  const params = useMemo(() => {
-    return toSearchParams(searchParams);
-  }, [searchParams]);
+  const params = useMemo(() => toSearchParams(searchParams), [searchParams]);
 
   const onChange = useCallback(
     (e: RCE<HTMLInputElement>) => {
@@ -34,9 +34,23 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
     [router, searchParams],
   );
 
+  const onRemoveFilter = useCallback(
+    (key: string) => {
+      const _params = toSearchParams(searchParams, { page: 1 });
+      removeKeySearchParams(_params, key, ["all", "true"]);
+      router.replace(`?${_params.toString()}`, { scroll: false });
+    },
+    [router, searchParams],
+  );
+
   return (
     <>
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          {params.get("hide") && (
+            <MuiChip label={`Hide: ${formatToLabel(params.get("hide"))}`} onDelete={() => onRemoveFilter("hide")} />
+          )}
+        </div>
         <MuiButton onClick={() => setOpen(true)}>Filter</MuiButton>
       </div>
       <MuiDrawer anchor="right" open={open} onClose={() => setOpen(false)} keepMounted={true}>
