@@ -14,6 +14,8 @@ import { getSearchParams } from "@/app/api/helper/apiHelper";
 import ErrorPage from "@/app/error/page";
 import { HiEye } from "react-icons/hi2";
 import MuiChip from "@/components/chip/Chip";
+import HighlightText from "@/components/custom/HighlightText";
+import MangaItemActions from "./MangaItemActions";
 
 type IMangaPageHeader = {
   listId: ID;
@@ -26,7 +28,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
   const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q, name: "asc" },
+    params: { q, name: "desc" },
     overrideParams: { hide: "all" },
     listId: String(listId),
     skip: !q,
@@ -56,6 +58,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
                 <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
                   <BiEdit fontSize={24} />
                 </MuiLink>
+                <MangaItemActions manga={manga} hideUpdate />
               </div>
             }
           >
@@ -79,7 +82,7 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
               }
               disableTypography
             >
-              {manga[MODEL.MANGA.NAME]}
+              <HighlightText text={manga[MODEL.MANGA.NAME]} subString={q ? String(q) : null} />
             </MuiListItemText>
           </MuiListItem>
         ))}

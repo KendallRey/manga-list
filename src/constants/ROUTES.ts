@@ -62,6 +62,15 @@ const MANGA_PAGE = {
 
 // #endregion
 
+// #region Images Page
+
+const IMAGES_PAGE = {
+  name: "Manga Images",
+  href: `/user/images`,
+} as const;
+
+// #endregion
+
 // #region Profile Page
 
 const PROFILE_PAGE = {
@@ -74,6 +83,7 @@ const PROFILE_PAGE = {
 const USER_ROUTE = {
   DASHBOARD_PAGE,
   MANGA_PAGE,
+  IMAGES_PAGE,
   PROFILE_PAGE,
 } as const;
 

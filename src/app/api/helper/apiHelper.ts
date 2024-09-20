@@ -60,6 +60,46 @@ export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record
 };
 
 /**
+ * Removes a specified key from `URLSearchParams` based on the provided conditions.
+ *
+ * @param params - An instance of `URLSearchParams` from which the key will be removed.
+ * @param key - The key in the search parameters that should be removed.
+ * @param withValues - An optional array of values. If provided, the key will only be removed if its current value is included in this array.
+ *
+ * @remarks
+ * - If `withValues` is not provided, the key will always be removed.
+ * - If `withValues` is provided, the key will only be removed if the current value of the key matches one of the values in the `withValues` array.
+ *
+ * @example
+ * // Example without `withValues`
+ * const params = new URLSearchParams('foo=1&bar=2');
+ * removeKeySearchParams(params, 'foo');
+ * // Result: params.toString() -> 'bar=2'
+ *
+ * @example
+ * // Example with `withValues`
+ * const params = new URLSearchParams('foo=1&bar=2');
+ * removeKeySearchParams(params, 'foo', ['1', '3']);
+ * // Result: params.toString() -> 'bar=2'
+ *
+ * @example
+ * // Example where key is not removed as value doesn't match `withValues`
+ * const params = new URLSearchParams('foo=1&bar=2');
+ * removeKeySearchParams(params, 'foo', ['3']);
+ * // Result: params.toString() -> 'foo=1&bar=2'
+ *
+ * @returns `void` - The function directly modifies the provided `params` object.
+ */
+export const removeKeySearchParams = (params: URLSearchParams, key: string, withValues?: unknown[]) => {
+  const value = params.get(key);
+  if (withValues) {
+    if (withValues.includes(value)) params.delete(key);
+  } else {
+    params.delete(key);
+  }
+};
+
+/**
  * Extracts search parameters and converts them into an object with predefined keys and defaults.
  *
  * @param {IApiParams | URLSearchParams} [params] - The input search parameters.
