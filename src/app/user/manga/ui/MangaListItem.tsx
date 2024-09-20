@@ -6,13 +6,13 @@ import { MuiTd, MuiTr } from "@/components/table/Table";
 import USER_ROUTE from "@/constants/ROUTES";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { Avatar } from "@mui/material";
+import MangaItemActions from "./MangaItemActions";
 import React, { useState } from "react";
 import { HiEye } from "react-icons/hi2";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { MODEL } from "@/model/model";
 import MuiTypography from "@/components/typography/Typograph";
 import MuiChip from "@/components/chip/Chip";
-import MangaItemActions from "./MangaItemActions";
 
 type IMangaListItem = {
   item: IMangaTableSelect;
