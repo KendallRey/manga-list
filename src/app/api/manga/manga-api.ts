@@ -46,11 +46,11 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   }
 };
 
-type IGetUserMangaList = {
+type IGetMangaList = {
   listId: string;
 } & IApiProps;
 
-export const GetUserMangaList = async (props: IGetUserMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
+export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
 
   try {

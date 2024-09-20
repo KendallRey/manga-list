@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 import { CreateUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { AddUserManga, ArchivedUserManga, UpdateUserManga } from "@/app/api/manga/manga-api";
@@ -22,6 +22,7 @@ import { errorResponse, successResponse } from "../api/helper/apiHelper";
 import { uploadMangaImageToStorage } from "../api/storage/upload";
 import { eq, sql } from "drizzle-orm";
 import { getValidationErrors } from "@/model/helper/validation";
+import USER_ROUTE from "@/constants/ROUTES";
 
 export async function createMangaListAction() {
   const { error } = await CreateUserMangaList({});
@@ -30,7 +31,7 @@ export async function createMangaListAction() {
     redirect("/error");
   }
 
-  revalidatePath("/", "layout");
+  redirect(USER_ROUTE.MANGA_PAGE.href, RedirectType.replace);
 }
 
 export async function addMangaAction(payload: object) {
