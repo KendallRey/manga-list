@@ -1,13 +1,16 @@
 "use client";
 
 import { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { HiPhoto } from "react-icons/hi2";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
 import Image from "next/image";
+import { BiEdit } from "react-icons/bi";
+import { useRouter } from "next/navigation";
+import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 
 type IMangaImageListItem = {
   index?: number;
@@ -17,6 +20,12 @@ type IMangaImageListItem = {
 
 const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   const { index, manga, viewAction } = props;
+
+  const router = useRouter();
+
+  const onClickEdit = useCallback(() => {
+    router.push(USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]));
+  }, [router, manga]);
 
   // const onSetMangaThumbnail = useCallback(async () => {
   //   setIsLoading(true);
@@ -34,7 +43,7 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   }, [manga]);
 
   return (
-    <MuiImageListItem key={manga.id}>
+    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }}>
       <img
         srcSet={`${srcPath}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
         src={`${srcPath}?w=164&h=164&fit=crop&auto=format`}
@@ -46,8 +55,8 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
           title={manga[MODEL.MANGA.NAME]}
           position="bottom"
           actionIcon={
-            <MuiIconButton color="secondary">
-              <HiPhoto />
+            <MuiIconButton color="secondary" onClick={onClickEdit}>
+              <BiEdit />
             </MuiIconButton>
           }
         />
