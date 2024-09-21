@@ -9,14 +9,13 @@ import { IMangaImageTableSelect, IMangaTableSelect } from "@/utils/drizzle/schem
 import { MODEL } from "@/model/model";
 
 type IMangaImageListItem = {
+  index?: number;
   manga: IMangaTableSelect;
   viewAction?: boolean;
 };
 
 const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
-  const { manga, viewAction } = props;
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { index, manga, viewAction } = props;
 
   // const onSetMangaThumbnail = useCallback(async () => {
   //   setIsLoading(true);
@@ -39,9 +38,8 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
       />
       {viewAction && (
         <MuiImageListItemBar
-          title=""
-          position="below"
-          subtitle="set as cover"
+          title={manga[MODEL.MANGA.NAME]}
+          position="bottom"
           actionIcon={
             <MuiIconButton color="secondary">
               <HiPhoto />
