@@ -1,4 +1,4 @@
-import { pgTable, varchar, timestamp, boolean, uuid, index } from "drizzle-orm/pg-core";
+import { pgTable, varchar, timestamp, boolean, uuid, index, pgEnum } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { MODEL } from "@/model/model";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -18,6 +18,8 @@ export type IMangaListTableSelect = typeof MangaListTable.$inferSelect;
 export const insertMangaListSchema = createInsertSchema(MangaListTable);
 export const selectMangaListSchema = createSelectSchema(MangaListTable);
 
+export const MangaTypeEnum = pgEnum(MODEL.MANGA.TYPE, Object.values(MODEL.ENUM.MANGA_TYPE) as [string, ...string[]]);
+
 export const MangaTable = pgTable(
   MODEL.MANGA.name,
   {
@@ -34,6 +36,7 @@ export const MangaTable = pgTable(
     [MODEL.MANGA.HIDE]: boolean(MODEL.MANGA.HIDE).default(false),
     [MODEL.MANGA.DANGER]: boolean(MODEL.MANGA.DANGER).default(false),
     [MODEL.MANGA.SPICY]: boolean(MODEL.MANGA.SPICY).default(false),
+    [MODEL.MANGA.TYPE]: MangaTypeEnum(MODEL.MANGA.TYPE),
   },
   (table) => {
     return {
@@ -52,6 +55,7 @@ export const upsertMangaSchema = createSelectSchema(MangaTable).pick({
   [MODEL.MANGA.SPICY]: true,
   [MODEL.MANGA.DANGER]: true,
   [MODEL.MANGA.URL]: true,
+  [MODEL.MANGA.TYPE]: true,
 });
 export const selectMangaSchema = createSelectSchema(MangaTable);
 

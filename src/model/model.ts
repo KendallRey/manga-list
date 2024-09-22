@@ -13,6 +13,11 @@ export const USER_PROFILE_MODEL = {
   USER_ID: "user_id",
 } as const;
 
+export const MANGA_TYPE_ENUM = ["manga", "manhwa", "manhua"];
+// manga = Japan
+// manhwa = South Korean
+// manhua = Chinese
+
 export const MANGA_MODEL = {
   ...BASE_MODEL,
   name: "manga",
@@ -21,6 +26,7 @@ export const MANGA_MODEL = {
   URL: "url",
   THUMBNAIL: "thumbnail",
   DESCRIPTION: "description",
+  TYPE: "type",
   HIDE: "hide",
   DANGER: "danger", // 😉
   SPICY: "spicy", // 😏
@@ -45,10 +51,15 @@ export const MANGA_IMAGE_MODEL = {
   PUBLIC_URL: "public_url",
 } as const;
 
+const ENUM = {
+  MANGA_TYPE: MANGA_TYPE_ENUM,
+} as const;
+
 export const MODEL = {
   BASE: BASE_MODEL,
   USER_PROFILE: USER_PROFILE_MODEL,
   MANGA: MANGA_MODEL,
+  ENUM: ENUM,
   MANGA_LIST: MANGA_LIST_MODEL,
   MANGA_IMAGE: MANGA_IMAGE_MODEL,
 } as const;
