@@ -52,10 +52,11 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   }, []);
 
   return (
-    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }} onClick={onClickImage}>
+    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }}>
       <img
+        onClick={onClickImage}
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
-        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200`}
+        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200 cursor-pointer`}
       />
       <img
         srcSet={`${srcPath}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
