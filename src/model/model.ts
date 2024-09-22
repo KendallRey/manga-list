@@ -13,7 +13,11 @@ export const USER_PROFILE_MODEL = {
   USER_ID: "user_id",
 } as const;
 
-export const MANGA_TYPE_ENUM = ["manga", "manhwa", "manhua"];
+export const MANGA_TYPE_ENUM = {
+  MANGA: "manga",
+  MANHWA: "manhwa",
+  MANHUA: "manhua",
+};
 // manga = Japan
 // manhwa = South Korean
 // manhua = Chinese
