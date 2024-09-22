@@ -2,6 +2,7 @@
 
 import { FormCheckbox } from "@/components/checkbox/Checkbox";
 import { TEXT } from "@/components/helper/field";
+import { FormRadio, FormRadioGroup } from "@/components/radio/Radio";
 import MuiTextField from "@/components/text-field/TextField";
 import { MODEL } from "@/model/model";
 import { editMangaForm } from "@/redux/features/manga/mangaFormSlice";
@@ -73,6 +74,17 @@ const MangaForm: React.FC<IMangaForm> = (props) => {
             disabled={isLoading}
           />
         </div>
+        <FormRadioGroup
+          label={"Type:"}
+          name={MODEL.MANGA.TYPE}
+          onChange={onChange}
+          value={form[MODEL.MANGA.TYPE] ?? ""}
+          row
+        >
+          <FormRadio label={"Manga"} value={MODEL.ENUM.MANGA_TYPE.MANGA} disabled={isLoading} />
+          <FormRadio label={"Manhwa"} value={MODEL.ENUM.MANGA_TYPE.MANHWA} disabled={isLoading} />
+          <FormRadio label={"Manhua"} value={MODEL.ENUM.MANGA_TYPE.MANHUA} disabled={isLoading} />
+        </FormRadioGroup>
         {children}
       </form>
     </>
