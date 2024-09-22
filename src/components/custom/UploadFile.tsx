@@ -5,6 +5,7 @@ import MuiDivider from "@/components/divider/Divider";
 import { FileValidator } from "@/components/helper/files";
 import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/notistack";
 import MuiTypography from "@/components/typography/Typograph";
+import { CircularProgress } from "@mui/material";
 import React, { useCallback, useRef, useState } from "react";
 
 type IUploadFile = {
@@ -91,7 +92,13 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
     >
       <input ref={inputRef} value={""} className="hidden" type="file" onChange={onAttachFile} disabled={isLoading} />
       <div className="flex justify-center gap-2 items-center flex-wrap">
-        <MuiButton className="text-center" size="large" variant="outlined" onClick={() => inputRef.current?.click()}>
+        <MuiButton
+          className="text-center"
+          size="large"
+          variant="outlined"
+          onClick={() => inputRef.current?.click()}
+          disabled={isLoading}
+        >
           Browse File
         </MuiButton>
         <MuiTypography fontSize={16}>or</MuiTypography>
@@ -101,7 +108,12 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
       </div>
       <MuiTypography className="text-center">{file?.name}</MuiTypography>
       <MuiDivider />
-      <MuiButton onClick={uploadFile} disabled={isLoading}>
+      <MuiButton
+        onClick={uploadFile}
+        disabled={isLoading}
+        startIcon={<CircularProgress size={20} hidden={!isLoading} />}
+        endIcon={<CircularProgress size={20} hidden={!isLoading} />}
+      >
         {actionText ?? "Upload"}
       </MuiButton>
     </div>
