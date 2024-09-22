@@ -53,7 +53,6 @@ export const upsertMangaSchema = createSelectSchema(MangaTable).pick({
   [MODEL.MANGA.DANGER]: true,
   [MODEL.MANGA.URL]: true,
 });
-export type TEST = z.infer<typeof upsertMangaSchema>;
 export const selectMangaSchema = createSelectSchema(MangaTable);
 
 export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
