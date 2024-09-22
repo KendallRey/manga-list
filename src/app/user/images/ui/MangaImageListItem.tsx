@@ -1,7 +1,7 @@
 "use client";
 
 import { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { HiPhoto } from "react-icons/hi2";
 import MuiIconButton from "@/components/icon-button/IconButton";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
+import MuiChip from "@/components/chip/Chip";
 
 type IMangaImageListItem = {
   index?: number;
@@ -42,18 +43,41 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
     return manga[MODEL.MANGA.THUMBNAIL] ? `${toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])}` : "/images/404.jpg";
   }, [manga]);
 
+  const [isBlur, setIsBlur] = useState(
+    manga[MODEL.MANGA.DANGER] || manga[MODEL.MANGA.SPICY] || manga[MODEL.MANGA.HIDE],
+  );
+
+  const onClickImage = useCallback(() => {
+    setIsBlur((prev) => !prev);
+  }, []);
+
   return (
-    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }}>
+    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }} onClick={onClickImage}>
+      <img
+        src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
+        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200`}
+      />
       <img
         srcSet={`${srcPath}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
         src={`${srcPath}?w=164&h=164&fit=crop&auto=format`}
         alt={manga[MODEL.MANGA.NAME]}
         loading="lazy"
+        className="duration-200"
+        style={{
+          filter: isBlur ? "blur(32px)" : "",
+        }}
       />
       {viewAction && (
         <MuiImageListItemBar
           title={manga[MODEL.MANGA.NAME]}
           position="bottom"
+          subtitle={
+            <div className="flex gap-2">
+              {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
+              {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
+              {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+            </div>
+          }
           actionIcon={
             <MuiIconButton color="secondary" onClick={onClickEdit}>
               <BiEdit />
