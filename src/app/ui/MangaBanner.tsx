@@ -10,7 +10,8 @@ type IMangaBanner = {
 
 const MangaBanner: React.FC<IMangaBanner> = (props) => {
   const { manga } = props;
-  const bgUrl = toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) || "";
+
+  const bgUrl = manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg";
 
   return (
     <div className="relative flex justify-center flex-grow max-w-[500px] mx-auto">
