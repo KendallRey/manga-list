@@ -2,10 +2,11 @@
 
 import MuiImageList from "@/components/image/Image";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MangaImageListItem from "./MangaImageListItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 type IMangaImageList = {
   mangas: IMangaTableSelect[];
@@ -19,6 +20,13 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
 
   const router = useRouter();
   const params = useSearchParams();
+  const theme = useTheme();
+
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const colSpan = useMemo(() => (isLg ? 5 : isMd ? 3 : isSm ? 2 : 1), [isLg, isMd, isSm]);
 
   const [lastCount, setLastCount] = useState(mangas.length);
 
@@ -43,7 +51,7 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
 
   return (
     <MuiImageList
-      cols={5}
+      cols={colSpan}
       rowHeight={350}
       sx={{
         width: "100%",
