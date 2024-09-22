@@ -2,6 +2,7 @@ import { pgTable, varchar, timestamp, boolean, uuid, index } from "drizzle-orm/p
 import { sql } from "drizzle-orm";
 import { MODEL } from "@/model/model";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const MangaListTable = pgTable(MODEL.MANGA_LIST.name, {
   [MODEL.MANGA_LIST.ID]: uuid(MODEL.MANGA_LIST.ID).primaryKey().defaultRandom(),
@@ -47,7 +48,12 @@ export const upsertMangaSchema = createSelectSchema(MangaTable).pick({
   [MODEL.MANGA.ID]: true,
   [MODEL.MANGA.NAME]: true,
   [MODEL.MANGA.DESCRIPTION]: true,
+  [MODEL.MANGA.HIDE]: true,
+  [MODEL.MANGA.SPICY]: true,
+  [MODEL.MANGA.DANGER]: true,
+  [MODEL.MANGA.URL]: true,
 });
+export type TEST = z.infer<typeof upsertMangaSchema>;
 export const selectMangaSchema = createSelectSchema(MangaTable);
 
 export const MangaImageTable = pgTable(MODEL.MANGA_IMAGE.name, {
