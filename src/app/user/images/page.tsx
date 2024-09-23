@@ -1,5 +1,5 @@
 import { getSearchParams } from "@/app/api/helper/apiHelper";
-import { GetMangaList, GetUserMangas } from "@/app/api/manga/manga-api";
+import { GetMangaList } from "@/app/api/manga/manga-api";
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
@@ -7,6 +7,7 @@ import CreateMangaList from "../manga/ui/CreateMangaList";
 import ErrorPage from "@/app/error/page";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import MangaImageList from "./ui/MangaImageList";
+import Search from "@/components/custom/Search";
 
 const MangaImagesPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -25,7 +26,7 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
   const { q, limit, ...params } = getSearchParams({ limit: 20, ...searchParams });
   const mangasResponse = await GetMangaList({
     defaultParams: {},
-    params: { limit: limit, ...params },
+    params: { limit: limit, q, ...params },
     listId: mangaList.id,
   });
 
@@ -38,7 +39,7 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
   return (
     <Dashboard>
       <MuiPaper className=" p-4" elevation={2} color="primary">
-        Filter Here
+        <Search />
       </MuiPaper>
       <MuiPaper className="flex-grow p-4" elevation={2} color="primary">
         <MangaImageList mangas={results} canLoadMore={results.length < count} />
