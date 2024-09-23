@@ -22,11 +22,10 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
 
   const mangaList = mangaListResponse.data[0];
 
-  const { q, ...params } = getSearchParams(searchParams);
-
+  const { q, limit, ...params } = getSearchParams({ limit: 20, ...searchParams });
   const mangasResponse = await GetMangaList({
-    params: { ...params },
-    overrideParams: { limit: 10 },
+    defaultParams: {},
+    params: { limit: limit, ...params },
     listId: mangaList.id,
   });
 
@@ -34,13 +33,15 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
     return <ErrorPage />;
   }
 
+  const { results, count } = mangasResponse.data;
+
   return (
     <Dashboard>
       <MuiPaper className=" p-4" elevation={2} color="primary">
         Filter Here
       </MuiPaper>
       <MuiPaper className="flex-grow p-4" elevation={2} color="primary">
-        <MangaImageList mangas={mangasResponse.data.results} />
+        <MangaImageList mangas={results} canLoadMore={results.length < count} />
       </MuiPaper>
     </Dashboard>
   );

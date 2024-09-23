@@ -12,17 +12,15 @@ import {
   insertMangaSchema,
   MangaImageTable,
   MangaTable,
-  selectMangaSchema,
   upsertMangaSchema,
 } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import API from "../api/API";
 import { errorResponse, successResponse } from "../api/helper/apiHelper";
-import { uploadMangaImageToStorage } from "../api/storage/upload";
 import { eq, sql } from "drizzle-orm";
-import { getValidationErrors } from "@/model/helper/validation";
 import USER_ROUTE from "@/constants/ROUTES";
+import { formDataToObject } from "@/model/helper/form";
 
 export async function createMangaListAction() {
   const { error } = await CreateUserMangaList({});
@@ -58,12 +56,22 @@ export async function archivedMangaAction(id: ID) {
   return response;
 }
 
-export async function updateMangaFormAction(formData: FormData) {
-  const data: Record<string, any> = {};
+export async function updateMangaAction(_id: string, data: Record<string, any>) {
+  const validation = upsertMangaSchema.safeParse({ id: _id, ...data });
+  if (!validation.success) {
+    return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST, error: API.MESSAGE.ERROR.INCOMPLETE_FORM });
+  }
 
-  formData.forEach((value, key) => {
-    data[key] = value;
-  });
+  const {
+    data: { id, ...payload },
+  } = validation;
+  const response = await UpdateUserManga({ id, payload });
+  if (response.status) revalidatePath("/", "layout");
+  return response;
+}
+
+export async function updateMangaFormAction(formData: FormData) {
+  const data = formDataToObject(formData);
 
   const validation = upsertMangaSchema.safeParse(data);
   if (!validation.success) {

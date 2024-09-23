@@ -1,5 +1,8 @@
+import { FORM_SLICE, SKIP_KEYS } from "./form-slice";
+
 const REDUX_SLICE = {
   SAMPLE: "sample-slice",
+  ...FORM_SLICE,
 } as const;
 
 const REDUX_API = {
@@ -13,6 +16,7 @@ const REDUX_API = {
 export const REDUX = {
   FIELD: {
     KEY: "_latestKey",
+    SKIPS: SKIP_KEYS,
   },
   SLICE: REDUX_SLICE,
   API: REDUX_API,

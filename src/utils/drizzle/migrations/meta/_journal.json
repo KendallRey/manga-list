@@ -50,6 +50,13 @@
       "when": 1726723154759,
       "tag": "0006_optimal_rattler",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1727015691753,
+      "tag": "0007_sturdy_hellfire_club",
+      "breakpoints": true
     }
   ]
 }

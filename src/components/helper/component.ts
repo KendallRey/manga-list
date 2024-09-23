@@ -123,3 +123,33 @@ export const parseToPage = (value: unknown, max?: number): number => {
 
   return page;
 };
+
+/**
+ * Parses the given value to an integer. If parsing fails, it returns the provided default value or `NaN` if no default is given.
+ *
+ * @param {unknown} value - The value to be parsed as an integer. This can be of any type.
+ * @param {number} [defaultValue] - The optional default value to return if parsing fails.
+ *
+ * @returns {number} - The parsed integer or the default value (if parsing fails). Returns `NaN` if parsing fails and no default is provided.
+ *
+ * @example
+ * parseToInt("123"); // Returns 123
+ *
+ * @example
+ * parseToInt("abc", 10); // Returns 10 (because "abc" cannot be parsed)
+ *
+ * @example
+ * parseToInt("abc"); // Returns NaN (because "abc" cannot be parsed and no defaultValue is provided)
+ *
+ * @example
+ * parseToInt(456); // Returns 456 (since the value is already a number)
+ */
+export const parseToInt = (value: unknown, defaultValue?: number): number => {
+  const parsed = parseInt(value as string, 10);
+
+  if (isNaN(parsed)) {
+    return defaultValue !== undefined ? defaultValue : NaN;
+  }
+
+  return parsed;
+};

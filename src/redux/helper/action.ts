@@ -97,6 +97,17 @@ export const setFormErrorAction = <T>(state: IReduxFormState<T>, action: Payload
 };
 
 /**
+ * Edits the form error state with the provided payload.
+ * @template T - The type of the form state.
+ * @param state - The current form state.
+ * @param action - The action containing the error payload to update.
+ */
+export const editFormErrorAction = <T>(state: IReduxFormState<T>, action: PayloadAction<Record<string, any>>) => {
+  const { payload } = action;
+  state.error = { ...state.error, ...payload };
+};
+
+/**
  * Clears the form error state.
  * @template T - The type of the form state.
  * @param state - The current form state.
