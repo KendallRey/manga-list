@@ -58,7 +58,7 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
           <MuiTypography fontSize={24}>Filter</MuiTypography>
           <div className="grid grid-cols-1">
             <FormRadioGroup
-              label="Display List"
+              label="Display List:"
               name="hide"
               value={params.get("hide") ?? API.PARAMS.DEFAULT.KEY}
               onChange={onChange}
@@ -66,6 +66,19 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
               <FormRadio value={API.PARAMS.DEFAULT.KEY} label="Default" />
               <FormRadio value="true" label="Hidden Only" />
               <FormRadio value="all" label="All Entries" />
+            </FormRadioGroup>
+          </div>
+          <div className="grid grid-cols-1">
+            <FormRadioGroup
+              label="Type:"
+              name="type"
+              value={params.get("type") ?? API.PARAMS.DEFAULT.KEY}
+              onChange={onChange}
+            >
+              <FormRadio value={API.PARAMS.DEFAULT.KEY} label="All" />
+              <FormRadio value="manga" label="Manga" />
+              <FormRadio value="manhwa" label="Manhwa" />
+              <FormRadio value="manhua" label="Manhua" />
             </FormRadioGroup>
           </div>
         </div>
