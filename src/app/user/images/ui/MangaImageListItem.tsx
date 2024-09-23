@@ -12,6 +12,7 @@ import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import MuiChip from "@/components/chip/Chip";
+import MuiLink from "@/components/link/Link";
 
 type IMangaImageListItem = {
   index?: number;
@@ -25,7 +26,7 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   const router = useRouter();
 
   const onClickEdit = useCallback(() => {
-    router.push(USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]));
+    router.push(USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]), { scroll: false });
   }, [router, manga]);
 
   // const onSetMangaThumbnail = useCallback(async () => {
@@ -80,9 +81,11 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
             </div>
           }
           actionIcon={
-            <MuiIconButton color="secondary" onClick={onClickEdit}>
-              <BiEdit />
-            </MuiIconButton>
+            <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
+              <MuiIconButton color="secondary">
+                <BiEdit />
+              </MuiIconButton>
+            </MuiLink>
           }
         />
       )}
