@@ -66,7 +66,7 @@ const HighlightText: React.FC<IHighlightText> = (props) => {
 
     return strings;
   }, [text, subString]);
-  console.log("first", textStrings);
+
   return (
     <>
       {textStrings.map((item, i) => {
