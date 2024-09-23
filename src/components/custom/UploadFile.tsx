@@ -7,10 +7,18 @@ import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/noti
 import MuiTypography from "@/components/typography/Typograph";
 import { CircularProgress } from "@mui/material";
 import React, { useCallback, useRef, useState } from "react";
+import MuiImageList, { MuiImageListItem } from "../image/Image";
+import { nanoid } from "@reduxjs/toolkit";
 
 type IUploadFile = {
   uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
   actionText?: string;
+};
+
+type IImageToUpload = {
+  key: string;
+  url: string;
+  setAsCover: boolean;
 };
 
 const UploadFile: React.FC<IUploadFile> = (props) => {
@@ -28,6 +36,8 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
     setIsLoading(false);
   }, [file, uploadFn]);
 
+  const [imagesToUpload, setImagesToUpload] = useState<IImageToUpload[]>([]);
+
   const onAttachFile = useCallback((e: RCE<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files || !files.length) return;
@@ -35,6 +45,18 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
     const file = files.item(0);
     if (!file) return;
     setFile(file);
+
+    const _images: IImageToUpload[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const _file = files.item(i);
+      if (!_file) return;
+      _images.push({
+        key: nanoid(),
+        url: URL.createObjectURL(_file),
+        setAsCover: false,
+      });
+    }
+    setImagesToUpload(_images);
   }, []);
 
   // #region Dragging
@@ -90,7 +112,15 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
       onDragOver={(e) => handleOnDrag(e, true)}
       onDrop={handleOnDrop}
     >
-      <input ref={inputRef} value={""} className="hidden" type="file" onChange={onAttachFile} disabled={isLoading} />
+      <input
+        ref={inputRef}
+        value={""}
+        className="hidden"
+        type="file"
+        onChange={onAttachFile}
+        disabled={isLoading}
+        multiple
+      />
       <div className="flex justify-center gap-2 items-center flex-wrap">
         <MuiButton
           className="text-center"
@@ -116,8 +146,28 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
       >
         {actionText ?? "Upload"}
       </MuiButton>
+      <div className="w-full">
+        <ImageList imagesToUpload={imagesToUpload} />
+      </div>
     </div>
   );
 };
 
 export default UploadFile;
+
+type IImageList = {
+  imagesToUpload: IImageToUpload[];
+};
+
+const ImageList: React.FC<IImageList> = (props) => {
+  const { imagesToUpload } = props;
+  return (
+    <MuiImageList cols={2} rowHeight={540} sx={{ width: 500 }} className="mx-auto">
+      {imagesToUpload.map((image) => (
+        <MuiImageListItem key={image.key}>
+          <img src={image.url} />
+        </MuiImageListItem>
+      ))}
+    </MuiImageList>
+  );
+};
