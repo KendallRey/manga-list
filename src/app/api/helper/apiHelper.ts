@@ -17,6 +17,9 @@ export const toSearchParams = (params?: IApiParams, defaultParams?: Record<strin
   let _params: IApiParams = {};
   if (params instanceof URLSearchParams) {
     params.forEach((value, key) => {
+      if (value === "null") {
+        return;
+      }
       _params[key] = value;
     });
   } else {
@@ -122,7 +125,7 @@ export const getSearchParams = (params?: IApiParams | URLSearchParams): Record<s
 
   return {
     ...paramsObj,
-    q,
+    q: q !== "null" ? q : null,
     page,
     limit,
   };
