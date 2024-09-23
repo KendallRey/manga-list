@@ -1,5 +1,5 @@
 import { PgTableWithColumns, TableConfig } from "drizzle-orm/pg-core";
-import { eq, ilike, SQL, asc, desc } from "drizzle-orm/sql";
+import { eq, ilike, SQL, asc, desc, like } from "drizzle-orm/sql";
 
 /**
  * Generates an object containing SQL filter conditions and handles sorting based on the provided table schema, model, and filter parameters.
@@ -85,7 +85,7 @@ export const generateSqlFilterFromModel = <T extends TableConfig>(
         filterBys.push(eq(tableColumn, paramValue)); // Equality filter for numbers
         break;
       case "string":
-        filterBys.push(ilike(tableColumn, `%${paramValue}%`)); // ILIKE filter for strings
+        filterBys.push(eq(tableColumn, paramValue)); // Equality filter for strings
         break;
       case "boolean":
         filterBys.push(eq(tableColumn, paramValue)); // Equality filter for booleans
