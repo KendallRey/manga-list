@@ -14,10 +14,11 @@ import { HiPhoto, HiXMark } from "react-icons/hi2";
 
 type IUploadFile = {
   uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
+  uploadsFn?: (imagesToUpdate: IImageToUpload[]) => Promise<string[]>;
   actionText?: string;
 };
 
-type IImageToUpload = {
+export type IImageToUpload = {
   key: string;
   url: string;
   setAsCover: boolean;
@@ -25,32 +26,28 @@ type IImageToUpload = {
 };
 
 const UploadFile: React.FC<IUploadFile> = (props) => {
-  const { uploadFn, actionText } = props;
+  const { uploadFn, uploadsFn, actionText } = props;
 
-  const [file, setFile] = useState<File>();
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const uploadFile = useCallback(async () => {
-    if (!file || !uploadFn) return;
-    setIsLoading(true);
-    const { error } = await uploadFn(file);
-    if (!error) setFile(undefined);
-    setIsLoading(false);
-  }, [file, uploadFn]);
-
   const [imagesToUpload, setImagesToUpload] = useState<IImageToUpload[]>([]);
+  const uploadFiles = useCallback(async () => {
+    if (!imagesToUpload.length || !uploadsFn) return;
+    setIsLoading(true);
+    const ids = await uploadsFn(imagesToUpload);
+    setImagesToUpload((prev) => prev.filter((image) => !ids.includes(image.key)));
+    setIsLoading(false);
+  }, [imagesToUpload, uploadFn]);
 
   const onAttachFile = useCallback((e: RCE<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files || !files.length) return;
     if (!validateFiles(files)) return;
-    const file = files.item(0);
-    if (!file) return;
-    setFile(file);
 
     const _images: IImageToUpload[] = [];
-    for (let i = 0; i < files.length; i++) {
+    const imagesCount = Math.min(files.length, 10);
+    for (let i = 0; i < imagesCount; i++) {
       const _file = files.item(i);
       if (!_file) return;
       _images.push({
@@ -155,9 +152,12 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
           Drag and drop file here...
         </MuiTypography>
       </div>
-      <MuiTypography className="text-center">{file?.name}</MuiTypography>
       <MuiDivider />
-      <MuiButton onClick={uploadFile} disabled={isLoading} endIcon={<CircularProgress size={20} hidden={!isLoading} />}>
+      <MuiButton
+        onClick={uploadFiles}
+        disabled={isLoading}
+        endIcon={<CircularProgress size={20} hidden={!isLoading} />}
+      >
         {actionText ?? "Upload"}
       </MuiButton>
       <div className="w-full">
