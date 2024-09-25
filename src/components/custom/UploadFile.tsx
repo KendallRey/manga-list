@@ -7,34 +7,72 @@ import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/noti
 import MuiTypography from "@/components/typography/Typograph";
 import { CircularProgress } from "@mui/material";
 import React, { useCallback, useRef, useState } from "react";
+import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "../image/Image";
+import { nanoid } from "@reduxjs/toolkit";
+import MuiIconButton from "../icon-button/IconButton";
+import { HiPhoto, HiXMark } from "react-icons/hi2";
 
 type IUploadFile = {
   uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
+  uploadsFn?: (imagesToUpdate: IImageToUpload[]) => Promise<string[]>;
   actionText?: string;
 };
 
-const UploadFile: React.FC<IUploadFile> = (props) => {
-  const { uploadFn, actionText } = props;
+export type IImageToUpload = {
+  key: string;
+  url: string;
+  setAsCover: boolean;
+  file: File;
+};
 
-  const [file, setFile] = useState<File>();
+const UploadFile: React.FC<IUploadFile> = (props) => {
+  const { uploadFn, uploadsFn, actionText } = props;
+
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const uploadFile = useCallback(async () => {
-    if (!file || !uploadFn) return;
+  const [imagesToUpload, setImagesToUpload] = useState<IImageToUpload[]>([]);
+  const uploadFiles = useCallback(async () => {
+    if (!imagesToUpload.length || !uploadsFn) return;
     setIsLoading(true);
-    const { error } = await uploadFn(file);
-    if (!error) setFile(undefined);
+    const ids = await uploadsFn(imagesToUpload);
+    setImagesToUpload((prev) => prev.filter((image) => !ids.includes(image.key)));
     setIsLoading(false);
-  }, [file, uploadFn]);
+  }, [imagesToUpload, uploadFn]);
 
   const onAttachFile = useCallback((e: RCE<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files || !files.length) return;
     if (!validateFiles(files)) return;
-    const file = files.item(0);
-    if (!file) return;
-    setFile(file);
+
+    const _images: IImageToUpload[] = [];
+    const imagesCount = Math.min(files.length, 10);
+    for (let i = 0; i < imagesCount; i++) {
+      const _file = files.item(i);
+      if (!_file) return;
+      _images.push({
+        key: nanoid(),
+        url: URL.createObjectURL(_file),
+        setAsCover: false,
+        file: _file,
+      });
+    }
+    setImagesToUpload(_images);
+  }, []);
+
+  const onRemoveImage = useCallback((key: string) => {
+    setImagesToUpload((prev) => prev.filter((item) => item.key !== key));
+  }, []);
+
+  const onSetAsCover = useCallback((key?: string) => {
+    setImagesToUpload((prev) =>
+      prev.map((item) => {
+        return {
+          ...item,
+          setAsCover: key === item.key,
+        };
+      }),
+    );
   }, []);
 
   // #region Dragging
@@ -90,7 +128,15 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
       onDragOver={(e) => handleOnDrag(e, true)}
       onDrop={handleOnDrop}
     >
-      <input ref={inputRef} value={""} className="hidden" type="file" onChange={onAttachFile} disabled={isLoading} />
+      <input
+        ref={inputRef}
+        value={""}
+        className="hidden"
+        type="file"
+        onChange={onAttachFile}
+        disabled={isLoading}
+        multiple
+      />
       <div className="flex justify-center gap-2 items-center flex-wrap">
         <MuiButton
           className="text-center"
@@ -106,18 +152,61 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
           Drag and drop file here...
         </MuiTypography>
       </div>
-      <MuiTypography className="text-center">{file?.name}</MuiTypography>
       <MuiDivider />
       <MuiButton
-        onClick={uploadFile}
+        onClick={uploadFiles}
         disabled={isLoading}
-        startIcon={<CircularProgress size={20} hidden={!isLoading} />}
         endIcon={<CircularProgress size={20} hidden={!isLoading} />}
       >
         {actionText ?? "Upload"}
       </MuiButton>
+      <div className="w-full">
+        <ImageList imagesToUpload={imagesToUpload} onRemove={onRemoveImage} onSetAsCover={onSetAsCover} />
+      </div>
     </div>
   );
 };
 
 export default UploadFile;
+
+type IImageList = {
+  imagesToUpload: IImageToUpload[];
+  onRemove: (key: string) => void;
+  onSetAsCover: (key?: string) => void;
+};
+
+const ImageList: React.FC<IImageList> = (props) => {
+  const { imagesToUpload, onRemove, onSetAsCover } = props;
+  return (
+    <MuiImageList cols={2} rowHeight={350} sx={{ width: 500 }} className="mx-auto">
+      {imagesToUpload.map((image) => (
+        <MuiImageListItem key={image.key}>
+          <img src={image.url} />
+          <MuiImageListItemBar
+            title=""
+            position="bottom"
+            subtitle={
+              image.setAsCover ? (
+                <MuiTypography onClick={() => onSetAsCover()} className="cursor-pointer" variant="caption">
+                  Marked as Cover
+                </MuiTypography>
+              ) : (
+                ""
+              )
+            }
+            actionIcon={
+              <div className="flex items-center gap-1">
+                <MuiIconButton color="secondary" onClick={() => onSetAsCover(image.key)} hidden={image.setAsCover}>
+                  <HiPhoto />
+                </MuiIconButton>
+                <MuiIconButton color="secondary" onClick={() => onRemove(image.key)}>
+                  <HiXMark />
+                </MuiIconButton>
+              </div>
+            }
+          />
+        </MuiImageListItem>
+      ))}
+    </MuiImageList>
+  );
+};
