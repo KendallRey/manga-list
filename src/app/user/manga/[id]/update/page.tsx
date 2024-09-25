@@ -10,6 +10,10 @@ import MangaImageList from "@/app/ui/MangaImageList";
 import MangaForm from "../../ui/form/MangaForm";
 import UpdateMangaForm from "../../ui/form/UpdateMangaForm";
 import { MODEL } from "@/model/model";
+import MuiTypography from "@/components/typography/Typograph";
+import MuiStack from "@/components/stack/Stack";
+import MuiChip from "@/components/chip/Chip";
+import { formatToLabel } from "@/components/helper/component";
 
 const UpdateMangaPage: React.FC<INextPage> = async (props) => {
   const { params } = props;
@@ -20,14 +24,26 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
 
   if (!manga.status) return <ErrorPage />;
 
+  const { data } = manga;
+
   return (
     <Dashboard>
       <MuiPaper>
-        <PageBreadCrumbs route="/user" pathNames={[manga.data[MODEL.MANGA.NAME]]} />
+        <PageBreadCrumbs route="/user" pathNames={[data[MODEL.MANGA.NAME]]} />
       </MuiPaper>
       <div className="flex flex-grow-[2] gap-4 flex-wrap">
         <MuiPaper className="flex flex-col flex-grow p-4 gap-6" elevation={2} color="primary">
-          <MangaBanner manga={manga.data} />
+          <MangaBanner manga={data} />
+          <MuiStack>
+            <MuiTypography fontSize={24}>{data[MODEL.MANGA.NAME]}</MuiTypography>
+            <MuiTypography variant="caption">{formatToLabel(data[MODEL.MANGA.TYPE])}</MuiTypography>
+          </MuiStack>
+          <MuiTypography variant="body2">{data[MODEL.MANGA.DESCRIPTION] || "No description"} </MuiTypography>
+          <MuiStack direction={"row"} gap={1}>
+            {data[MODEL.MANGA.HIDE] && <MuiChip size="medium" label="Hidden" color="secondary" variant="outlined" />}
+            {data[MODEL.MANGA.DANGER] && <MuiChip size="medium" label="Danger" color="error" />}
+            {data[MODEL.MANGA.SPICY] && <MuiChip size="medium" label="Spicy" color="secondary" />}
+          </MuiStack>
         </MuiPaper>
         <MuiPaper className="flex flex-col flex-grow-[3] min-h-[320px] p-4 gap-6" elevation={2} color="primary">
           <UpdateMangaForm manga={manga.data} />
