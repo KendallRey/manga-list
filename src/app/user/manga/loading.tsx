@@ -21,21 +21,16 @@ const MangaPageLoading = () => {
   return (
     <Dashboard>
       <MuiPaper className="p-4" elevation={2} color="primary">
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2">
           <MuiSkeleton height={51} component={"div"} className="flex-grow" />
           <MuiSkeleton height={51} component={"div"} width={64} />
         </div>
-        <MuiSkeleton width={90} />
+        <MuiSkeleton width={90} height={15} />
         <List className="flex flex-col gap-2"></List>
       </MuiPaper>
-      <MuiPaper className="flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
-        <MuiSkeleton height={40} className="ml-auto" component={"div"} width={64} />
-        <MuiTable
-          colsWidth={["10%", "80%", "10%"]}
-          size="small"
-          stickyHeader
-          containerProps={{ sx: { maxHeight: 650 } }}
-        >
+      <MuiPaper className="flex flex-col gap-1 flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
+        <MuiSkeleton height={37} className="ml-auto" component={"div"} width={64} />
+        <MuiTable colsWidth={["5%", "90%", "5%"]} size="small" stickyHeader containerProps={{ sx: { maxHeight: 650 } }}>
           <MuiTableHead>
             <MuiHeadTr>
               <MuiTh>Icon</MuiTh>
@@ -46,28 +41,29 @@ const MangaPageLoading = () => {
             </MuiHeadTr>
           </MuiTableHead>
           <MuiTableBody>
-            <ComponentList count={10}>
-              <MuiTr>
-                <MuiTd>
-                  <MuiSkeleton variant="rounded" width={40} height={40} />
-                </MuiTd>
-                <MuiTd>
-                  <MuiSkeleton variant="text" sx={{ fontSize: 32 }} />
-                </MuiTd>
-                <MuiTd>
-                  <div className="mx-1 flex gap-2">
-                    <MuiSkeleton variant="rounded" width={30} height={30} />
-                    <MuiSkeleton variant="rounded" width={30} height={30} />
-                  </div>
-                </MuiTd>
-              </MuiTr>
-            </ComponentList>
+            <ComponentList
+              count={10}
+              render={(i) => (
+                <MuiTr key={i}>
+                  <MuiTd>
+                    <MuiSkeleton variant="rounded" width={40} height={46} />
+                  </MuiTd>
+                  <MuiTd>
+                    <MuiSkeleton variant="text" sx={{ fontSize: 32 }} width={Math.max(Math.random(), 0.1) * 500} />
+                  </MuiTd>
+                  <MuiTd>
+                    <div className="mx-1 flex gap-2">
+                      <MuiSkeleton variant="rounded" width={30} height={30} />
+                      <MuiSkeleton variant="rounded" width={30} height={30} />
+                    </div>
+                  </MuiTd>
+                </MuiTr>
+              )}
+            ></ComponentList>
           </MuiTableBody>
         </MuiTable>
-        <MuiStack direction={"row"} gap={1} className="mx-5">
-          <ComponentList count={9}>
-            <MuiSkeleton variant="circular" width={30} height={30} />
-          </ComponentList>
+        <MuiStack direction={"row"} gap={1} className="mx-5 my-3">
+          <ComponentList count={9} render={(i) => <MuiSkeleton key={i} variant="circular" width={30} height={30} />} />
         </MuiStack>
       </MuiPaper>
     </Dashboard>
