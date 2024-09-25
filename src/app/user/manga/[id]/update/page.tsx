@@ -26,18 +26,18 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
         <PageBreadCrumbs route="/user" pathNames={[manga.data[MODEL.MANGA.NAME]]} />
       </MuiPaper>
       <div className="flex flex-grow-[2] gap-4 flex-wrap">
-        <div className="flex flex-col flex-grow-[2] gap-4">
-          <MuiPaper className="flex flex-col flex-grow p-4 gap-6" elevation={2} color="primary">
-            <MangaBanner manga={manga.data} />
-          </MuiPaper>
-          <MuiPaper className=" p-4" elevation={2} color="primary">
-            <MangaUploadImage manga={manga.data} />
-          </MuiPaper>
-        </div>
+        <MuiPaper className="flex flex-col flex-grow p-4 gap-6" elevation={2} color="primary">
+          <MangaBanner manga={manga.data} />
+        </MuiPaper>
         <MuiPaper className="flex flex-col flex-grow-[3] min-h-[320px] p-4 gap-6" elevation={2} color="primary">
           <UpdateMangaForm manga={manga.data} />
         </MuiPaper>
       </div>
+      <MuiPaper className=" p-4" elevation={2} color="primary">
+        <div className="max-w-[400px] mx-auto">
+          <MangaUploadImage manga={manga.data} />
+        </div>
+      </MuiPaper>
       <MuiPaper className="p-6">
         <MangaImageList manga={manga.data} viewAction />
       </MuiPaper>
