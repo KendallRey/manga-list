@@ -1,12 +1,9 @@
-"use client";
-
 import { Breadcrumbs } from "@mui/material";
-import { usePathname } from "next/navigation";
-import React, { useMemo } from "react";
 import MuiLink from "../link/Link";
 import Link from "next/link";
 import { formatToLabel, isUUID } from "../helper/component";
 import MuiTypography from "../typography/Typograph";
+import { headers } from "next/headers";
 
 type IPageBreadCrumbs = {
   route: string;
@@ -20,29 +17,31 @@ type IRoute = {
 
 const PageBreadCrumbs: React.FC<IPageBreadCrumbs> = (props) => {
   const { route, pathNames = [] } = props;
-  const path = usePathname();
 
-  const routes = useMemo(() => {
-    let currentRoute = `${route}`;
-    const routes: IRoute[] = [];
-    const activeRoute = path.replace(`${route}/`, "");
-    const paths = activeRoute.split("/");
-    const names = pathNames;
-    paths.forEach((path) => {
-      const isPathUUID = isUUID(path);
-      let name = formatToLabel(path);
-      if (isPathUUID && names.length) {
-        name = names[0];
-        names.pop();
-      }
-      routes.push({
-        name: name,
-        href: `${currentRoute}/${path}`,
-      });
-      currentRoute = currentRoute.concat(`/${path}`);
+  const headersList = headers();
+  const currentUrl = headersList.get("x-current-path") || headersList.get("host");
+
+  const path = new URL(currentUrl || "", "http://localhost").pathname;
+
+  let currentRoute = `${route}`;
+  const routes: IRoute[] = [];
+
+  const activeRoute = path.replace(`${route}/`, "");
+  const paths = activeRoute.split("/");
+  const names = pathNames;
+  paths.forEach((path) => {
+    const isPathUUID = isUUID(path);
+    let name = formatToLabel(path);
+    if (isPathUUID && names.length) {
+      name = names[0];
+      names.pop();
+    }
+    routes.push({
+      name: name,
+      href: `${currentRoute}/${path}`,
     });
-    return routes;
-  }, [path, route, pathNames]);
+    currentRoute = currentRoute.concat(`/${path}`);
+  });
 
   return (
     <Breadcrumbs className="p-2">
