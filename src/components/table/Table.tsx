@@ -161,7 +161,7 @@ const MuiTable: React.FC<IMuiTable> = (props) => {
         ) : (
           <span></span>
         )}
-        <MuiTypography variant="caption">{paginationProps?.count ?? 0} results</MuiTypography>
+        {paginationProps && <MuiTypography variant="caption">{paginationProps?.count ?? 0} results</MuiTypography>}
       </div>
     </>
   );
