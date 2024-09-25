@@ -49,7 +49,7 @@ const MangaPageLoading = () => {
                     <MuiSkeleton variant="rounded" width={40} height={46} />
                   </MuiTd>
                   <MuiTd>
-                    <MuiSkeleton variant="text" sx={{ fontSize: 32 }} width={Math.max(Math.random(), 0.1) * 500} />
+                    <MuiSkeleton variant="text" sx={{ fontSize: 32 }} width={500} />
                   </MuiTd>
                   <MuiTd>
                     <div className="mx-1 flex gap-2">
