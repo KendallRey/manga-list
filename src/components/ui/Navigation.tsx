@@ -16,6 +16,7 @@ const Navigation = () => {
   const routes = useMemo(() => Object.values(APP.ROUTES.USER), []);
 
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
+  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const isActiveLink = useCallback(
     (link: string) => {
@@ -45,23 +46,17 @@ const Navigation = () => {
           const active = isActiveLink(route.href);
           return (
             <React.Fragment key={route.href}>
-              <MuiButton
-                variant={active ? "contained" : "text"}
-                className="hidden lg:block"
-                onClick={() => onClickLink(route.href)}
-              >
-                <MuiTypography variant="button" fontSize={18}>
-                  {route.name}
-                </MuiTypography>
-              </MuiButton>
-              <MuiFab
-                size="small"
-                color={active ? "primary" : "default"}
-                className="block lg:hidden"
-                onClick={() => onClickLink(route.href)}
-              >
-                {route.icon}
-              </MuiFab>
+              {isLg ? (
+                <MuiButton variant={active ? "contained" : "text"} onClick={() => onClickLink(route.href)}>
+                  <MuiTypography variant="button" fontSize={18}>
+                    {route.name}
+                  </MuiTypography>
+                </MuiButton>
+              ) : (
+                <MuiFab size="small" color={active ? "primary" : "default"} onClick={() => onClickLink(route.href)}>
+                  {route.icon}
+                </MuiFab>
+              )}
             </React.Fragment>
           );
         })}
