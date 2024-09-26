@@ -20,6 +20,7 @@ type ITablePagination = {
   name?: string;
 };
 
+const LIMIT_OPTIONS = [10, 25, 50, 100];
 const DEFAULT_KEY = "page";
 
 const TablePagination: React.FC<ITablePagination> = (props) => {
@@ -91,8 +92,6 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
 
   // #region Limit
 
-  const LIMIT_OPTIONS = [10, 25, 50, 100];
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const [selectedIndex, setSelectedIndex] = useState(getIndexOf(LIMIT_OPTIONS, limit, 10));
@@ -109,7 +108,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
       updateSearchParams(LIMIT_OPTIONS[index], "limit", { page: 1 });
       setAnchorEl(null);
     },
-    [LIMIT_OPTIONS, updateSearchParams],
+    [updateSearchParams],
   );
 
   const onCloseLimit = useCallback(() => {

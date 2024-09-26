@@ -22,9 +22,12 @@ const MangaForm: React.FC<IMangaForm> = (props) => {
   const { error, ...form } = useAppSelector((state) => state.mangaFormSlice);
   const { onChangeForm } = useReduxForm();
 
-  const onChange = useCallback((e: InputRecord) => {
-    onChangeForm(e, editMangaForm);
-  }, []);
+  const onChange = useCallback(
+    (e: InputRecord) => {
+      onChangeForm(e, editMangaForm);
+    },
+    [onChangeForm],
+  );
 
   return (
     <>
@@ -51,7 +54,7 @@ const MangaForm: React.FC<IMangaForm> = (props) => {
             rows={20}
           />
         </div>
-        <div className="d-flex gap-2 items-center flex-wrap">
+        <div className="flex gap-2 items-center flex-wrap">
           <FormCheckbox
             label="Hide"
             name={MODEL.MANGA.HIDE}

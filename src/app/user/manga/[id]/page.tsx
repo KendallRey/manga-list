@@ -1,3 +1,5 @@
+"use server";
+
 import { GetUserManga } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import PageBreadCrumbs from "@/components/custom/PageBreadCrumbs";

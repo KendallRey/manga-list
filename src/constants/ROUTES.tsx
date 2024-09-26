@@ -1,3 +1,7 @@
+import { MdDashboard, MdList } from "react-icons/md";
+import { RiGalleryView } from "react-icons/ri";
+import { CgProfile } from "react-icons/cg";
+
 export const ROUTE_ID = ":id:";
 export const ROUTE_USER_ID = ":user_id:";
 
@@ -25,6 +29,7 @@ export const PAGE_ROUTES = {
 const DASHBOARD_PAGE = {
   name: "Dashboard",
   href: `/user/dashboard`,
+  icon: <MdDashboard size={25} className="mx-auto" />,
 } as const;
 
 // #endregion
@@ -55,6 +60,7 @@ const MANGA_PAGE = {
   name: "Manga List",
   href: `/user/manga`,
   ADD: MANGA_ADD,
+  icon: <MdList size={25} className="mx-auto" />,
   UPDATE: MANGA_UPDATE,
   VIEW: MANGA_VIEW,
   USER: MANGA_USER,
@@ -67,6 +73,7 @@ const MANGA_PAGE = {
 const IMAGES_PAGE = {
   name: "Manga Images",
   href: `/user/images`,
+  icon: <RiGalleryView size={25} className="mx-auto" />,
 } as const;
 
 // #endregion
@@ -76,6 +83,7 @@ const IMAGES_PAGE = {
 const PROFILE_PAGE = {
   name: "User Profile",
   href: `/user/profile`,
+  icon: <CgProfile size={25} className="mx-auto" />,
 } as const;
 
 // #endregion

@@ -15,7 +15,7 @@ const UserLayout: React.FC<ILayout> = async ({ children }) => {
   return (
     <>
       <PageAppBar />
-      <div className="flex min-h-screen justify-between p-20 gap-8 bg-zinc-100">
+      <div className="flex min-h-screen justify-between p-4 md:p-6 lg:p-12 xl:p-20 gap-8 bg-zinc-100">
         <Navigation />
         {children}
         <PageActionBar />

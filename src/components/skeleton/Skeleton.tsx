@@ -4,7 +4,7 @@ import React from "react";
 type IMuiSkeleton = SkeletonProps;
 
 const MuiSkeleton: React.FC<IMuiSkeleton> = (props) => {
-  return <Skeleton {...props} />;
+  return <Skeleton {...props} sx={{ transform: "none" }} />;
 };
 
 export default MuiSkeleton;

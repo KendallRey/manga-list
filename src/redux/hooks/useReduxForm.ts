@@ -24,7 +24,7 @@ const useReduxForm = (props?: IUseReduxForm) => {
       const validation = schema.safeParse(form);
       dispatch(setFormAction(validation.data ?? {}));
     },
-    [],
+    [dispatch],
   );
 
   const _setForm = useCallback(() => {
@@ -42,7 +42,7 @@ const useReduxForm = (props?: IUseReduxForm) => {
 
     dispatch(setFormAction(safeForm));
     if (onLoad) onLoad();
-  }, [form, schema, setFormAction]);
+  }, [form, schema, dispatch, onLoad, setFormAction]);
 
   useCallOnce(_setForm);
 
@@ -64,7 +64,7 @@ const useReduxForm = (props?: IUseReduxForm) => {
       }
       return true;
     },
-    [],
+    [dispatch],
   );
 
   return {
