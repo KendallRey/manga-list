@@ -1,19 +1,9 @@
-"use client";
-
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import MuiSkeleton from "@/components/skeleton/Skeleton";
 import { List } from "@mui/material";
-import MuiTable, {
-  MuiTableHead,
-  MuiHeadTr,
-  MuiTh,
-  MuiTableBody,
-  MuiTr,
-  MuiTd,
-  MuiSortTh,
-} from "@/components/table/Table";
+import MuiTable, { MuiTableHead, MuiHeadTr, MuiTh, MuiTableBody, MuiTr, MuiTd } from "@/components/table/Table";
 import ComponentList from "@/components/helper-components/ComponentList";
 import MuiStack from "@/components/stack/Stack";
 import { MathRandom } from "@/components/helper/math";
@@ -35,9 +25,7 @@ const MangaPageLoading = () => {
           <MuiTableHead>
             <MuiHeadTr>
               <MuiTh>Icon</MuiTh>
-              <MuiSortTh name="title" onClick={() => {}}>
-                Title
-              </MuiSortTh>
+              <MuiTh>Title</MuiTh>
               <MuiTh>Action</MuiTh>
             </MuiHeadTr>
           </MuiTableHead>
@@ -64,7 +52,7 @@ const MangaPageLoading = () => {
           </MuiTableBody>
         </MuiTable>
         <MuiStack direction={"row"} gap={1} className="mx-5 my-3">
-          <ComponentList count={9} render={(i) => <MuiSkeleton key={i} variant="circular" width={30} height={30} />} />
+          {/* <ComponentList count={9} render={(i) => <MuiSkeleton key={i} variant="circular" width={30} height={30} />} /> */}
         </MuiStack>
       </MuiPaper>
     </Dashboard>

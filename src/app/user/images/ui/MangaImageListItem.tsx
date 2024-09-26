@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import MuiChip from "@/components/chip/Chip";
 import MuiLink from "@/components/link/Link";
+import Link from "next/link";
 
 type IMangaImageListItem = {
   index?: number;
@@ -81,7 +82,7 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
             </div>
           }
           actionIcon={
-            <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
+            <MuiLink component={Link} href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
               <MuiIconButton color="secondary">
                 <BiEdit />
               </MuiIconButton>

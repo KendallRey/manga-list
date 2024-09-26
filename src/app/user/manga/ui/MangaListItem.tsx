@@ -13,6 +13,7 @@ import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { MODEL } from "@/model/model";
 import MuiTypography from "@/components/typography/Typograph";
 import MuiChip from "@/components/chip/Chip";
+import Link from "next/link";
 
 type IMangaListItem = {
   item: IMangaTableSelect;
@@ -41,7 +42,7 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
         </MuiTd>
         <MuiTd>
           <div className="flex items-center">
-            <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
+            <MuiLink component={Link} href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
               <MuiIconButton>
                 <HiEye />
               </MuiIconButton>
