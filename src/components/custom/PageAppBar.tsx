@@ -1,14 +1,9 @@
 "use client";
 
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import MenuItem from "@mui/material/MenuItem";
 import { useCallback, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { createClient } from "@/utils/supabase/client";
@@ -16,12 +11,13 @@ import { useRouter } from "next/navigation";
 import MuiMenu from "../menu/Menu";
 import MuiMenuItem from "../menu-item/MenuItem";
 import MuiTypography from "../typography/Typograph";
-import MuiTooltip from "../tooltip/tooltip";
 import MuiIconButton from "../icon-button/IconButton";
 import MuiBox from "../box/Box";
 import MuiButton from "../button/Button";
 import { User } from "@supabase/supabase-js";
 import { useCallOnce } from "../hooks/useCallOnce";
+import { APP } from "@/constants/APP";
+import MuiLink from "../link/Link";
 
 // Sample
 const pages: string[] = [];
@@ -86,7 +82,7 @@ const PageAppBar = () => {
               textDecoration: "none",
             }}
           >
-            MANGA LIST
+            {APP.NAME}
           </MuiTypography>
 
           <MuiBox sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -116,9 +112,11 @@ const PageAppBar = () => {
               onClose={onCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              {pages.map((page) => (
-                <MuiMenuItem key={page} onClick={onCloseNavMenu}>
-                  <MuiTypography sx={{ textAlign: "center" }}>{page}</MuiTypography>
+              {Object.values(APP.ROUTES.USER).map((route) => (
+                <MuiMenuItem key={route.href}>
+                  <MuiLink href={route.href} variant="body2" onClick={onCloseNavMenu} underline="hover">
+                    <MuiTypography fontSize={20}>{route.name}</MuiTypography>
+                  </MuiLink>
                 </MuiMenuItem>
               ))}
             </MuiMenu>
@@ -139,7 +137,7 @@ const PageAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            {APP.NAME}
           </MuiTypography>
           <MuiBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -149,11 +147,9 @@ const PageAppBar = () => {
             ))}
           </MuiBox>
           <MuiBox sx={{ flexGrow: 0 }}>
-            <MuiTooltip title="Open settings">
-              <MuiIconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user?.email || "User"} src="/static/images/avatar/2.jpg" />
-              </MuiIconButton>
-            </MuiTooltip>
+            <MuiIconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt={user?.email || "User"} src="/static/images/avatar/2.jpg" />
+            </MuiIconButton>
             <MuiMenu
               sx={{ mt: "45px" }}
               id="menu-appbar"
