@@ -5,6 +5,7 @@ import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import MuiSkeleton from "@/components/skeleton/Skeleton";
 import MuiStack from "@/components/stack/Stack";
+import ComponentList from "@/components/helper-components/ComponentList";
 
 const MangaUpdatePageLoading = () => {
   return (
@@ -28,14 +29,32 @@ const MangaUpdatePageLoading = () => {
         <MuiPaper className="flex flex-col gap-4 flex-grow-[3] min-h-[320px] p-4" elevation={2} color="primary">
           <MuiSkeleton height={50} className="min-w-[310px]" />
           <MuiSkeleton height={487} className="flex-grow" />
-          <div className="flex gap-4">
-            <MuiSkeleton height={20} width={20} variant="rounded" />
-            <MuiSkeleton height={20} width={50} variant="rounded" />
+          <div className="flex gap-3 my-4">
+            <ComponentList
+              count={3}
+              render={(i) => (
+                <div key={i} className="flex gap-2">
+                  <MuiSkeleton height={20} width={20} variant="rounded" />
+                  <MuiSkeleton height={20} width={50} variant="rounded" />
+                </div>
+              )}
+            />
           </div>
-          <div className="flex gap-4">
-            <MuiSkeleton height={20} width={20} variant="rounded" />
-            <MuiSkeleton height={20} width={50} variant="rounded" />
+          <div>
+            <MuiSkeleton height={20} width={50} variant="text" />
+            <div className="flex gap-3 my-4">
+              <ComponentList
+                count={3}
+                render={(i) => (
+                  <div key={i} className="flex gap-2">
+                    <MuiSkeleton height={20} width={20} variant="rounded" />
+                    <MuiSkeleton height={20} width={60} variant="rounded" />
+                  </div>
+                )}
+              />
+            </div>
           </div>
+          <MuiSkeleton height={37} variant="rounded" />
         </MuiPaper>
       </div>
     </Dashboard>
