@@ -38,7 +38,7 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
     const ids = await uploadsFn(imagesToUpload);
     setImagesToUpload((prev) => prev.filter((image) => !ids.includes(image.key)));
     setIsLoading(false);
-  }, [imagesToUpload, uploadFn]);
+  }, [imagesToUpload, uploadsFn]);
 
   const onAttachFile = useCallback((e: RCE<HTMLInputElement>) => {
     const { files } = e.target;

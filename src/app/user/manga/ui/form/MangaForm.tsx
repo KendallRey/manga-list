@@ -22,9 +22,12 @@ const MangaForm: React.FC<IMangaForm> = (props) => {
   const { error, ...form } = useAppSelector((state) => state.mangaFormSlice);
   const { onChangeForm } = useReduxForm();
 
-  const onChange = useCallback((e: InputRecord) => {
-    onChangeForm(e, editMangaForm);
-  }, []);
+  const onChange = useCallback(
+    (e: InputRecord) => {
+      onChangeForm(e, editMangaForm);
+    },
+    [onChangeForm],
+  );
 
   return (
     <>

@@ -52,7 +52,7 @@ const MangaItemActions: React.FC<IMangaItemActions> = (props) => {
     const response = await archivedMangaAction(manga[MODEL.MANGA.ID]);
     displaySnackbar({ status: response.status, name: response?.data?.name, action: "delete" });
     setLoading(false);
-  }, [manga]);
+  }, [manga, setLoading]);
 
   // #endregion
 
@@ -75,7 +75,7 @@ const MangaItemActions: React.FC<IMangaItemActions> = (props) => {
       });
       setLoading(false);
     },
-    [manga],
+    [manga, setLoading],
   );
 
   // #endregion
@@ -98,7 +98,7 @@ const MangaItemActions: React.FC<IMangaItemActions> = (props) => {
       displaySnackbar({ status: response.status, name: response?.data?.name, action: "update" });
       setLoading(false);
     },
-    [manga],
+    [manga, setLoading],
   );
 
   // #endregion
@@ -121,7 +121,7 @@ const MangaItemActions: React.FC<IMangaItemActions> = (props) => {
       displaySnackbar({ status: response.status, name: response?.data?.name, action: "update" });
       setLoading(false);
     },
-    [manga],
+    [manga, setLoading],
   );
 
   // #endregion

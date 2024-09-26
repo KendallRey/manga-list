@@ -31,13 +31,13 @@ const UpdateMangaForm: React.FC<IUpdateMangaForm> = (props) => {
     const response = await updateMangaAction(manga.id, form);
     displaySnackbar({ status: response.status, action: "update", variant: "success" });
     setIsLoading(false);
-  }, [form]);
+  }, [form, manga.id]);
 
   const onValidate = useCallback(() => {
     const isValid = onValidateForm(form, setMangaFormError, upsertMangaSchema);
     if (!isValid) return;
     onUpdateManga();
-  }, [form, onUpdateManga]);
+  }, [form, onUpdateManga, onValidateForm]);
 
   const onSubmit = useCallback(
     (e: FormEvent) => {

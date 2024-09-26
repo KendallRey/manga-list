@@ -42,12 +42,12 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
         router.replace(`?${_params.toString()}`, { scroll: false });
       }
     }
-  }, [lastCount, router]);
+  }, [canLoadMore, lastCount, router]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [canLoadMore, handleScroll]);
+  }, [handleScroll]);
 
   return (
     <MuiImageList
