@@ -1,7 +1,7 @@
 import MuiButton from "@/components/button/Button";
 import MuiTextField from "@/components/text-field/TextField";
 import Image from "next/image";
-import { userLoginAction, userSignupAction } from "./login/ui/action";
+import { userLoginFormAction, userSignupAction } from "./login/ui/action";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import USER_ROUTE from "@/constants/ROUTES";
@@ -21,7 +21,7 @@ const LandingPage = async () => {
           <MuiTextField label={"Email"} />
           <MuiTextField label={"Password"} type="password" />
           <div className="flex items-center flex-wrap gap-2">
-            <MuiButton className="flex-grow" formAction={userLoginAction} type="submit">
+            <MuiButton className="flex-grow" formAction={userLoginFormAction} type="submit">
               Log in
             </MuiButton>
             <MuiButton className="flex-grow" formAction={userSignupAction} type="submit" color="secondary">

@@ -5,8 +5,24 @@ import { redirect, RedirectType } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import USER_ROUTE from "@/constants/ROUTES";
+import { LoginFormSchema } from "@/model/login/login";
 
-export async function userLoginAction(formData: FormData) {
+export async function userLoginAction(_data: unknown) {
+  const validation = LoginFormSchema.safeParse(_data);
+  if (!validation.success) redirect("/error");
+
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithPassword(validation.data);
+
+  if (error) {
+    return error;
+  }
+
+  return data;
+}
+
+export async function userLoginFormAction(formData: FormData) {
   const supabase = createClient();
 
   // type-casting here for convenience

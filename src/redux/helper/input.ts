@@ -5,7 +5,7 @@ export type InputElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectEl
 export type InputRecord = React.ChangeEvent<InputElement> | SelectChangeEvent<unknown>;
 
 type IRecord = {
-  [x: string]: string | number | null | boolean | unknown;
+  [x: string]: string | number | null | boolean | any;
   [REDUX.FIELD.KEY]: string;
 };
 
