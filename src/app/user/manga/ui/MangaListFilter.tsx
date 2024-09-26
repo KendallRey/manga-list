@@ -53,7 +53,7 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
           )}
           {params.get("type") && (
             <MuiChip
-              label={`Hide: ${formatToLabel(params.get("type"))}`}
+              label={`Type: ${formatToLabel(params.get("type"))}`}
               onDelete={() => onRemoveFilter("type", true)}
             />
           )}
