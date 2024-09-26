@@ -16,6 +16,7 @@ import MuiTable, {
 } from "@/components/table/Table";
 import ComponentList from "@/components/helper-components/ComponentList";
 import MuiStack from "@/components/stack/Stack";
+import { MathRandom } from "@/components/helper/math";
 
 const MangaPageLoading = () => {
   return (
@@ -49,7 +50,7 @@ const MangaPageLoading = () => {
                     <MuiSkeleton variant="rounded" width={40} height={46} />
                   </MuiTd>
                   <MuiTd>
-                    <MuiSkeleton variant="text" sx={{ fontSize: 32 }} width={500} />
+                    <MuiSkeleton variant="text" sx={{ fontSize: 32 }} width={MathRandom(500, 0.2)} />
                   </MuiTd>
                   <MuiTd>
                     <div className="mx-1 flex gap-2">
