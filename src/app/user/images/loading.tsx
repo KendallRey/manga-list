@@ -1,5 +1,6 @@
 "use client";
 
+import ComponentList from "@/components/helper-components/ComponentList";
 import MuiImageList, { MuiImageListItem } from "@/components/image/Image";
 import MuiPaper from "@/components/paper/Paper";
 import MuiSkeleton from "@/components/skeleton/Skeleton";
@@ -30,24 +31,14 @@ const ImagesLoading = () => {
             overflow: "hidden",
           }}
         >
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
-          <MuiImageListItem>
-            <MuiSkeleton height={"100%"} />
-          </MuiImageListItem>
+          <ComponentList
+            count={10}
+            render={(i) => (
+              <MuiImageListItem key={i}>
+                <MuiSkeleton height={"100%"} animation={i % 2 === 0 ? "wave" : "pulse"} />
+              </MuiImageListItem>
+            )}
+          />
         </MuiImageList>
       </MuiPaper>
     </Dashboard>
