@@ -18,6 +18,7 @@ import { User } from "@supabase/supabase-js";
 import { useCallOnce } from "../hooks/useCallOnce";
 import { APP } from "@/constants/APP";
 import MuiLink from "../link/Link";
+import Link from "next/link";
 
 // Sample
 const pages: string[] = [];
@@ -114,7 +115,13 @@ const PageAppBar = () => {
             >
               {Object.values(APP.ROUTES.USER).map((route) => (
                 <MuiMenuItem key={route.href}>
-                  <MuiLink href={route.href} variant="body2" onClick={onCloseNavMenu} underline="hover">
+                  <MuiLink
+                    component={Link}
+                    href={route.href}
+                    variant="body2"
+                    onClick={onCloseNavMenu}
+                    underline="hover"
+                  >
                     <MuiTypography fontSize={20}>{route.name}</MuiTypography>
                   </MuiLink>
                 </MuiMenuItem>
