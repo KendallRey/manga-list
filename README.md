@@ -1,3 +1,11 @@
+## 🔧 Under Development 🔨
+
+## Todos
+- add sample account with sample entries
+- update Login Page, (use Redux, notistack, ...)
+- add Dashboard
+- add Profile
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Environment Variables
