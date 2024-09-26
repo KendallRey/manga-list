@@ -16,13 +16,18 @@ const MangaUpdatePageLoading = () => {
         <MuiSkeleton width={4.6} height={24} className="mx-2" />
         <MuiSkeleton width={50} height={24} />
       </MuiPaper>
-      <div className="flex gap-4">
-        <MuiPaper className="flex-grow min-h-[320px] p-1 px-4" elevation={2} color="primary">
-          <MuiSkeleton width={365} />
+      <div className="flex gap-4 flex-wrap">
+        <MuiPaper className="flex flex-col flex-grow gap-6 min-h-[320px] p-4" elevation={2} color="primary">
+          <MuiSkeleton width={440} className="flex-grow min-h-[400px] mx-auto p-5" />
+          <MuiStack marginTop={4} gap={1.3}>
+            <MuiSkeleton variant="text" height={20} width={Math.max(Math.random(), 0.5) * 450} />
+            <MuiSkeleton variant="text" height={13} width={60} />
+          </MuiStack>
+          <MuiSkeleton variant="text" height={13} width={Math.random() * 550} className="mt-8 mb-7" />
         </MuiPaper>
         <MuiPaper className="flex flex-col gap-4 flex-grow-[3] min-h-[320px] p-4" elevation={2} color="primary">
-          <MuiSkeleton height={50} />
-          <MuiSkeleton height={487} />
+          <MuiSkeleton height={50} className="min-w-[310px]" />
+          <MuiSkeleton height={487} className="flex-grow" />
           <div className="flex gap-4">
             <MuiSkeleton height={20} width={20} variant="rounded" />
             <MuiSkeleton height={20} width={50} variant="rounded" />
