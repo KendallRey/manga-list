@@ -51,7 +51,7 @@ const MangaForm: React.FC<IMangaForm> = (props) => {
             rows={20}
           />
         </div>
-        <div className="d-flex gap-2 items-center flex-wrap">
+        <div className="flex gap-2 items-center flex-wrap">
           <FormCheckbox
             label="Hide"
             name={MODEL.MANGA.HIDE}
