@@ -2,14 +2,16 @@ import { Fragment, ReactNode } from "react";
 
 type IComponentList = {
   count: number;
-  children: ReactNode;
+  render: (t: number) => ReactNode;
 };
 
-const ComponentList: React.FC<IComponentList> = ({ count, children }) => {
+const ComponentList: React.FC<IComponentList> = ({ count, render }) => {
+  const array = Array.from({ length: count });
+
   return (
     <>
-      {Array.from({ length: count }, (_, index) => (
-        <Fragment key={index}>{children}</Fragment>
+      {array.map((_, i) => (
+        <Fragment key={i}>{render(i)}</Fragment>
       ))}
     </>
   );
