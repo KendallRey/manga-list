@@ -1,7 +1,6 @@
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { GetMangaList } from "@/app/api/manga/manga-api";
 import MangaCard from "@/app/ui/manga/MangaCard";
-import MangaImageList from "@/app/ui/MangaImageList";
 import MuiPaper from "@/components/paper/Paper";
 import MuiTypography from "@/components/typography/Typograph";
 import { MODEL } from "@/model/model";
