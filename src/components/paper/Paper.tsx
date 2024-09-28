@@ -1,5 +1,3 @@
-"use client";
-
 import Paper, { PaperProps } from "@mui/material/Paper";
 
 type IMuiPaper = PaperProps;

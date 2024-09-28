@@ -155,7 +155,7 @@ const MuiTable: React.FC<IMuiTable> = (props) => {
           {children}
         </Table>
       </TableContainer>
-      <div onClick={(e) => e.stopPropagation()} className="flex items-center justify-between py-2 px-2">
+      <div onClick={(e) => e.stopPropagation()} className="flex flex-wrap items-center justify-between py-2 px-2">
         {paginationProps ? (
           <TablePagination limit={paginationProps.limit} count={paginationProps.count || 1} />
         ) : (

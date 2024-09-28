@@ -11,6 +11,7 @@ import MuiLink from "@/components/link/Link";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
 import MangaImageList from "@/app/ui/MangaImageList";
+import Link from "next/link";
 
 const ViewMangaPage: React.FC<INextPage> = async (props) => {
   const { params } = props;
@@ -29,7 +30,10 @@ const ViewMangaPage: React.FC<INextPage> = async (props) => {
       <MuiPaper className="flex flex-col flex-grow-[2] min-h-[320px] p-4 gap-2" elevation={2} color="primary">
         <MangaPageHeader manga={manga.data} />
         <div className="flex justify-end">
-          <MuiLink href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga.data[MODEL.MANGA.ID])}>
+          <MuiLink
+            component={Link}
+            href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga.data[MODEL.MANGA.ID])}
+          >
             Edit Manga Info
           </MuiLink>
         </div>

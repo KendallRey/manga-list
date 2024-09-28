@@ -7,7 +7,7 @@ import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import CreateMangaList from "./ui/CreateMangaList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
-import MangaListFilter from "./ui/MangaListFilter";
+import MangaListFilter from "./ui/MangaListFilterSorting";
 import MangaPageHeader from "./ui/MangaPageHeader";
 
 const MangaPage: React.FC<INextPage> = async (props) => {

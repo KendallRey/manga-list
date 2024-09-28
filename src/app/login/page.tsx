@@ -1,6 +1,5 @@
-import LandingPage from "../page";
-import { userLoginAction, userSignupAction } from "./ui/action";
+import LoginForm from "./ui/LoginForm";
 
 export default function LoginPage() {
-  return <LandingPage />;
+  return <LoginForm />;
 }

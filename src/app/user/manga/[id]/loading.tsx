@@ -1,5 +1,3 @@
-"use client";
-
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";

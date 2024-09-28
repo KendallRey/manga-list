@@ -35,9 +35,10 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
   );
 
   const onRemoveFilter = useCallback(
-    (key: string) => {
+    (key: string, force?: boolean) => {
       const _params = toSearchParams(searchParams, { page: 1 });
-      removeKeySearchParams(_params, key, ["all", "true"]);
+      if (force) removeKeySearchParams(_params, key);
+      else removeKeySearchParams(_params, key, ["all", "true"]);
       router.replace(`?${_params.toString()}`, { scroll: false });
     },
     [router, searchParams],
@@ -49,6 +50,12 @@ const MangaListFilter: React.FC<IMangaListFilter> = (props) => {
         <div className="flex items-center gap-2">
           {params.get("hide") && (
             <MuiChip label={`Hide: ${formatToLabel(params.get("hide"))}`} onDelete={() => onRemoveFilter("hide")} />
+          )}
+          {params.get("type") && (
+            <MuiChip
+              label={`Type: ${formatToLabel(params.get("type"))}`}
+              onDelete={() => onRemoveFilter("type", true)}
+            />
           )}
         </div>
         <MuiButton onClick={() => setOpen(true)}>Filter</MuiButton>

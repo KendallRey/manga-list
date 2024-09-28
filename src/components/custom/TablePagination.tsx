@@ -118,7 +118,7 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   // #endregion
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 flex-wrap">
       <MuiPagination onChange={handleChange} page={Number(searchValue)} count={pageCount} />
       <MuiTypography>Go to page:</MuiTypography>
       <form onSubmit={onSubmitGotoPage}>

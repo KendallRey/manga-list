@@ -4,16 +4,19 @@ import MuiButton from "@/components/button/Button";
 import MuiPaper from "@/components/paper/Paper";
 import MuiTypography from "@/components/typography/Typograph";
 import { APP } from "@/constants/APP";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import MuiFab from "../fab/Fab";
 import { useMediaQuery, useTheme } from "@mui/material";
+import Link from "next/link";
+import { useScroll, motion } from "framer-motion";
 
 const Navigation = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const theme = useTheme();
   const routes = useMemo(() => Object.values(APP.ROUTES.USER), []);
+
+  const { scrollY } = useScroll();
 
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const isLg = useMediaQuery(theme.breakpoints.up("lg"));
@@ -25,14 +28,7 @@ const Navigation = () => {
     [pathname],
   );
 
-  const onClickLink = useCallback(
-    (link: string) => {
-      router.push(link);
-    },
-    [router],
-  );
-
-  if (!isMd) return <></>;
+  if (!isMd) return <div></div>;
 
   return (
     <MuiPaper
@@ -41,26 +37,28 @@ const Navigation = () => {
       elevation={3}
       color="primary"
     >
-      <div className="flex flex-col gap-4 lg:gap-2">
-        {routes.map((route) => {
-          const active = isActiveLink(route.href);
-          return (
-            <React.Fragment key={route.href}>
-              {isLg ? (
-                <MuiButton variant={active ? "contained" : "text"} onClick={() => onClickLink(route.href)}>
-                  <MuiTypography variant="button" fontSize={18}>
-                    {route.name}
-                  </MuiTypography>
-                </MuiButton>
-              ) : (
-                <MuiFab size="small" color={active ? "primary" : "default"} onClick={() => onClickLink(route.href)}>
-                  {route.icon}
-                </MuiFab>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
+      <motion.div style={{ marginTop: scrollY, transitionDuration: "200ms" }}>
+        <div className="flex flex-col gap-4 lg:gap-2">
+          {routes.map((route) => {
+            const active = isActiveLink(route.href);
+            return (
+              <React.Fragment key={route.href}>
+                {isLg ? (
+                  <MuiButton component={Link} href={route.href} variant={active ? "contained" : "text"}>
+                    <MuiTypography variant="button" fontSize={18}>
+                      {route.name}
+                    </MuiTypography>
+                  </MuiButton>
+                ) : (
+                  <MuiFab component={Link} href={route.href} size="small" color={active ? "primary" : "default"}>
+                    {route.icon}
+                  </MuiFab>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </motion.div>
     </MuiPaper>
   );
 };
