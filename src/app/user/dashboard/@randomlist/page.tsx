@@ -1,8 +1,10 @@
+import { getSearchParams } from "@/app/api/helper/apiHelper";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { GetUserRandomMangas } from "@/app/api/manga/manga-api";
 import MangaTag from "@/app/ui/manga/MangaTag";
 import MangaTagSkeleton from "@/app/ui/manga/MangaTagSkeleton";
 import MuiAvatar from "@/components/avatar/Avatar";
+import MuiButton from "@/components/button/Button";
 import MuiList, { MuiListItem, MuiListItemAvatar, MuiListItemButton, MuiListItemText } from "@/components/list/List";
 import MuiPaper from "@/components/paper/Paper";
 import MuiStack from "@/components/stack/Stack";
@@ -12,9 +14,10 @@ import { MODEL } from "@/model/model";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import Link from "next/link";
 import React from "react";
-import MangaItemActions from "../../manga/ui/MangaItemActions";
 
-const DashboardRandomList = async () => {
+const DashboardRandomList: React.FC<INextPage> = async (props) => {
+  const { searchParams } = props;
+
   const mangaListResponse = await GetUserMangaList({});
 
   if (!mangaListResponse.status) {
@@ -26,8 +29,10 @@ const DashboardRandomList = async () => {
 
   const mangaList = mangaListResponse.data[0];
 
+  const { q } = getSearchParams(searchParams);
+
   const mangasResponse = await GetUserRandomMangas({
-    params: { limit: 10 },
+    params: { limit: 10, q },
     listId: mangaList.id,
   });
 
@@ -38,15 +43,13 @@ const DashboardRandomList = async () => {
   return (
     <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
       <MuiTypography fontSize={24}>Random List</MuiTypography>
+      <MuiButton>Randomize</MuiButton>
       <MuiList>
         {mangasResponse.data.map((manga) => (
-          <MuiListItem key={manga[MODEL.MANGA.ID]}>
+          <MuiListItem key={manga[MODEL.MANGA.ID]} className="border-b">
             <MuiListItemAvatar>
               <Link href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
-                <MuiAvatar
-                  sx={{ width: 50, height: 50 }}
-                  src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])}
-                />
+                <MuiAvatar sx={{ width: 50, height: 50 }} src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])} />
               </Link>
             </MuiListItemAvatar>
             <MuiListItemText
