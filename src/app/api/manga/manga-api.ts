@@ -46,6 +46,38 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
   }
 };
 
+type IGetRandomUserMangas = {
+  listId: string;
+} & IApiProps;
+
+export const GetUserRandomMangas = async (props: IGetRandomUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
+  const { params, skip, listId, defaultParams, overrideParams } = props;
+
+  try {
+    const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
+
+    const { filterBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, {
+      default: { ...defaultParams, hide: false },
+      override: { ...overrideParams },
+    });
+
+    if (skip) return successResponse({ data: [] });
+
+    const baseQuery = db
+      .select()
+      .from(MangaTable)
+      .where(and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys))
+      .orderBy(sql`RANDOM()`)
+      .limit(limit);
+
+    const mangas = await baseQuery;
+
+    return successResponse({ data: mangas });
+  } catch (error) {
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+  }
+};
+
 type IGetMangaList = {
   listId: string;
 } & IApiProps;
