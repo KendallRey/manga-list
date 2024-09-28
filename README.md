@@ -2,7 +2,6 @@
 
 ## Todos
 - add sample account with sample entries
-- update Login Page, (use Redux, notistack, ...)
 - add Dashboard
 - add Profile
 
