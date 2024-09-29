@@ -19,7 +19,6 @@ const DashboardManga = async () => {
   const mangaList = mangaListResponse.data[0];
 
   const mangasResponse = await GetMangaList({
-    defaultParams: {},
     params: { limit: 3, created_at: "asc" },
     listId: mangaList.id,
   });
