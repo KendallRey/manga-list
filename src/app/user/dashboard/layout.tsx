@@ -4,17 +4,17 @@ import React from "react";
 type IDashboardLayout = {
   manga: React.ReactNode;
   searchAdd: React.ReactNode;
-  randomlist: React.ReactNode;
+  randomList: React.ReactNode;
 } & ILayout;
 
 const DashboardLayout: React.FC<IDashboardLayout> = (props) => {
-  const { children, manga, searchAdd, randomlist } = props;
+  const { children, manga, searchAdd, randomList } = props;
 
   return (
     <Dashboard>
       {children}
       {searchAdd}
-      {randomlist}
+      {randomList}
       {manga}
     </Dashboard>
   );
