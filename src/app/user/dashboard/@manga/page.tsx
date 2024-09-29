@@ -10,10 +10,10 @@ const DashboardManga = async () => {
   const mangaListResponse = await GetUserMangaList({});
 
   if (!mangaListResponse.status) {
-    return <MuiPaper></MuiPaper>;
+    return <MuiPaper>a</MuiPaper>;
   }
   if (!mangaListResponse.data.length) {
-    return <MuiPaper></MuiPaper>;
+    return <MuiPaper>b</MuiPaper>;
   }
 
   const mangaList = mangaListResponse.data[0];
