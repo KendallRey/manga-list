@@ -12,6 +12,7 @@ import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import Link from "next/link";
 import React from "react";
 import ListAction from "./ListAction";
+import CreateMangaList from "../../manga/ui/CreateMangaList";
 
 const DashboardRandomList: React.FC<INextPage> = async (props) => {
   const mangaListResponse = await GetUserMangaList({});
@@ -20,7 +21,7 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
     return <MuiPaper></MuiPaper>;
   }
   if (!mangaListResponse.data.length) {
-    return <MuiPaper></MuiPaper>;
+    return <CreateMangaList />;
   }
 
   const mangaList = mangaListResponse.data[0];
