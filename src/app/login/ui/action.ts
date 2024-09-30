@@ -16,7 +16,22 @@ export async function userLoginAction(_data: unknown) {
   const { data, error } = await supabase.auth.signInWithPassword(validation.data);
 
   if (error) {
-    return error;
+    return { error: error.message };
+  }
+
+  return data;
+}
+
+export async function userSignUpAction(_data: unknown) {
+  const validation = LoginFormSchema.safeParse(_data);
+  if (!validation.success) redirect("/error");
+
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signUp(validation.data);
+
+  if (error) {
+    return { error: error.message };
   }
 
   return data;
