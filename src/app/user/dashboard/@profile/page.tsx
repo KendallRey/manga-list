@@ -4,7 +4,7 @@ import React from "react";
 
 const DashboardProfile = () => {
   return (
-    <MuiPaper className="flex-grow flex items-center justify-center min-h-[240px] gap-6 p-4">
+    <MuiPaper className="flex items-center justify-center min-h-[240px] gap-6 p-4">
       <MuiAvatar sx={{ width: 140, height: 140 }} />
     </MuiPaper>
   );

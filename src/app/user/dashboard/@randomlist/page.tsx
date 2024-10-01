@@ -11,8 +11,8 @@ import { MODEL } from "@/model/model";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import Link from "next/link";
 import React from "react";
-import ListAction from "./ListAction";
 import CreateMangaList from "../../manga/ui/CreateMangaList";
+import ListAction from "./ListAction";
 
 const DashboardRandomList: React.FC<INextPage> = async (props) => {
   const mangaListResponse = await GetUserMangaList({});
