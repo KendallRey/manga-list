@@ -5,7 +5,7 @@ import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import MangaList from "./ui/MangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
-import CreateMangaList from "./ui/CreateMangaList";
+import CreateMangaList from "../../ui/manga/CreateMangaList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MangaListFilter from "./ui/MangaListFilterSorting";
 import MangaSearchAdd from "../../ui/manga/MangaSearchAdd";
