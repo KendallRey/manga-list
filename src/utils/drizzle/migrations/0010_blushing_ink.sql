@@ -1,0 +1,1 @@
+ALTER TABLE "user_profile" ALTER COLUMN "image_url" DROP NOT NULL;
