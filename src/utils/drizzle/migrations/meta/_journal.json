@@ -57,6 +57,13 @@
       "when": 1727015691753,
       "tag": "0007_sturdy_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1727839511386,
+      "tag": "0008_lying_rhodey",
+      "breakpoints": true
     }
   ]
 }
