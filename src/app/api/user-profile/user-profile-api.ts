@@ -1,7 +1,7 @@
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IUserProfileTableSelect, UserProfileTable } from "@/utils/drizzle/schema";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { eq } from "drizzle-orm";
 
 export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<IUserProfileTableSelect>> => {
@@ -12,13 +12,17 @@ export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<
     if (!user)
       return {
         status: null,
-        error: "Fetching Failed",
+        error: "Fetching user failed",
         code: 500,
       };
-    const userProfile = await db.insert(UserProfileTable).values({
-      [MODEL.USER_PROFILE.NAME]: user.id,
-      [MODEL.USER_PROFILE.USER_ID]: user.id,
-    });
+
+    const userProfile = await db
+      .insert(UserProfileTable)
+      .values({
+        [MODEL.USER_PROFILE.NAME]: user.email ?? user.id,
+        [MODEL.USER_PROFILE.USER_ID]: user.id,
+      })
+      .returning();
 
     return {
       status: "ok",
@@ -28,7 +32,7 @@ export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<
   } catch (error) {
     return {
       status: null,
-      error: "Fetching Failed",
+      error: "Create profile failed",
       code: 500,
     };
   }
@@ -52,6 +56,7 @@ export const GetUserProfiles = async (props: IApiProps): Promise<IApiResponse<IU
       data: userProfiles,
     };
   } catch (error) {
+    console.log("error", error);
     return {
       status: null,
       error: "Fetching Failed",
