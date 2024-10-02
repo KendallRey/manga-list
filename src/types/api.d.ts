@@ -33,7 +33,7 @@ type IApiErrorResponse<T> = {
   status: null;
   code: number;
   error: string;
-  data?: T;
+  data?: null;
 };
 
 type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<T>;

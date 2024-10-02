@@ -1,11 +1,8 @@
-import { getSearchParams } from "@/app/api/helper/apiHelper";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { GetUserRandomMangas } from "@/app/api/manga/manga-api";
 import MangaTag from "@/app/ui/manga/MangaTag";
-import MangaTagSkeleton from "@/app/ui/manga/MangaTagSkeleton";
 import MuiAvatar from "@/components/avatar/Avatar";
-import MuiButton from "@/components/button/Button";
-import MuiList, { MuiListItem, MuiListItemAvatar, MuiListItemButton, MuiListItemText } from "@/components/list/List";
+import MuiList, { MuiListItem, MuiListItemAvatar, MuiListItemText } from "@/components/list/List";
 import MuiPaper from "@/components/paper/Paper";
 import MuiStack from "@/components/stack/Stack";
 import MuiTypography from "@/components/typography/Typograph";
@@ -14,25 +11,23 @@ import { MODEL } from "@/model/model";
 import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import Link from "next/link";
 import React from "react";
+import CreateMangaList from "../../../ui/manga/CreateMangaList";
+import ListAction from "./ListAction";
 
 const DashboardRandomList: React.FC<INextPage> = async (props) => {
-  const { searchParams } = props;
-
   const mangaListResponse = await GetUserMangaList({});
 
   if (!mangaListResponse.status) {
     return <MuiPaper></MuiPaper>;
   }
   if (!mangaListResponse.data.length) {
-    return <MuiPaper></MuiPaper>;
+    return <CreateMangaList />;
   }
 
   const mangaList = mangaListResponse.data[0];
 
-  const { q } = getSearchParams(searchParams);
-
   const mangasResponse = await GetUserRandomMangas({
-    params: { limit: 10, q },
+    params: { limit: 10 },
     listId: mangaList.id,
   });
 
@@ -43,7 +38,7 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
   return (
     <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
       <MuiTypography fontSize={24}>Random List</MuiTypography>
-      <MuiButton>Randomize</MuiButton>
+      <ListAction />
       <MuiList>
         {mangasResponse.data.map((manga) => (
           <MuiListItem key={manga[MODEL.MANGA.ID]} className="border-b">
@@ -54,6 +49,7 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
             </MuiListItemAvatar>
             <MuiListItemText
               primary={manga[MODEL.MANGA.NAME]}
+              disableTypography
               secondary={
                 <MuiStack direction={"row"} gap={1}>
                   <MangaTag manga={manga} />

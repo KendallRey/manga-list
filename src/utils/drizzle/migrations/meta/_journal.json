@@ -57,6 +57,27 @@
       "when": 1727015691753,
       "tag": "0007_sturdy_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1727839511386,
+      "tag": "0008_lying_rhodey",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1727840189943,
+      "tag": "0009_narrow_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1727840214852,
+      "tag": "0010_blushing_ink",
+      "breakpoints": true
     }
   ]
 }
