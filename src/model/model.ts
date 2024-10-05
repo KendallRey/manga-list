@@ -42,6 +42,7 @@ export const MANGA_MODEL = {
   URL: "url",
   THUMBNAIL: "thumbnail",
   DESCRIPTION: "description",
+  FAVORITE: "favorite",
   TYPE: "type",
   HIDE: "hide",
   DANGER: "danger", // 😉

@@ -1,1 +1,0 @@
-ALTER TABLE "user_profile" ADD COLUMN "image_url" varchar(500) NOT NULL;
