@@ -1,6 +1,8 @@
 import { Card, CardProps } from "@mui/material";
 
-const MuiCard: React.FC<CardProps> = (props) => {
+export type IMuiCardProps = CardProps;
+
+const MuiCard: React.FC<IMuiCardProps> = (props) => {
   return <Card {...props} />;
 };
 

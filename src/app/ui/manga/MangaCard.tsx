@@ -1,4 +1,4 @@
-import MuiCard from "@/components/card/Card";
+import MuiCard, { IMuiCardProps } from "@/components/card/Card";
 import MuiCardActions from "@/components/card/CardActions";
 import MuiCardHeader from "@/components/card/CardHeader";
 import MuiChip from "@/components/chip/Chip";
@@ -16,17 +16,17 @@ import { HiPencilSquare } from "react-icons/hi2";
 
 type IMangaCard = {
   manga: IMangaTableSelect;
-};
+} & IMuiCardProps;
 
 const MangaCard: React.FC<IMangaCard> = (props) => {
-  const { manga } = props;
+  const { manga, className, ...otherProps } = props;
 
   const thumbnailImage = (
     manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg"
   ) as string;
 
   return (
-    <MuiCard className="flex-grow" variant="outlined">
+    <MuiCard className={`flex-grow ${className ?? ""}`} variant="outlined" {...otherProps}>
       <MuiCardHeader
         titleTypographyProps={{
           fontSize: 16,
