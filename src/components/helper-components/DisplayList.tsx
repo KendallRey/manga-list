@@ -1,8 +1,7 @@
-
-import { CircularProgress } from '@mui/material';
-import React from 'react';
-import MuiTypography from '../typography/Typograph';
-import { Each } from './TableList';
+import { CircularProgress } from "@mui/material";
+import React from "react";
+import MuiTypography from "../typography/Typograph";
+import { Each } from "./TableList";
 
 type IDisplayList<T> = {
   data?: T[] | null;
@@ -19,13 +18,19 @@ const DisplayList = <T,>(props: IDisplayList<T>) => {
 
   return (
     <>
-      {isLoading && <CircularProgress className={`mx-auto ${className ?? ''}`} />}
+      {isLoading && <CircularProgress className={`mx-auto ${className ?? ""}`} />}
       {isError && (
-        <MuiTypography className={`text-destructive-500 mx-auto text-center ${className ?? ''}`} component={'strong'}>
-          {errorText ?? 'Something went wrong.'}
+        <MuiTypography className={`text-destructive-500 mx-auto text-center ${className ?? ""}`} component={"strong"}>
+          {errorText ?? "Something went wrong."}
         </MuiTypography>
       )}
-      {data && !data?.length ? <MuiTypography component={'em'} className={className}>{emptyText ?? 'No record/s found'}</MuiTypography> : <></>}
+      {data && !data?.length ? (
+        <MuiTypography component={"em"} className={className}>
+          {emptyText ?? "No record/s found"}
+        </MuiTypography>
+      ) : (
+        <></>
+      )}
       <Each data={data ?? []} render={render} />
     </>
   );
