@@ -36,7 +36,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
         subheader={manga.created_at?.toDateString()}
       />
       <Image src={thumbnailImage} width={320} height={420} alt={manga[MODEL.MANGA.NAME]} className="mx-auto" />
-      <MuiStack gap={2}>
+      <MuiStack gap={2} direction="row" margin={1}>
         {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
         {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
         {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
