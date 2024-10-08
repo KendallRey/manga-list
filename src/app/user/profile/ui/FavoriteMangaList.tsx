@@ -6,7 +6,6 @@ import MangaCard from "@/app/ui/manga/MangaCard";
 import PageTitle from "@/components/custom/PageTitle";
 import TablePagination from "@/components/custom/TablePagination";
 import DisplayList from "@/components/helper-components/DisplayList";
-import { NextPage } from "next";
 import React from "react";
 
 type IFavoriteMangaList = {
@@ -16,23 +15,24 @@ type IFavoriteMangaList = {
 const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
   const { params } = props;
 
-  const mangaListResponse = await GetUserMangaList({});
+  const userMangaListsResponse = await GetUserMangaList({});
 
-  if (!mangaListResponse.status) {
+  if (!userMangaListsResponse.status) {
     return <ErrorPage />;
   }
-  if (!mangaListResponse.data.length) {
+  if (!userMangaListsResponse.data.length) {
     return <CreateMangaList />;
   }
 
-  const mangaList = mangaListResponse.data[0];
+  const mangaList = userMangaListsResponse.data[0];
 
-  const mangasResponse = await GetMangaList({
+  const mangaListResponse = await GetMangaList({
     params: { limit: 10, ...params },
+    overrideParams: { favorite: true },
     listId: mangaList.id,
   });
 
-  if (!mangasResponse.status) {
+  if (!mangaListResponse.status) {
     return <ErrorPage />;
   }
 
@@ -40,9 +40,12 @@ const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
     <>
       <PageTitle>Favorites</PageTitle>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        <DisplayList data={mangasResponse.data.results} render={(item) => <MangaCard key={item.id} manga={item} />} />
+        <DisplayList
+          data={mangaListResponse.data.results}
+          render={(item) => <MangaCard key={item.id} manga={item} sx={{ height: 500 }} />}
+        />
       </div>
-      <TablePagination count={mangasResponse.data.count} />
+      <TablePagination count={mangaListResponse.data.count} />
     </>
   );
 };
