@@ -4,8 +4,11 @@ import React from "react";
 import UserProfile from "./ui/UserProfile";
 import PageTitle from "@/components/custom/PageTitle";
 import { blue } from "@mui/material/colors";
+import FavoriteMangaList from "./ui/FavoriteMangaList";
 
-const ProfilePage = async () => {
+const ProfilePage: React.FC<INextPage> = async (props) => {
+  const { searchParams } = props;
+
   return (
     <Dashboard>
       <MuiPaper className="flex flex-col items-center p-4" elevation={2}>
@@ -23,7 +26,7 @@ const ProfilePage = async () => {
         </MuiPaper>
       </div>
       <MuiPaper className="flex-grow p-4" elevation={2}>
-        <PageTitle>Favorites</PageTitle>
+        <FavoriteMangaList params={searchParams} />
       </MuiPaper>
     </Dashboard>
   );
