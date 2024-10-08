@@ -69,7 +69,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
       </MuiCardContent>
       <MuiCardActions disableSpacing>
         <MuiIconButton
-          color="secondary"
+          color="primary"
           LinkComponent={Link}
           {...{ href: USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]) }}
           aria-label="update"
@@ -77,7 +77,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
           <FaEye />
         </MuiIconButton>
         <MuiIconButton
-          color="secondary"
+          color="primary"
           LinkComponent={Link}
           {...{ href: USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]) }}
           aria-label="view"
