@@ -8,9 +8,8 @@ import { clearLoginForm, editLoginForm, setLoginFormError } from "@/redux/featur
 import { useAppDispatch, useAppSelector } from "@/redux/services/hooks";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
-import { userLoginAction } from "./action";
+import { userLoginAction, userSignUpAction } from "./action";
 import { useRouter } from "next/navigation";
-import { AuthError } from "@supabase/supabase-js";
 import USER_ROUTE from "@/constants/ROUTES";
 import { customEnqueueSnackbar } from "@/components/helper/notistack";
 import { getInputRecord } from "@/redux/helper/input";
@@ -51,11 +50,11 @@ const LoginForm = () => {
       if (!data) return;
       setIsLoading(true);
       const response = await userLoginAction(data);
-      if (response instanceof AuthError) {
+      if ("error" in response) {
         setIsLoading(false);
         customEnqueueSnackbar({
           variant: "error",
-          message: response.message,
+          message: response.error,
         });
         return;
       }
@@ -78,18 +77,18 @@ const LoginForm = () => {
     const data = onValidateForm();
     if (!data) return;
     setIsLoading(true);
-    const response = await userLoginAction(data);
+    const response = await userSignUpAction(data);
     setIsLoading(false);
-    if (response instanceof AuthError) {
+    if ("error" in response) {
       customEnqueueSnackbar({
         variant: "error",
-        message: response.message,
+        message: response.error,
       });
       return;
     }
     customEnqueueSnackbar({
       variant: "success",
-      message: `Sign up ${response.user.email ?? "user"} successful.`,
+      message: `Sign up ${response.user?.email ?? "user"} successful.`,
     });
     customEnqueueSnackbar({
       variant: "info",

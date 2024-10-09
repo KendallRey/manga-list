@@ -11,6 +11,18 @@ export const USER_PROFILE_MODEL = {
   NAME: "name",
   name: "user_profile",
   USER_ID: "user_id",
+  IMAGE_URL: "image_url",
+} as const;
+
+export const USER_PROFILE_IMAGE_MODEL = {
+  ...BASE_MODEL,
+  NAME: "name",
+  name: "user_profile_image",
+  USER_PROFILE_ID: "user_profile_id",
+  IMAGE_ID: "image_id",
+  PATH: "path",
+  FULL_PATH: "full_path",
+  PUBLIC_URL: "public_url",
 } as const;
 
 export const MANGA_TYPE_ENUM = {
@@ -30,6 +42,7 @@ export const MANGA_MODEL = {
   URL: "url",
   THUMBNAIL: "thumbnail",
   DESCRIPTION: "description",
+  FAVORITE: "favorite",
   TYPE: "type",
   HIDE: "hide",
   DANGER: "danger", // 😉
@@ -62,6 +75,7 @@ const ENUM = {
 export const MODEL = {
   BASE: BASE_MODEL,
   USER_PROFILE: USER_PROFILE_MODEL,
+  USER_PROFILE_IMAGE: USER_PROFILE_IMAGE_MODEL,
   MANGA: MANGA_MODEL,
   ENUM: ENUM,
   MANGA_LIST: MANGA_LIST_MODEL,

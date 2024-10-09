@@ -5,10 +5,10 @@ import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import MangaList from "./ui/MangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
-import CreateMangaList from "./ui/CreateMangaList";
+import CreateMangaList from "../../ui/manga/CreateMangaList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MangaListFilter from "./ui/MangaListFilterSorting";
-import MangaPageHeader from "./ui/MangaPageHeader";
+import MangaSearchAdd from "../../ui/manga/MangaSearchAdd";
 
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -39,7 +39,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
   return (
     <Dashboard>
       <MuiPaper className="p-4" elevation={2} color="primary">
-        <MangaPageHeader listId={mangaList.id} searchParams={searchParams} />
+        <MangaSearchAdd listId={mangaList.id} searchParams={searchParams} />
       </MuiPaper>
 
       <MuiPaper className="flex flex-col flex-grow-[2] gap-1 min-h-[320px] p-4" elevation={2} color="primary">

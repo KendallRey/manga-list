@@ -2,22 +2,17 @@ import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import MuiSkeleton from "@/components/skeleton/Skeleton";
-import { List } from "@mui/material";
 import MuiTable, { MuiTableHead, MuiHeadTr, MuiTh, MuiTableBody, MuiTr, MuiTd } from "@/components/table/Table";
 import ComponentList from "@/components/helper-components/ComponentList";
 import MuiStack from "@/components/stack/Stack";
 import { MathRandom } from "@/components/helper/math";
+import MangaSearchAddSkeleton from "@/app/ui/manga/MangaSearchAddSkeleton";
 
 const MangaPageLoading = () => {
   return (
     <Dashboard>
       <MuiPaper className="p-4" elevation={2} color="primary">
-        <div className="flex gap-2 mb-2">
-          <MuiSkeleton height={51} component={"div"} className="flex-grow" />
-          <MuiSkeleton height={51} component={"div"} width={64} />
-        </div>
-        <MuiSkeleton width={90} height={15} />
-        <List className="flex flex-col gap-2"></List>
+        <MangaSearchAddSkeleton />
       </MuiPaper>
       <MuiPaper className="flex flex-col gap-1 flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
         <MuiSkeleton height={37} className="ml-auto" component={"div"} width={64} />

@@ -8,14 +8,14 @@ import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
 import { Avatar } from "@mui/material";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
-import AddMangaList from "./AddMangaList";
+import AddMangaList from "../../user/manga/ui/AddMangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import ErrorPage from "@/app/error/page";
 import { HiEye } from "react-icons/hi2";
 import MuiChip from "@/components/chip/Chip";
 import HighlightText from "@/components/custom/HighlightText";
-import MangaItemActions from "./MangaItemActions";
+import MangaItemActions from "../../user/manga/ui/MangaItemActions";
 import Link from "next/link";
 
 type IMangaPageHeader = {
@@ -23,7 +23,7 @@ type IMangaPageHeader = {
   searchParams?: Record<string, any>;
 };
 
-const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
+const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
   const { listId, searchParams } = props;
 
   const { q } = getSearchParams(searchParams);
@@ -98,4 +98,4 @@ const MangaPageHeader: React.FC<IMangaPageHeader> = async (props) => {
   );
 };
 
-export default MangaPageHeader;
+export default MangaSearchAdd;

@@ -3,7 +3,7 @@ import { GetMangaList } from "@/app/api/manga/manga-api";
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
-import CreateMangaList from "../manga/ui/CreateMangaList";
+import CreateMangaList from "../../ui/manga/CreateMangaList";
 import ErrorPage from "@/app/error/page";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import MangaImageList from "./ui/MangaImageList";

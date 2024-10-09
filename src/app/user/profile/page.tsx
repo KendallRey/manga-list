@@ -1,43 +1,33 @@
 import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
-import { createClient } from "@/utils/supabase/client";
 import React from "react";
+import UserProfile from "./ui/UserProfile";
+import PageTitle from "@/components/custom/PageTitle";
+import { blue } from "@mui/material/colors";
+import FavoriteMangaList from "./ui/FavoriteMangaList";
 
-const ProfilePage = async () => {
-  const client = createClient();
+const ProfilePage: React.FC<INextPage> = async (props) => {
+  const { searchParams } = props;
 
   return (
     <Dashboard>
+      <MuiPaper className="flex flex-col items-center p-4" elevation={2}>
+        <UserProfile />
+      </MuiPaper>
       <div className="flex flex-wrap gap-4">
-        <MuiPaper className="flex-grow min-h-[180px] p-4" elevation={2} color="primary">
-          Card 1
-        </MuiPaper>
-        <MuiPaper className="flex-grow min-h-[180px] p-4" elevation={2} color="primary">
-          Card 1
-        </MuiPaper>
-        <MuiPaper className="flex-grow min-h-[180px] p-4" elevation={2} color="primary">
-          Card 1
-        </MuiPaper>
-      </div>
-      <div className="flex flex-wrap gap-4">
-        <MuiPaper className="flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
-          Graph 1
-        </MuiPaper>
-        <MuiPaper className="flex-grow min-h-[320px] p-4" elevation={2} color="primary">
-          Graph 1
-        </MuiPaper>
-      </div>
-      <div className="flex flex-wrap flex-grow gap-4">
-        <MuiPaper className="flex-grow min-h-[240px] p-4" elevation={2} color="primary">
+        <MuiPaper className="flex-grow p-4 bg-primary-500" sx={{ background: blue[500], color: "white" }} elevation={2}>
           Stats 1
         </MuiPaper>
-        <MuiPaper className="flex-grow min-h-[240px] p-4" elevation={2} color="primary">
+        <MuiPaper className="flex-grow p-4" elevation={2}>
           Stats 1
         </MuiPaper>
-        <MuiPaper className="flex-grow min-h-[240px] p-4" elevation={2} color="primary">
+        <MuiPaper className="flex-grow p-4" elevation={2}>
           Stats 1
         </MuiPaper>
       </div>
+      <MuiPaper className="flex-grow p-4" elevation={2}>
+        <FavoriteMangaList params={searchParams} />
+      </MuiPaper>
     </Dashboard>
   );
 };
