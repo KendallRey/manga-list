@@ -36,6 +36,8 @@ const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
     return <ErrorPage />;
   }
 
+  console.log("test", mangaListResponse);
+
   return (
     <>
       <PageTitle>Favorites</PageTitle>
@@ -45,7 +47,7 @@ const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
           render={(item) => <MangaCard key={item.id} manga={item} sx={{ height: 500 }} />}
         />
       </div>
-      <TablePagination count={mangaListResponse.data.count} />
+      {Boolean(mangaListResponse.data.count) && <TablePagination count={mangaListResponse.data.count} />}
     </>
   );
 };
