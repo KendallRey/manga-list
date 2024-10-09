@@ -117,11 +117,11 @@ export const parseToPage = (value: unknown, max?: number): number => {
   }
 
   // If max is provided, ensure the page does not exceed the maximum
-  if (max && page > max) {
-    return max;
+  if (typeof max === "number" && page > max) {
+    return Math.max(max, 1);
   }
 
-  return page;
+  return Math.max(page, 1);
 };
 
 /**

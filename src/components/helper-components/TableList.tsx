@@ -78,6 +78,6 @@ type EachProps<T> = {
   data?: T[];
 };
 
-const Each = <T,>({ render, data }: EachProps<T>) => (
+export const Each = <T,>({ render, data }: EachProps<T>) => (
   <>{React.Children.toArray(data?.map((item, index) => render(item, index)))}</>
 );

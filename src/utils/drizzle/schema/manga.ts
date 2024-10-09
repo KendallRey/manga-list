@@ -33,6 +33,7 @@ export const MangaTable = pgTable(
     [MODEL.MANGA.UPDATED_AT]: timestamp(MODEL.MANGA.UPDATED_AT, { withTimezone: true }).default(sql`NOW()`),
     [MODEL.MANGA.DELETED_AT]: timestamp(MODEL.MANGA.DELETED_AT, { withTimezone: true }),
     [MODEL.MANGA.ARCHIVED]: boolean(MODEL.MANGA.ARCHIVED).default(false),
+    [MODEL.MANGA.FAVORITE]: boolean(MODEL.MANGA.FAVORITE).default(false),
     [MODEL.MANGA.HIDE]: boolean(MODEL.MANGA.HIDE).default(false),
     [MODEL.MANGA.DANGER]: boolean(MODEL.MANGA.DANGER).default(false),
     [MODEL.MANGA.SPICY]: boolean(MODEL.MANGA.SPICY).default(false),
