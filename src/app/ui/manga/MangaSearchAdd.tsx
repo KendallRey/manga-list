@@ -45,7 +45,20 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
         <Search />
         <AddMangaList id={listId} name={q} count={mangasResponse.data.length} />
       </div>
-      <MuiTypography variant="caption">{mangasResponse.data.length} results</MuiTypography>
+      <span className="flex gap-1 items-center">
+        <MuiTypography variant="caption">{mangasResponse.data.length}</MuiTypography>
+        <MuiTypography
+          fontWeight={600}
+          variant="body2"
+          textOverflow={"ellipsis"}
+          noWrap
+          className="max-w-[320px] md:max-w-[480px] lg:max-w-[720px]"
+          overflow={"hidden"}
+        >
+          {q}
+        </MuiTypography>
+        <MuiTypography variant="caption">results</MuiTypography>
+      </span>
       <MuiList className="flex flex-col gap-1">
         {mangasResponse.data.map((manga) => (
           <MuiListItem
