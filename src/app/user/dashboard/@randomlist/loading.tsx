@@ -17,7 +17,7 @@ const MangaLoading = () => {
           render={(i) => (
             <MuiListItem key={i} className="border-b">
               <MuiListItemAvatar>
-                <MuiSkeleton variant="circular" width={50} height={50} />
+                <MuiSkeleton width={50} height={50} />
               </MuiListItemAvatar>
               <MuiListItemText
                 disableTypography

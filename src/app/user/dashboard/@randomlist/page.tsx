@@ -44,7 +44,11 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
           <MuiListItem key={manga[MODEL.MANGA.ID]} className="border-b">
             <MuiListItemAvatar>
               <Link href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
-                <MuiAvatar sx={{ width: 50, height: 50 }} src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])} />
+                <MuiAvatar
+                  variant="rounded"
+                  sx={{ width: 50, height: 50 }}
+                  src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])}
+                />
               </Link>
             </MuiListItemAvatar>
             <MuiListItemText
