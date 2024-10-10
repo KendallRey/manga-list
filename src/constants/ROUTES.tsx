@@ -80,10 +80,16 @@ const IMAGES_PAGE = {
 
 // #region Profile Page
 
+const PROFILE_UPDATE = {
+  name: "User Profile",
+  href: `/user/profile/update`,
+} as const;
+
 const PROFILE_PAGE = {
   name: "User Profile",
   href: `/user/profile`,
   icon: <CgProfile size={25} className="mx-auto" />,
+  UPDATE: PROFILE_UPDATE,
 } as const;
 
 // #endregion
