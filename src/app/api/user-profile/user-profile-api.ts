@@ -1,8 +1,12 @@
+"use server";
+
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IUserProfileTableSelect, UserProfileTable } from "@/utils/drizzle/schema";
 import { createClient } from "@/utils/supabase/server";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+import API from "../API";
+import { errorResponse, successResponse } from "../helper/apiHelper";
 
 export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<IUserProfileTableSelect>> => {
   try {
@@ -62,5 +66,25 @@ export const GetUserProfiles = async (props: IApiProps): Promise<IApiResponse<IU
       error: "Fetching Failed",
       code: 500,
     };
+  }
+};
+
+export const UpdateUserProfile = async (
+  props: IApiPutProps<Record<string, any>>,
+): Promise<IApiResponse<IUserProfileTableSelect>> => {
+  const { id, payload } = props;
+  try {
+    const manga = await db
+      .update(UserProfileTable)
+      .set({
+        ...payload,
+        [MODEL.MANGA.UPDATED_AT]: sql`NOW()`,
+      })
+      .where(eq(UserProfileTable[MODEL.USER_PROFILE.ID], String(id)))
+      .returning();
+
+    return successResponse({ data: manga[0], code: API.CODE.SUCCESS.OK });
+  } catch (error) {
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
