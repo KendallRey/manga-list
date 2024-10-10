@@ -12,7 +12,7 @@ import { updateUserProfileAction } from "@/app/action/user-profile";
 import MuiButton from "@/components/button/Button";
 import { displaySnackbar } from "@/components/helper/notistack";
 
-type IUpdateUserProfileForm = {};
+type IUpdateUserProfileForm = object;
 
 const UpdateUserProfileForm: React.FC<IUpdateUserProfileForm> = (props) => {
   const {} = props;
