@@ -92,7 +92,7 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
               </MuiLink>
             </MuiListItemIcon>
             <MuiListItemText
-              className="pr-12"
+              className="pr-20"
               secondary={
                 <div className="flex gap-2">
                   {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
