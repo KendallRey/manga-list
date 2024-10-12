@@ -22,7 +22,7 @@ NEXT_PUBLIC_HOSTNAMES = <supabase_url>, <another_url>, <sample_url>
 NEXT_PUBLIC_S3_ACCESS_KEY = <supabase_s3_access_key>
 NEXT_PUBLIC_S3_SECRET_KEY = <supabase_s3_secret_key>
 
-NEXT_PUBLIC_SUPABASE_BUCKET_NAME = manga_image
+NEXT_PUBLIC_SUPABASE_BUCKET_MANGA_NAME = manga_image
 ```
 
 ## Installed Packages Command
