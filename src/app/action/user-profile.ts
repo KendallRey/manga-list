@@ -84,3 +84,13 @@ export const addUserProfileImagesAction = async (
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
+
+export async function updateUserProfileImageAction(image: IUserProfileImageTableSelect) {
+  const { user_profile_id, path } = image;
+  const payload = {
+    [MODEL.USER_PROFILE.IMAGE_URL]: path,
+  };
+  const response = await UpdateUserProfile({ id: String(user_profile_id), payload });
+  if (response.status) revalidatePath("/", "layout");
+  return response;
+}
