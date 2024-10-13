@@ -29,7 +29,11 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
       <MuiTr>
         <MuiTd className="pt-3">
           <MuiLink component={Link} href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
-            <Avatar src={toBucketPublicMangaUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
+            <Avatar
+              src={toBucketPublicMangaUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)}
+              alt={item.name}
+              variant="rounded"
+            />
           </MuiLink>
         </MuiTd>
         <MuiTd>
