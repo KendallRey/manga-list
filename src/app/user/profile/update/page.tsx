@@ -2,10 +2,8 @@ import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import UserProfile from "../ui/UserProfile";
-import UpdateUserProfileForm from "@/app/ui/user-profile/UpdateUserProfileForm";
-import PageTitle from "@/components/custom/PageTitle";
-import UploadImageFile from "@/components/custom/UploadImageFile";
 import UpdateUserProfile from "../ui/UpdateUserProfile";
+import UserProfileImages from "@/app/ui/user-profile/UserProfileImages";
 
 const ProfileUpdatePage = () => {
   return (
@@ -17,7 +15,7 @@ const ProfileUpdatePage = () => {
         <UpdateUserProfile />
       </MuiPaper>
       <MuiPaper className="flex-grow p-4" elevation={2}>
-        <PageTitle>Profile Images</PageTitle>
+        <UserProfileImages />
       </MuiPaper>
     </Dashboard>
   );
