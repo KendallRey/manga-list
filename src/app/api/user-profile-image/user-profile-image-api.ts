@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import API from "../API";
 import { createClient } from "@/utils/supabase/server";
 
-type IGetUserProfileImages = {} & IApiProps;
+type IGetUserProfileImages = IApiProps;
 
 export const GetUserProfileImages = async (
   props: IGetUserProfileImages,
