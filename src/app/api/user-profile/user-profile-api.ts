@@ -60,7 +60,6 @@ export const GetUserProfiles = async (props: IApiProps): Promise<IApiResponse<IU
       data: userProfiles,
     };
   } catch (error) {
-    console.log("error", error);
     return {
       status: null,
       error: "Fetching Failed",
