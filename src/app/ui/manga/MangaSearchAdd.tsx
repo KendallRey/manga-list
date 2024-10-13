@@ -4,7 +4,7 @@ import MuiList, { MuiListItem, MuiListItemIcon, MuiListItemText } from "@/compon
 import MuiTypography from "@/components/typography/Typograph";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import { Avatar } from "@mui/material";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
@@ -85,7 +85,7 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
             <MuiListItemIcon>
               <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
                 <Avatar
-                  src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
+                  src={toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
                   alt={manga.name}
                   variant="rounded"
                 />

@@ -2,7 +2,7 @@
 
 import { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
 import React, { useCallback, useMemo, useState } from "react";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import { HiPhoto } from "react-icons/hi2";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
@@ -42,7 +42,7 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   // }, [image, manga, isLoading]);
 
   const srcPath = useMemo(() => {
-    return manga[MODEL.MANGA.THUMBNAIL] ? `${toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])}` : "/images/404.jpg";
+    return manga[MODEL.MANGA.THUMBNAIL] ? `${toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL])}` : "/images/404.jpg";
   }, [manga]);
 
   const [isBlur, setIsBlur] = useState(

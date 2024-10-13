@@ -9,7 +9,7 @@ import { Avatar } from "@mui/material";
 import MangaItemActions from "./MangaItemActions";
 import React, { useState } from "react";
 import { HiEye } from "react-icons/hi2";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import { MODEL } from "@/model/model";
 import MuiTypography from "@/components/typography/Typograph";
 import MuiChip from "@/components/chip/Chip";
@@ -29,7 +29,7 @@ const MangaListItem: React.FC<IMangaListItem> = (props) => {
       <MuiTr>
         <MuiTd className="pt-3">
           <MuiLink component={Link} href={`${USER_ROUTE.MANGA_PAGE.href}/${item.id}`}>
-            <Avatar src={toBucketPublicUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
+            <Avatar src={toBucketPublicMangaUrl(item[MODEL.MANGA.THUMBNAIL], 40, 20)} alt={item.name} variant="rounded" />
           </MuiLink>
         </MuiTd>
         <MuiTd>

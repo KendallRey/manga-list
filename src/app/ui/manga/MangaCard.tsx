@@ -9,7 +9,7 @@ import MuiIconButton from "@/components/icon-button/IconButton";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
@@ -32,7 +32,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
   }, []);
 
   const thumbnailImage = (
-    manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg"
+    manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg"
   ) as string;
 
   return (
