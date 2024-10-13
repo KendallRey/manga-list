@@ -50,6 +50,13 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
         className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200 cursor-pointer`}
       />
+      <MuiCardContent>
+        <div className="flex flex-wrap gap-1">
+          {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
+          {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
+          {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+        </div>
+      </MuiCardContent>
       <Image
         src={thumbnailImage}
         width={320}
@@ -60,13 +67,6 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
           filter: isBlur ? "blur(32px)" : "",
         }}
       />
-      <MuiCardContent>
-        <div className="flex flew-wrap gap-1">
-          {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
-          {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
-          {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
-        </div>
-      </MuiCardContent>
       <MuiCardActions disableSpacing>
         <MuiIconButton
           color="primary"
