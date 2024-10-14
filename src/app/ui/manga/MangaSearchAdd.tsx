@@ -4,7 +4,7 @@ import MuiList, { MuiListItem, MuiListItemIcon, MuiListItemText } from "@/compon
 import MuiTypography from "@/components/typography/Typograph";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import { Avatar } from "@mui/material";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
@@ -45,7 +45,20 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
         <Search />
         <AddMangaList id={listId} name={q} count={mangasResponse.data.length} />
       </div>
-      <MuiTypography variant="caption">{mangasResponse.data.length} results</MuiTypography>
+      <span className="flex gap-1 items-center">
+        <MuiTypography variant="caption">{mangasResponse.data.length}</MuiTypography>
+        <MuiTypography
+          fontWeight={600}
+          variant="body2"
+          textOverflow={"ellipsis"}
+          noWrap
+          className="max-w-[320px] md:max-w-[480px] lg:max-w-[720px]"
+          overflow={"hidden"}
+        >
+          {q}
+        </MuiTypography>
+        <MuiTypography variant="caption">results</MuiTypography>
+      </span>
       <MuiList className="flex flex-col gap-1">
         {mangasResponse.data.map((manga) => (
           <MuiListItem
@@ -72,14 +85,14 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
             <MuiListItemIcon>
               <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
                 <Avatar
-                  src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
+                  src={toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
                   alt={manga.name}
                   variant="rounded"
                 />
               </MuiLink>
             </MuiListItemIcon>
             <MuiListItemText
-              className="pr-12"
+              className="pr-20"
               secondary={
                 <div className="flex gap-2">
                   {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}

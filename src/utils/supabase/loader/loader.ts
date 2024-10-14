@@ -7,5 +7,5 @@ type ISupabaseImageLoader = {
 };
 
 export default function supabaseImageLoader({ src, width, quality }: ISupabaseImageLoader) {
-  return `${SUPABASE.BUCKET.PUBLIC_LOADER_URL}/${src}?width=${width}&quality=${quality || 75}`;
+  return `${SUPABASE.BUCKET_MANGA.PUBLIC_LOADER_URL}/${src}?width=${width}&quality=${quality || 75}`;
 }

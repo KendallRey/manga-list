@@ -1,7 +1,7 @@
 import { MODEL } from "@/model/model";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import SupabasePublicImage from "@/utils/supabase/components/image/Image";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import React from "react";
 
 type IMangaBanner = {
@@ -11,7 +11,7 @@ type IMangaBanner = {
 const MangaBanner: React.FC<IMangaBanner> = (props) => {
   const { manga } = props;
 
-  const bgUrl = manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg";
+  const bgUrl = manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg";
 
   return (
     <div className="relative flex justify-center flex-grow max-w-[500px] mx-auto">

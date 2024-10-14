@@ -8,7 +8,7 @@ import MuiStack from "@/components/stack/Stack";
 import MuiTypography from "@/components/typography/Typograph";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import Link from "next/link";
 import React from "react";
 import CreateMangaList from "../../../ui/manga/CreateMangaList";
@@ -44,7 +44,11 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
           <MuiListItem key={manga[MODEL.MANGA.ID]} className="border-b">
             <MuiListItemAvatar>
               <Link href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}>
-                <MuiAvatar sx={{ width: 50, height: 50 }} src={toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL])} />
+                <MuiAvatar
+                  variant="rounded"
+                  sx={{ width: 50, height: 50 }}
+                  src={toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL])}
+                />
               </Link>
             </MuiListItemAvatar>
             <MuiListItemText

@@ -4,7 +4,7 @@ import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "@/component
 import React, { useCallback, useMemo, useState } from "react";
 import { GetMangaImages } from "../api/manga-image/manga-image-api";
 import ErrorPage from "../error/page";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import { HiPhoto } from "react-icons/hi2";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import { setMangaThumbnailAction } from "../action/manga";
@@ -36,8 +36,8 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
   return (
     <MuiImageListItem key={image.id}>
       <img
-        srcSet={`${toBucketPublicUrl(image.path)}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-        src={`${toBucketPublicUrl(image.path)}?w=164&h=164&fit=crop&auto=format`}
+        srcSet={`${toBucketPublicMangaUrl(image.path)}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+        src={`${toBucketPublicMangaUrl(image.path)}?w=164&h=164&fit=crop&auto=format`}
         alt={image.path}
         loading="lazy"
       />

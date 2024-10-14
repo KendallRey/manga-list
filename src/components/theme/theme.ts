@@ -1,8 +1,15 @@
 import { createTheme } from "@mui/material";
-import { COLOR } from "../constants/color";
 import { pink, red } from "@mui/material/colors";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 export const MuiTheme = createTheme({
+  typography: {
+    fontFamily: inter.style.fontFamily,
+  },
   palette: {
     secondary: pink,
     error: red,

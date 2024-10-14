@@ -15,8 +15,13 @@ export const UserProfileTable = pgTable(MODEL.USER_PROFILE.name, {
 });
 export type IUserProfileTableInsert = typeof UserProfileTable.$inferInsert;
 export type IUserProfileTableSelect = typeof UserProfileTable.$inferSelect;
-export const insertUserProfileTableSchema = createInsertSchema(UserProfileTable);
-export const selectUserProfileTableSchema = createSelectSchema(UserProfileTable);
+export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
+export const selectUserProfileSchema = createSelectSchema(UserProfileTable);
+export const upsertUserProfileSchema = createSelectSchema(UserProfileTable).pick({
+  [MODEL.USER_PROFILE.ID]: true,
+  [MODEL.USER_PROFILE.NAME]: true,
+  [MODEL.USER_PROFILE.IMAGE_URL]: true,
+});
 
 export const UserProfileImageTable = pgTable(MODEL.USER_PROFILE_IMAGE.name, {
   [MODEL.USER_PROFILE_IMAGE.ID]: uuid(MODEL.MANGA.ID).primaryKey().defaultRandom(),

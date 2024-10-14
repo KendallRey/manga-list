@@ -9,7 +9,7 @@ import MuiIconButton from "@/components/icon-button/IconButton";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
-import { toBucketPublicUrl } from "@/utils/supabase/helper/image";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
@@ -32,7 +32,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
   }, []);
 
   const thumbnailImage = (
-    manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg"
+    manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL]) : "/images/404.jpg"
   ) as string;
 
   return (
@@ -50,6 +50,13 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
         className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200 cursor-pointer`}
       />
+      <MuiCardContent>
+        <div className="flex flex-wrap gap-1">
+          {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
+          {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
+          {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+        </div>
+      </MuiCardContent>
       <Image
         src={thumbnailImage}
         width={320}
@@ -60,13 +67,6 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
           filter: isBlur ? "blur(32px)" : "",
         }}
       />
-      <MuiCardContent>
-        <div className="flex flew-wrap gap-1">
-          {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
-          {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
-          {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
-        </div>
-      </MuiCardContent>
       <MuiCardActions disableSpacing>
         <MuiIconButton
           color="primary"

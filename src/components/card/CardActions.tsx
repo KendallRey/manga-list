@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { alpha, CardActions, CardActionsProps, styled } from "@mui/material";
 import React from "react";

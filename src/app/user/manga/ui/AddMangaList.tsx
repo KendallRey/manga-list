@@ -27,7 +27,7 @@ const AddMangaList: React.FC<IAddMangaList> = (props) => {
       const { isConfirmed } = await CSwal({
         icon: "question",
         title: "Add Manga",
-        html: htmlAskAction({ type: "Add", name: name }),
+        html: htmlAskAction({ type: "Add", name: name?.toString().trim() }),
       });
       if (!isConfirmed) return;
     }
@@ -35,7 +35,7 @@ const AddMangaList: React.FC<IAddMangaList> = (props) => {
     setIsLoading(true);
     const response = await addMangaAction({
       list_id: id,
-      name: name,
+      name: name?.toString().trim(),
     });
     if (!response.status)
       customEnqueueSnackbar({

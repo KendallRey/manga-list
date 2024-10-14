@@ -28,7 +28,7 @@ const Navigation = () => {
     [pathname],
   );
 
-  if (!isMd) return <div></div>;
+  if (!isMd) return <></>;
 
   return (
     <MuiPaper

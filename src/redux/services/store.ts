@@ -6,6 +6,7 @@ import { sampleApi } from "../features/sample/sampleApi";
 import unsavedChangesSlice from "../features/prompt/unsavedChangesSlice";
 import mangaFormSlice from "../features/manga/mangaFormSlice";
 import loginFormSlice from "../features/login/loginFormSlice";
+import userProfileFormSlice from "../features/user-profile/userProfileFormSlice";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   loginFormSlice,
   mangaFormSlice,
+  userProfileFormSlice,
   sampleSlice: sampleSlice,
   [sampleApi.reducerPath]: sampleApi.reducer,
   unsavedChangesSlice,

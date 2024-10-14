@@ -25,7 +25,7 @@ export type IImageToUpload = {
   file: File;
 };
 
-const UploadFile: React.FC<IUploadFile> = (props) => {
+const UploadImageFile: React.FC<IUploadFile> = (props) => {
   const { uploadFn, uploadsFn, actionText } = props;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -167,7 +167,7 @@ const UploadFile: React.FC<IUploadFile> = (props) => {
   );
 };
 
-export default UploadFile;
+export default UploadImageFile;
 
 type IImageList = {
   imagesToUpload: IImageToUpload[];

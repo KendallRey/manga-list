@@ -19,6 +19,7 @@ export const USER_PROFILE_IMAGE_MODEL = {
   NAME: "name",
   name: "user_profile_image",
   USER_PROFILE_ID: "user_profile_id",
+  URL: "url",
   IMAGE_ID: "image_id",
   PATH: "path",
   FULL_PATH: "full_path",

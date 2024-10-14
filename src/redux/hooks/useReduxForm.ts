@@ -27,22 +27,37 @@ const useReduxForm = (props?: IUseReduxForm) => {
     [dispatch],
   );
 
+  const _getSafeForm = useCallback(
+    (form: unknown, schema: ZodObject<any>) => {
+      const validation = schema.safeParse(form);
+      const data = validation.data ?? {};
+
+      const safeForm: Record<string, any> = {};
+      const schemeKeys = Object.keys(schema.shape);
+
+      schemeKeys.forEach((key) => {
+        if (REDUX.FIELD.SKIPS.includes(key)) return;
+        safeForm[key] = data[key];
+      });
+      return safeForm;
+    },
+    [dispatch, schema],
+  );
+
+  const setSafeForm = useCallback(
+    (form: unknown, setFormAction: ActionCreatorWithPayload<Record<string, any>>, schema: ZodObject<any>) => {
+      const safeForm = _getSafeForm(form, schema);
+      dispatch(setFormAction(safeForm));
+    },
+    [dispatch, _getSafeForm, schema],
+  );
+
   const _setForm = useCallback(() => {
     if (!form || !schema || !setFormAction) return;
-    const validation = schema.safeParse(form);
-    const data = validation.data ?? {};
-
-    const safeForm: Record<string, any> = {};
-    const schemeKeys = Object.keys(schema.shape);
-
-    schemeKeys.forEach((key) => {
-      if (REDUX.FIELD.SKIPS.includes(key)) return;
-      safeForm[key] = data[key];
-    });
-
+    const safeForm = _getSafeForm(form, schema);
     dispatch(setFormAction(safeForm));
     if (onLoad) onLoad();
-  }, [form, schema, dispatch, onLoad, setFormAction]);
+  }, [form, schema, dispatch, onLoad, setFormAction, _getSafeForm]);
 
   useCallOnce(_setForm);
 
@@ -71,6 +86,7 @@ const useReduxForm = (props?: IUseReduxForm) => {
     onValidateForm,
     onChangeForm,
     setForm,
+    setSafeForm,
   };
 };
 

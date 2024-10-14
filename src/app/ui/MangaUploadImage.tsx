@@ -3,7 +3,7 @@
 import { addMangaImagesAction } from "@/app/action/manga";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import React, { useCallback } from "react";
-import UploadFile, { IImageToUpload } from "../../components/custom/UploadFile";
+import UploadImageFile, { IImageToUpload } from "../../components/custom/UploadImageFile";
 import { uploadMangaImageToStorage } from "@/app/api/storage/upload";
 import { displaySnackbar } from "@/components/helper/notistack";
 import { cleanString } from "@/components/helper/string";
@@ -43,7 +43,7 @@ const MangaUploadImage: React.FC<IMangaUploadImage> = (props) => {
 
   return (
     <div>
-      <UploadFile uploadsFn={uploadsFn} actionText="Upload Image" />
+      <UploadImageFile uploadsFn={uploadsFn} actionText="Upload Image" />
     </div>
   );
 };

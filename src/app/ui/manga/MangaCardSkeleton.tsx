@@ -7,7 +7,7 @@ import React from "react";
 
 const MangaCardSkeleton = () => {
   return (
-    <MuiCard className="flex-grow" variant="outlined">
+    <MuiCard className="flex-grow relative" variant="outlined">
       <MuiStack className="p-2 py-4" gap={0.5}>
         <MuiSkeleton variant="text" width={MathRandom(300, 0.3)} />
         <MuiSkeleton variant="text" width={MathRandom(250, 0.4)} height={16} />
