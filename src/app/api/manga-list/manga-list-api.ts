@@ -1,3 +1,5 @@
+"use server";
+
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaListTableSelect, IMangaTableSelect, MangaListTable } from "@/utils/drizzle/schema";
