@@ -3,7 +3,7 @@
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
-import { and, eq, ilike, sql } from "drizzle-orm";
+import { and, count, eq, ilike, inArray, sql } from "drizzle-orm";
 import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
 import { generateSqlQueriesFromModel } from "@/utils/drizzle/helper/filter";
@@ -45,13 +45,53 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
-
-type IGetRandomUserMangas = {
+type IGetUserMangaCount = {
   listId: string;
 } & IApiProps;
 
-export const GetUserRandomMangas = async (props: IGetRandomUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
+export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApiResponse<number>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
+
+  try {
+    const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
+
+    const { filterBys, orderBys } = generateSqlQueriesFromModel(MangaTable, MODEL.MANGA, sqlParams, {
+      default: { ...defaultParams, hide: false },
+      override: { ...overrideParams },
+    });
+
+    if (skip) return successResponse({ data: 0 });
+
+    const baseQuery = db
+      .select({ count: count() })
+      .from(MangaTable)
+      .where(
+        and(
+          eq(MangaTable[MODEL.MANGA.LIST], listId),
+          eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+          ...filterBys,
+          q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
+        ),
+      )
+      .orderBy(...orderBys);
+
+    const mangas = await baseQuery;
+
+    return successResponse({ data: mangas.length ? mangas[0].count : 0 });
+  } catch (error) {
+    return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+  }
+};
+
+type IGetRandomUserMangas = {
+  listId: string;
+  indexes?: number[];
+} & IApiProps;
+
+export const GetUserRandomMangaList = async (
+  props: IGetRandomUserMangas,
+): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
+  const { params, skip, indexes, listId, defaultParams, overrideParams } = props;
 
   try {
     const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
@@ -61,18 +101,42 @@ export const GetUserRandomMangas = async (props: IGetRandomUserMangas): Promise<
       override: { ...overrideParams },
     });
 
-    if (skip) return successResponse({ data: [] });
+    if (skip) return successResponse({ data: { results: [], count: 0 } });
 
-    const baseQuery = db
-      .select()
+    const nonArchivedMangas = await db
+      .select({ [MODEL.MANGA.ID]: MangaTable[MODEL.MANGA.ID] })
       .from(MangaTable)
-      .where(and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys))
-      .orderBy(sql`RANDOM()`)
-      .limit(limit);
+      .where(and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys));
+
+    const _count = nonArchivedMangas.length;
+    const randomIdIndexes = indexes ?? [];
+    const randomNonArchivedMangas = randomIdIndexes.map((index) => nonArchivedMangas[index]);
+    const randomNonArchivedMangasIds = randomNonArchivedMangas.map((manga) => manga[MODEL.MANGA.ID]);
+
+    const baseQuery = randomNonArchivedMangasIds.length
+      ? db
+          .select()
+          .from(MangaTable)
+          .where(
+            and(
+              eq(MangaTable[MODEL.MANGA.LIST], listId),
+              eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
+              ...filterBys,
+              inArray(MangaTable[MODEL.MANGA.ID], randomNonArchivedMangasIds),
+            ),
+          )
+      : db
+          .select()
+          .from(MangaTable)
+          .where(
+            and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys),
+          )
+          .orderBy(sql`RANDOM()`)
+          .limit(limit);
 
     const mangas = await baseQuery;
 
-    return successResponse({ data: mangas });
+    return successResponse({ data: { results: mangas, count: _count } });
   } catch (error) {
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }

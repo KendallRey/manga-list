@@ -65,3 +65,15 @@ export const getIndexOf = (list: unknown[], value: unknown, defaultValue?: unkno
   if (index === -1) return list.indexOf(defaultValue);
   return index;
 };
+
+// Function to get 10 distinct random indexes
+export const getRandomIndexes = (arrayLength: number, count: number): number[] => {
+  const randomIndexes = new Set<number>();
+
+  while (randomIndexes.size < count) {
+    const randomIndex = Math.floor(Math.random() * arrayLength); // Generate a random index
+    randomIndexes.add(randomIndex); // Add to the set (duplicates are ignored)
+  }
+
+  return Array.from(randomIndexes); // Convert Set back to an array
+};
