@@ -141,20 +141,17 @@ export const MANGA_ITEM_ACTION = {
   HIDE: {
     id: "hide",
     action1: { name: "Hide", icon: <HiEyeSlash fontSize={20} /> },
-    action2: { name: "Unhide" },
-    icon: <BiHide fontSize={20} />,
+    action2: { name: "Unhide", icon: <BiHide fontSize={20} /> },
   },
   DANGER: {
     id: "danger",
     action1: { name: "Set Danger", icon: <AiFillSafetyCertificate fontSize={20} /> },
-    action2: { name: "Unset Danger" },
-    icon: <MdHealthAndSafety fontSize={20} />,
+    action2: { name: "Unset Danger", icon: <MdHealthAndSafety fontSize={20} /> },
   },
   SPICY: {
     id: "spicy",
     action1: { name: "Set Spicy", icon: <GiSunglasses fontSize={20} /> },
-    action2: { name: "Unset Spicy" },
-    icon: <FaChampagneGlasses fontSize={20} />,
+    action2: { name: "Unset Spicy", icon: <FaChampagneGlasses fontSize={20} /> },
   },
   UPDATE: { id: "update", action1: { name: "Update", icon: <BiEdit fontSize={20} /> } },
   DELETE: { id: "delete", action1: { name: "Delete", icon: <HiTrash fontSize={20} /> } },
