@@ -12,10 +12,12 @@ import MangaTag from "./MangaTag";
 import { useCallback } from "react";
 import { useAppMediaQuery } from "@/components/hooks/useAppMediaQuery";
 import MangaItemActions from "@/app/user/manga/ui/MangaItemActions";
-import MuiIconButton from "@/components/icon-button/IconButton";
 import { MANGA_ITEM_ACTION, useMangaActions } from "@/hooks/useMangaActions";
 import { ButtonGroup } from "@mui/material";
 import MuiButton from "@/components/button/Button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toSearchParams } from "@/app/api/helper/apiHelper";
+import API from "@/app/api/API";
 
 type IMangaListItem = {
   manga: IMangaTableSelect;
@@ -24,10 +26,17 @@ type IMangaListItem = {
 export const MangaListItem: React.FC<IMangaListItem> = (props) => {
   const { manga } = props;
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { sm } = useAppMediaQuery();
   const { onDelete, onHide, onSetDanger, onSetSpicy, onUpdate } = useMangaActions({ manga });
 
-  const onClickThumbnail = useCallback(() => {}, [manga]);
+  const onClickThumbnail = useCallback(() => {
+    const _searchParams = toSearchParams(searchParams);
+    _searchParams.set(API.PARAMS.KEYS.PREVIEW, manga[MODEL.MANGA.ID]);
+    router.replace(`?${_searchParams.toString()}`, { scroll: false });
+  }, [manga, router, searchParams]);
 
   return (
     <MuiListItem className="border-b flex flex-col gap-2" secondaryAction={sm && <MangaItemActions manga={manga} />}>
