@@ -9,10 +9,10 @@ const MangaPageHeaderSkeleton = () => {
       <MangaBannerSkeleton />
       <div className="flex flex-grow flex-col gap-5 items-center max-w-[500px] mx-auto">
         <MuiStack marginTop={4} gap={1.3}>
-          <MuiSkeleton variant="text" height={20} width={Math.max(Math.random(), 0.5) * 450} />
+          <MuiSkeleton variant="text" height={20} width={Math.max(Math.random(), 0.5) * 350} />
           <MuiSkeleton variant="text" height={13} width={60} />
         </MuiStack>
-        <MuiSkeleton variant="text" height={13} width={Math.random() * 550} className="mt-8 mb-7" />
+        <MuiSkeleton variant="text" height={13} width={Math.random() * 450} className="mt-8 mb-7" />
       </div>
     </div>
   );
