@@ -2,11 +2,13 @@
 
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
-import { IMangaTableInsert, IMangaTableSelect, MangaTable } from "@/utils/drizzle/schema";
+import { IMangaTableInsert, IMangaTableSelect, MangaListTable, MangaTable } from "@/utils/drizzle/schema";
 import { and, count, eq, ilike, inArray, sql } from "drizzle-orm";
 import { errorResponse, getSearchParams, successResponse } from "../helper/apiHelper";
 import API from "../API";
 import { generateSqlQueriesFromModel } from "@/utils/drizzle/helper/filter";
+import { createClient } from "@/utils/supabase/server";
+import { GetUserMangaList } from "../manga-list/manga-list-api";
 
 type IGetUserMangas = {
   listId: string;
@@ -143,11 +145,18 @@ export const GetUserRandomMangaList = async (
 };
 
 type IGetMangaList = {
-  listId: string;
+  listId?: string;
 } & IApiProps;
 
 export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
+
+  let _listId = listId;
+  if(!_listId){
+    const mangaListResponse = await GetUserMangaList({})
+    if(!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+    _listId = mangaListResponse.data[0][MODEL.MANGA_LIST.ID];
+  }
 
   try {
     const { q, page, limit, ...sqlParams } = getSearchParams(params);
@@ -159,7 +168,7 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
     if (skip) return successResponse({ data: { count: 0, results: [] } });
 
     const filters = and(
-      eq(MangaTable[MODEL.MANGA.LIST], listId),
+      eq(MangaTable[MODEL.MANGA.LIST], _listId),
       eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
       ...filterBys,
       q ? ilike(MangaTable[MODEL.MANGA.NAME], `%${q}%`) : undefined,
