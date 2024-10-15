@@ -86,7 +86,7 @@ export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApi
 };
 
 type IGetRandomUserMangas = {
-  listId: string;
+  listId?: string;
   indexes?: number[];
 } & IApiProps;
 
@@ -94,6 +94,13 @@ export const GetUserRandomMangaList = async (
   props: IGetRandomUserMangas,
 ): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
   const { params, skip, indexes, listId, defaultParams, overrideParams } = props;
+
+  let _listId = listId;
+  if (!_listId) {
+    const mangaListResponse = await GetUserMangaList({});
+    if (!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+    _listId = mangaListResponse.data[0][MODEL.MANGA_LIST.ID];
+  }
 
   try {
     const { q, page, limit, hide, ...sqlParams } = getSearchParams(params);
@@ -108,7 +115,7 @@ export const GetUserRandomMangaList = async (
     const nonArchivedMangas = await db
       .select({ [MODEL.MANGA.ID]: MangaTable[MODEL.MANGA.ID] })
       .from(MangaTable)
-      .where(and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys));
+      .where(and(eq(MangaTable[MODEL.MANGA.LIST], _listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys));
 
     const _count = nonArchivedMangas.length;
     const randomIdIndexes = indexes ?? [];
@@ -121,7 +128,7 @@ export const GetUserRandomMangaList = async (
           .from(MangaTable)
           .where(
             and(
-              eq(MangaTable[MODEL.MANGA.LIST], listId),
+              eq(MangaTable[MODEL.MANGA.LIST], _listId),
               eq(MangaTable[MODEL.MANGA.ARCHIVED], false),
               ...filterBys,
               inArray(MangaTable[MODEL.MANGA.ID], randomNonArchivedMangasIds),
@@ -131,7 +138,7 @@ export const GetUserRandomMangaList = async (
           .select()
           .from(MangaTable)
           .where(
-            and(eq(MangaTable[MODEL.MANGA.LIST], listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys),
+            and(eq(MangaTable[MODEL.MANGA.LIST], _listId), eq(MangaTable[MODEL.MANGA.ARCHIVED], false), ...filterBys),
           )
           .orderBy(sql`RANDOM()`)
           .limit(limit);
