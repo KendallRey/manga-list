@@ -7,16 +7,14 @@ import TableList from "@/components/helper-components/TableList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MangaListHead from "./MangaListHead";
 
-type IMangaList = {
-  list: IMangaListTableSelect;
-} & INextPage;
+type IMangaList =  INextPage;
 
 const MangaList: React.FC<IMangaList> = async (props) => {
-  const { searchParams, list } = props;
+  const { searchParams } = props;
 
   const { q, ...params } = getSearchParams(searchParams);
 
-  const mangaResponseList = await GetMangaList({ ...searchParams, params, listId: list.id });
+  const mangaResponseList = await GetMangaList({ ...searchParams, params });
 
   return (
     <>
