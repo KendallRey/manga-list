@@ -15,7 +15,7 @@ const searchParamsSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     setSearchParamsPreview: setAction<ISearchParamsSlice, string>(API.PARAMS.KEYS.PREVIEW),
-    clearSearchParamsPreview: clearAction(API.PARAMS.KEYS.PREVIEW, INITIAL_STATE),
+    clearSearchParamsPreview: clearAction(API.PARAMS.KEYS.PREVIEW, INITIAL_STATE[API.PARAMS.KEYS.PREVIEW]),
   },
 });
 
