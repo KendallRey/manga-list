@@ -16,7 +16,7 @@ const MangaList: React.FC<IMangaList> = async (props) => {
 
   const { q, ...params } = getSearchParams(searchParams);
 
-  const mangasResponse = await GetMangaList({ ...searchParams, params, listId: list.id });
+  const mangaResponseList = await GetMangaList({ ...searchParams, params, listId: list.id });
 
   return (
     <>
@@ -24,16 +24,16 @@ const MangaList: React.FC<IMangaList> = async (props) => {
         colsWidth={["5%", "90%", "5%"]}
         size="small"
         stickyHeader
-        paginationProps={{ count: mangasResponse?.data?.count, limit: Number(params.limit) }}
+        paginationProps={{ count: mangaResponseList?.data?.count, limit: Number(params.limit) }}
       >
         <MangaListHead />
         <MuiTableBody>
           <TableList
             colSpan={3}
             isLoading={false}
-            errorText={mangasResponse.error}
-            isError={Boolean(mangasResponse.error)}
-            data={mangasResponse?.data?.results}
+            errorText={mangaResponseList.error}
+            isError={Boolean(mangaResponseList.error)}
+            data={mangaResponseList?.data?.results}
             render={(manga) => <MangaListItem key={manga.id} item={manga} />}
           />
         </MuiTableBody>
