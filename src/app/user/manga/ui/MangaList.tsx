@@ -1,13 +1,12 @@
 import MuiTable, { MuiTableBody } from "@/components/table/Table";
 import React from "react";
 import { GetMangaList } from "@/app/api/manga/manga-api";
-import { IMangaListTableSelect } from "@/utils/drizzle/schema";
 import MangaListItem from "./MangaListItem";
 import TableList from "@/components/helper-components/TableList";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import MangaListHead from "./MangaListHead";
 
-type IMangaList =  INextPage;
+type IMangaList = INextPage;
 
 const MangaList: React.FC<IMangaList> = async (props) => {
   const { searchParams } = props;
