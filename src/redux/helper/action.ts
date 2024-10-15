@@ -23,7 +23,7 @@ export const setAction = <T extends Record<string, IValue>, D = unknown>(field: 
  */
 export const clearAction = <T extends Record<string, unknown>>(field: keyof T, defaultValue?: unknown) => {
   return (state: T) => {
-    state[field] = (defaultValue as T[keyof T]) ?? (undefined as T[keyof T]);
+    state[field] = (defaultValue ?? undefined) as T[keyof T];
   };
 };
 
