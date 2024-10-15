@@ -152,9 +152,9 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
   const { params, skip, listId, defaultParams, overrideParams } = props;
 
   let _listId = listId;
-  if(!_listId){
-    const mangaListResponse = await GetUserMangaList({})
-    if(!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+  if (!_listId) {
+    const mangaListResponse = await GetUserMangaList({});
+    if (!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
     _listId = mangaListResponse.data[0][MODEL.MANGA_LIST.ID];
   }
 
