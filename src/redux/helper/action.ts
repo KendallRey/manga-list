@@ -21,9 +21,9 @@ export const setAction = <T extends Record<string, IValue>, D = unknown>(field: 
  * @param field - The field to be cleared in the state.
  * @returns A function that takes the state and clears the specified field.
  */
-export const clearAction = <T extends Record<string, unknown>>(field: keyof T) => {
+export const clearAction = <T extends Record<string, unknown>>(field: keyof T, defaultValue?: unknown) => {
   return (state: T) => {
-    state[field] = undefined as T[keyof T];
+    state[field] = (defaultValue as T[keyof T]) ?? (undefined as T[keyof T]);
   };
 };
 
