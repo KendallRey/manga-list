@@ -15,9 +15,8 @@ import MangaItemActions from "@/app/user/manga/ui/MangaItemActions";
 import { MANGA_ITEM_ACTION, useMangaActions } from "@/hooks/useMangaActions";
 import { ButtonGroup } from "@mui/material";
 import MuiButton from "@/components/button/Button";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toSearchParams } from "@/app/api/helper/apiHelper";
-import API from "@/app/api/API";
+import { useAppDispatch } from "@/redux/services/hooks";
+import { setSearchParamsPreview } from "@/redux/features/params/searchParamsSlice";
 
 type IMangaListItem = {
   manga: IMangaTableSelect;
@@ -25,18 +24,14 @@ type IMangaListItem = {
 
 export const MangaListItem: React.FC<IMangaListItem> = (props) => {
   const { manga } = props;
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const { sm } = useAppMediaQuery();
   const { onDelete, onHide, onSetDanger, onSetSpicy, onUpdate } = useMangaActions({ manga });
 
   const onClickThumbnail = useCallback(() => {
-    const _searchParams = toSearchParams(searchParams);
-    _searchParams.set(API.PARAMS.KEYS.PREVIEW, manga[MODEL.MANGA.ID]);
-    router.replace(`?${_searchParams.toString()}`, { scroll: false });
-  }, [manga, router, searchParams]);
+    dispatch(setSearchParamsPreview(manga[MODEL.MANGA.ID]));
+  }, [manga]);
 
   return (
     <MuiListItem className="border-b flex flex-col gap-2" secondaryAction={sm && <MangaItemActions manga={manga} />}>
