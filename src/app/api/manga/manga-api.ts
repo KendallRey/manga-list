@@ -98,7 +98,7 @@ export const GetUserRandomMangaList = async (
   let _listId = listId;
   if (!_listId) {
     const mangaListResponse = await GetUserMangaList({});
-    if (!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+    if (!mangaListResponse.data?.length) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
     _listId = mangaListResponse.data[0][MODEL.MANGA_LIST.ID];
   }
 
@@ -161,7 +161,7 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
   let _listId = listId;
   if (!_listId) {
     const mangaListResponse = await GetUserMangaList({});
-    if (!mangaListResponse.status) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
+    if (!mangaListResponse.data?.length) return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
     _listId = mangaListResponse.data[0][MODEL.MANGA_LIST.ID];
   }
 
