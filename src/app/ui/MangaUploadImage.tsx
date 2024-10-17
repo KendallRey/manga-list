@@ -42,7 +42,7 @@ const MangaUploadImage: React.FC<IMangaUploadImage> = (props) => {
   );
 
   return (
-    <div>
+    <div className="w-full">
       <UploadImageFile uploadsFn={uploadsFn} actionText="Upload Image" />
     </div>
   );
