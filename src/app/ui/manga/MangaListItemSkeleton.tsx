@@ -15,34 +15,36 @@ const MangaListItemSkeleton = () => {
   return (
     <MuiListItem
       className="border-b flex flex-col gap-2"
-      secondaryAction={sm && <MuiSkeleton width={24} height={24} />}
+      secondaryAction={!sm && <MuiSkeleton width={24} height={24} />}
     >
-      <MuiStack direction={!sm ? "column" : "row"} alignItems={"center"} width={"100%"}>
+      <MuiStack direction={sm ? "column" : "row"} alignItems={"center"} width={"100%"}>
         <MuiListItemAvatar>
-          <MuiSkeleton variant="rounded" width={sm ? 50 : 120} height={sm ? 50 : 160} />
+          <MuiSkeleton variant="rounded" width={sm ? 120 : 50} height={sm ? 160 : 50} />
         </MuiListItemAvatar>
         <MuiListItemText
           primary={<MuiSkeleton variant="rounded" width={MathRandom(150, 0.3)} height={17} />}
           disableTypography
         />
       </MuiStack>
-      <ButtonGroup hidden={sm} variant="text">
-        <MuiButton variant="text" color="primary">
-          <MuiSkeleton variant="rounded" width={20} height={20} />
-        </MuiButton>
-        <MuiButton variant="text" color="primary">
-          <MuiSkeleton variant="rounded" width={20} height={20} />
-        </MuiButton>
-        <MuiButton variant="text" color="primary">
-          <MuiSkeleton variant="rounded" width={20} height={20} />
-        </MuiButton>
-        <MuiButton variant="text" color="primary">
-          <MuiSkeleton variant="rounded" width={20} height={20} />
-        </MuiButton>
-        <MuiButton variant="text" color="primary">
-          <MuiSkeleton variant="rounded" width={20} height={20} />
-        </MuiButton>
-      </ButtonGroup>
+      {sm && (
+        <ButtonGroup variant="text">
+          <MuiButton variant="text" color="primary">
+            <MuiSkeleton variant="rounded" width={20} height={20} />
+          </MuiButton>
+          <MuiButton variant="text" color="primary">
+            <MuiSkeleton variant="rounded" width={20} height={20} />
+          </MuiButton>
+          <MuiButton variant="text" color="primary">
+            <MuiSkeleton variant="rounded" width={20} height={20} />
+          </MuiButton>
+          <MuiButton variant="text" color="primary">
+            <MuiSkeleton variant="rounded" width={20} height={20} />
+          </MuiButton>
+          <MuiButton variant="text" color="primary">
+            <MuiSkeleton variant="rounded" width={20} height={20} />
+          </MuiButton>
+        </ButtonGroup>
+      )}
     </MuiListItem>
   );
 };
