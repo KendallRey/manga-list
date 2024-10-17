@@ -31,7 +31,7 @@ export const MangaListItem: React.FC<IMangaListItem> = (props) => {
 
   const onClickThumbnail = useCallback(() => {
     dispatch(setSearchParamsPreview(manga[MODEL.MANGA.ID]));
-  }, [manga]);
+  }, [dispatch, manga]);
 
   return (
     <MuiListItem className="border-b flex flex-col gap-2" secondaryAction={sm && <MangaItemActions manga={manga} />}>
