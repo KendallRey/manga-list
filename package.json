@@ -40,18 +40,18 @@
     "sass": "^1.78.0",
     "sweetalert2": "^11.14.0",
     "use-debounce": "^10.0.3",
+    "tailwindcss": "^3.4.11",
+    "drizzle-kit": "^0.24.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "drizzle-kit": "^0.24.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.11",
     "postcss": "^8",
     "prettier": "^3.3.3",
-    "tailwindcss": "^3.4.11",
     "typescript": "^5"
   }
 }
