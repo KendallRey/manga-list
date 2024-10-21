@@ -6,11 +6,12 @@ import { FileValidator } from "@/components/helper/files";
 import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/notistack";
 import MuiTypography from "@/components/typography/Typograph";
 import { CircularProgress } from "@mui/material";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "../image/Image";
 import { nanoid } from "@reduxjs/toolkit";
 import MuiIconButton from "../icon-button/IconButton";
 import { HiPhoto, HiXMark } from "react-icons/hi2";
+import { useAppMediaQuery } from "../hooks/useAppMediaQuery";
 
 type IUploadFile = {
   uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
@@ -177,8 +178,18 @@ type IImageList = {
 
 const ImageList: React.FC<IImageList> = (props) => {
   const { imagesToUpload, onRemove, onSetAsCover } = props;
+
+  const { sm, md, lg } = useAppMediaQuery();
+
+  const cols = useMemo(() => {
+    if (sm) return 1;
+    if (md) return 2;
+    if (lg) return 4;
+    return 5;
+  }, [sm, md, lg]);
+
   return (
-    <MuiImageList cols={2} rowHeight={350} sx={{ width: 500 }} className="mx-auto">
+    <MuiImageList cols={cols} rowHeight={350} className="mx-auto">
       {imagesToUpload.map((image) => (
         <MuiImageListItem key={image.key}>
           <img src={image.url} />
