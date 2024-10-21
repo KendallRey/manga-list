@@ -53,5 +53,9 @@
     "eslint-config-next": "14.2.11",
     "postcss": "^8",
     "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": "20.10.0",
+    "npm": "10.2.3"
   }
 }
