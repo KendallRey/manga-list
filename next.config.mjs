@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import path from 'path';
 
 const hostnames = (process.env.NEXT_PUBLIC_HOSTNAMES || '').split(',').map(hostname => hostname.trim());
 
@@ -12,6 +13,10 @@ const nextConfig = {
         pathname: '/**',
       })),
     ],
+  },
+  webpack: (config) => {
+    config.resolve.alias['@'] = path.resolve(process.cwd(), 'src');
+    return config;
   },
 };
 
