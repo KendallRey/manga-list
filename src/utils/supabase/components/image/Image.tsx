@@ -15,6 +15,18 @@ type ISupabasePublicImage = {
 const SupabasePublicImage: React.FC<ISupabasePublicImage> = (props) => {
   const { path, alt, w, h } = props;
 
+  if (!path)
+    return (
+      <Image
+        src={"/images/404.jpg"}
+        alt={alt}
+        width={w ?? 400}
+        height={h ?? 600}
+        loading="lazy"
+        style={{ objectFit: "contain" }}
+      />
+    );
+
   return (
     <Image
       loader={supabaseImageLoader}

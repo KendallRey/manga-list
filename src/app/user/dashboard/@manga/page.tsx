@@ -1,4 +1,3 @@
-import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { GetMangaList } from "@/app/api/manga/manga-api";
 import MangaCard from "@/app/ui/manga/MangaCard";
 import MuiPaper from "@/components/paper/Paper";
@@ -7,20 +6,8 @@ import { MODEL } from "@/model/model";
 import React from "react";
 
 const DashboardManga = async () => {
-  const mangaListResponse = await GetUserMangaList({});
-
-  if (!mangaListResponse.status) {
-    return <></>;
-  }
-  if (!mangaListResponse.data.length) {
-    return <></>;
-  }
-
-  const mangaList = mangaListResponse.data[0];
-
   const mangasResponse = await GetMangaList({
     params: { limit: 3, created_at: "asc" },
-    listId: mangaList.id,
   });
 
   if (!mangasResponse.status) {

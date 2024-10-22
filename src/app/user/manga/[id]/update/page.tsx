@@ -50,7 +50,7 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
         </MuiPaper>
       </div>
       <MuiPaper className=" p-4" elevation={2} color="primary">
-        <div className="max-w-[400px] mx-auto">
+        <div className="mx-auto">
           <MangaUploadImage manga={manga.data} />
         </div>
       </MuiPaper>

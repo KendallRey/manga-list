@@ -2,8 +2,6 @@ import MuiPaper from "@/components/paper/Paper";
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import UserProfile from "./ui/UserProfile";
-import PageTitle from "@/components/custom/PageTitle";
-import { blue } from "@mui/material/colors";
 import FavoriteMangaList from "./ui/FavoriteMangaList";
 
 const ProfilePage: React.FC<INextPage> = async (props) => {

@@ -118,23 +118,25 @@ const TablePagination: React.FC<ITablePagination> = (props) => {
   // #endregion
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex items-center gap-2 flex-wrap py-2">
       <MuiPagination onChange={handleChange} page={Number(searchValue)} count={pageCount} />
-      <MuiTypography>Go to page:</MuiTypography>
-      <form onSubmit={onSubmitGotoPage}>
-        <input
-          className="border border-1 px-2 border-gray-400 w-[100px] text-center rounded"
-          onChange={onChangePage}
-          value={page}
-          min={1}
-          max={1000}
-          maxLength={3}
-          type="number"
-        />
-        <MuiIconButton size="small" color="primary" type="submit">
-          Go
-        </MuiIconButton>
-      </form>
+      <div className="flex items-center gap-1">
+        <MuiTypography>Go to page:</MuiTypography>
+        <form onSubmit={onSubmitGotoPage}>
+          <input
+            className="border border-1 px-2 border-gray-400 w-[100px] text-center rounded"
+            onChange={onChangePage}
+            value={page}
+            min={1}
+            max={1000}
+            maxLength={3}
+            type="number"
+          />
+          <MuiIconButton size="small" color="primary" type="submit">
+            Go
+          </MuiIconButton>
+        </form>
+      </div>
       <MuiList>
         <MuiListItemButton
           id="lock-button"

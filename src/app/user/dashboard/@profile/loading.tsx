@@ -2,7 +2,7 @@ import DisplayUserProfileSkeleton from "@/app/ui/user-profile/DisplayUserProfile
 import MuiPaper from "@/components/paper/Paper";
 import React from "react";
 
-const DasboardProfileLoading = () => {
+const DashboardProfileLoading = () => {
   return (
     <MuiPaper className="flex items-center justify-center min-h-[240px] gap-6 p-4">
       <DisplayUserProfileSkeleton />
@@ -10,4 +10,4 @@ const DasboardProfileLoading = () => {
   );
 };
 
-export default DasboardProfileLoading;
+export default DashboardProfileLoading;

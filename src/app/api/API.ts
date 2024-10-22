@@ -35,6 +35,7 @@ const API = {
       LIMIT: "limit",
       PAGE: "page",
       ACTION: "action",
+      PREVIEW: "preview",
     },
   },
 } as const;
