@@ -179,19 +179,13 @@ type IImageList = {
 const ImageList: React.FC<IImageList> = (props) => {
   const { imagesToUpload, onRemove, onSetAsCover } = props;
 
-  const { sm, md, lg } = useAppMediaQuery();
-
-  const cols = useMemo(() => {
-    if (sm) return 1;
-    if (md) return 2;
-    if (lg) return 4;
-    return 5;
-  }, [sm, md, lg]);
+  const { lg, md, sm } = useAppMediaQuery();
+  const colSpan = useMemo(() => (lg ? 5 : md ? 3 : sm ? 2 : 1), [lg, md, sm]);
 
   return (
-    <MuiImageList cols={cols} rowHeight={350} className="mx-auto">
+    <MuiImageList cols={colSpan} rowHeight={350} className="mx-auto">
       {imagesToUpload.map((image) => (
-        <MuiImageListItem key={image.key}>
+        <MuiImageListItem key={image.key} style={{ overflow: "hidden" }}>
           <img src={image.url} />
           <MuiImageListItemBar
             title=""

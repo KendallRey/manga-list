@@ -20,7 +20,7 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-type IMuiDialog = {
+type IMuiDialog = DialogProps & {
   title: string;
   children?: ReactNode;
   open: boolean;
@@ -29,12 +29,12 @@ type IMuiDialog = {
   closeText?: string;
   confirmText?: string;
   variant?: "form" | "default" | "confirm" | "delete";
-  maxWidth?: false | Breakpoint | undefined;
+  maxWidth?: boolean | Breakpoint | undefined;
   fullscreen?: boolean;
   fullWidth?: boolean;
   disableConfirm?: boolean;
   promptUnsaved?: boolean;
-} & DialogProps;
+};
 
 const MuiDialog: React.FC<IMuiDialog> = (props) => {
   const {
