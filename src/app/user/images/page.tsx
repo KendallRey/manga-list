@@ -6,6 +6,7 @@ import React from "react";
 import ErrorPage from "@/app/error/page";
 import MangaImageList from "./ui/MangaImageList";
 import Search from "@/components/custom/Search";
+import PreviewMangaDialog from "@/app/ui/manga/PreviewMangaDialog";
 
 const MangaImagesPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
@@ -30,6 +31,7 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
       <MuiPaper className="flex-grow p-4" elevation={2} color="primary">
         <MangaImageList mangas={results} canLoadMore={results.length < count} />
       </MuiPaper>
+      <PreviewMangaDialog />
     </Dashboard>
   );
 };
