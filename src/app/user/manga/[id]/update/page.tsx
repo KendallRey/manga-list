@@ -31,8 +31,8 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
       <MuiPaper>
         <PageBreadCrumbs route="/user" pathNames={[data[MODEL.MANGA.NAME]]} />
       </MuiPaper>
-      <div className="flex flex-grow-[2] gap-4 flex-wrap">
-        <MuiPaper className="flex flex-col flex-grow p-4 gap-6" elevation={2} color="primary">
+      <div className="grid flex-grow-[2] gap-4 grid-cols-1 md:grid-cols-2">
+        <MuiPaper className="flex flex-col p-4 gap-6" elevation={2} color="primary">
           <MangaBanner manga={data} />
           <MuiStack>
             <MuiTypography fontSize={24}>{data[MODEL.MANGA.NAME]}</MuiTypography>
@@ -45,7 +45,7 @@ const UpdateMangaPage: React.FC<INextPage> = async (props) => {
             {data[MODEL.MANGA.SPICY] && <MuiChip size="medium" label="Spicy" color="secondary" />}
           </MuiStack>
         </MuiPaper>
-        <MuiPaper className="flex flex-col flex-grow-[3] min-h-[320px] p-4 gap-6" elevation={2} color="primary">
+        <MuiPaper className="flex flex-col min-h-[320px] p-4 gap-6" elevation={2} color="primary">
           <UpdateMangaForm manga={manga.data} />
         </MuiPaper>
       </div>

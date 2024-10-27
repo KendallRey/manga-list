@@ -15,7 +15,7 @@ const MangaUpdatePageLoading = () => {
         <MuiSkeleton width={4.6} height={24} className="mx-2" />
         <MuiSkeleton width={50} height={24} />
       </MuiPaper>
-      <div className="flex gap-4 flex-wrap">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <MuiPaper className="flex flex-col flex-grow gap-6 min-h-[320px] p-4" elevation={2} color="primary">
           <MuiSkeleton width={440} className="flex-grow min-h-[400px] mx-auto p-5" />
           <MuiStack marginTop={4} gap={1.3}>
