@@ -34,12 +34,12 @@ export const MangaListItem: React.FC<IMangaListItem> = (props) => {
   }, [dispatch, manga]);
 
   return (
-    <MuiListItem className="border-b flex flex-col gap-2" secondaryAction={!sm && <MangaItemActions manga={manga} />}>
-      <MuiStack direction={sm ? "column" : "row"} alignItems={"center"} width={"100%"}>
+    <MuiListItem className="border-b flex flex-col gap-2" secondaryAction={sm && <MangaItemActions manga={manga} />}>
+      <MuiStack direction={sm ? "row" : "column"} alignItems={"center"} width={"100%"}>
         <MuiListItemAvatar onClick={onClickThumbnail} className="cursor-pointer">
           <MuiAvatar
             variant="rounded"
-            sx={{ width: sm ? 120 : 50, height: sm ? 160 : 50 }}
+            sx={{ width: sm ? 50 : 120, height: sm ? 50 : 160 }}
             src={toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL])}
           />
         </MuiListItemAvatar>
@@ -57,7 +57,7 @@ export const MangaListItem: React.FC<IMangaListItem> = (props) => {
           }
         />
       </MuiStack>
-      {sm && (
+      {!sm && (
         <ButtonGroup variant="text">
           <MuiButton
             variant="text"
