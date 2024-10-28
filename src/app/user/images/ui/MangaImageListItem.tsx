@@ -3,17 +3,18 @@
 import { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
 import React, { useCallback, useMemo, useState } from "react";
 import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
-import { HiPhoto } from "react-icons/hi2";
 import MuiIconButton from "@/components/icon-button/IconButton";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
-import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import MuiChip from "@/components/chip/Chip";
 import MuiLink from "@/components/link/Link";
 import Link from "next/link";
+import MuiTypography from "@/components/typography/Typograph";
+import { useAppDispatch } from "@/redux/services/hooks";
+import { setSearchParamsPreview } from "@/redux/features/params/searchParamsSlice";
 
 type IMangaImageListItem = {
   index?: number;
@@ -22,24 +23,10 @@ type IMangaImageListItem = {
 };
 
 const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
-  const { index, manga, viewAction } = props;
+  const { manga, viewAction } = props;
 
+  const dispatch = useAppDispatch();
   const router = useRouter();
-
-  const onClickEdit = useCallback(() => {
-    router.push(USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]), { scroll: false });
-  }, [router, manga]);
-
-  // const onSetMangaThumbnail = useCallback(async () => {
-  //   setIsLoading(true);
-  //   await setMangaThumbnailAction(manga[MODEL.MANGA.ID], image[MODEL.MANGA_IMAGE.PATH]);
-  //   setIsLoading(false);
-  // }, [image, manga]);
-
-  // const disableSetThumbnail = useMemo(() => {
-  //   if (isLoading) return true;
-  //   return manga[MODEL.MANGA.THUMBNAIL] === image[MODEL.MANGA_IMAGE.PATH];
-  // }, [image, manga, isLoading]);
 
   const srcPath = useMemo(() => {
     return manga[MODEL.MANGA.THUMBNAIL] ? `${toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL])}` : "/images/404.jpg";
@@ -53,12 +40,16 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
     setIsBlur((prev) => !prev);
   }, []);
 
+  const onClickTitle = useCallback(() => {
+    dispatch(setSearchParamsPreview(manga[MODEL.MANGA.ID]));
+  }, [dispatch, manga]);
+
   return (
-    <MuiImageListItem key={manga.id} style={{ overflow: "hidden" }}>
+    <MuiImageListItem key={manga[MODEL.MANGA.ID]} style={{ overflow: "hidden" }}>
       <img
         onClick={onClickImage}
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
-        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200 cursor-pointer`}
+        className={`${isBlur ? "opacity-100" : "opacity-0"} max-h-[80%] absolute z-[2] duration-200 cursor-pointer`}
       />
       <img
         srcSet={`${srcPath}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -72,7 +63,11 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
       />
       {viewAction && (
         <MuiImageListItemBar
-          title={manga[MODEL.MANGA.NAME]}
+          title={
+            <MuiTypography onClick={onClickTitle} className="cursor-pointer" textOverflow="ellipsis" overflow="hidden">
+              {manga[MODEL.MANGA.NAME]}
+            </MuiTypography>
+          }
           position="bottom"
           subtitle={
             <div className="flex gap-2">

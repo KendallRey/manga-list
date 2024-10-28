@@ -8,6 +8,7 @@ import ErrorPage from "@/app/error/page";
 import DisplayList from "@/components/helper-components/DisplayList";
 import { MangaListItem } from "./MangaListItem";
 import TablePagination from "@/components/custom/TablePagination";
+import MuiTypography from "@/components/typography/Typograph";
 
 const MangaList = async () => {
   const { searchParams } = getHeaders();
@@ -18,13 +19,18 @@ const MangaList = async () => {
   if (!mangaListResponse.status) return <ErrorPage />;
 
   return (
-    <MuiList>
-      <DisplayList
-        data={mangaListResponse.data.results}
-        render={(manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />}
-      />
+    <>
+      <MuiList>
+        <DisplayList
+          data={mangaListResponse.data.results}
+          render={(manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />}
+        />
+      </MuiList>
+      <MuiTypography textAlign="end" variant="caption">
+        {mangaListResponse.data.count} results
+      </MuiTypography>
       {Boolean(mangaListResponse.data.count) && <TablePagination count={mangaListResponse.data.count} />}
-    </MuiList>
+    </>
   );
 };
 

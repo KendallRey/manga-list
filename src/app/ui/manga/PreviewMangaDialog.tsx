@@ -11,10 +11,14 @@ import MangaPageHeader from "../MangaPageHeader";
 import { useAppDispatch, useAppSelector } from "@/redux/services/hooks";
 import { clearSearchParamsPreview, setSearchParamsPreview } from "@/redux/features/params/searchParamsSlice";
 import { useCallOnce } from "@/components/hooks/useCallOnce";
+import MangaUploadImage from "../MangaUploadImage";
+import MuiBox from "@/components/box/Box";
+import { useAppMediaQuery } from "@/components/hooks/useAppMediaQuery";
 
 const PreviewMangaDialog = () => {
   const searchParams = useSearchParams();
   const preview = useAppSelector((state) => state.searchParamsSlice.preview);
+  const { sm } = useAppMediaQuery();
   const dispatch = useAppDispatch();
 
   const loadPreviewSlice = useCallback(() => {
@@ -45,11 +49,14 @@ const PreviewMangaDialog = () => {
   }, [getManga]);
 
   return (
-    <MuiDialog title={""} open={Boolean(preview)} onClose={onClose}>
+    <MuiDialog title={""} open={Boolean(preview)} onClose={onClose} fullWidth fullScreen={!sm} maxWidth={"lg"}>
       {manga ? (
-        <>
+        <MuiBox className="flex flex-col gap-4">
           <MangaPageHeader manga={manga} />
-        </>
+          <div className="mx-auto w-full">
+            <MangaUploadImage manga={manga} />
+          </div>
+        </MuiBox>
       ) : (
         <MangaPageHeaderSkeleton />
       )}

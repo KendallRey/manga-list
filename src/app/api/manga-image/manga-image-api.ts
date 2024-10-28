@@ -1,3 +1,5 @@
+"use server";
+
 import { MODEL } from "@/model/model";
 import { db } from "@/utils/drizzle/db";
 import { generateSqlQueriesFromModel } from "@/utils/drizzle/helper/filter";
