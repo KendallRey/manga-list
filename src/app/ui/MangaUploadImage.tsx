@@ -7,6 +7,7 @@ import UploadImageFile, { IImageToUpload } from "../../components/custom/UploadI
 import { uploadMangaImageToStorage } from "@/app/api/storage/upload";
 import { displaySnackbar } from "@/components/helper/notistack";
 import { cleanString } from "@/components/helper/string";
+import { MODEL } from "@/model/model";
 
 type IMangaUploadImage = {
   manga: IMangaTableSelect;
@@ -29,7 +30,7 @@ const MangaUploadImage: React.FC<IMangaUploadImage> = (props) => {
         }
       }
 
-      const payload = { manga: manga, imagesData: successImages, imageThumbnailId: thumbNailId };
+      const payload = { mangaId: manga[MODEL.MANGA.ID], imagesData: successImages, imageThumbnailId: thumbNailId };
       const response = await addMangaImagesAction({ payload });
       if (response.error) {
         displaySnackbar({ action: "upload", status: "error", variant: "error" });

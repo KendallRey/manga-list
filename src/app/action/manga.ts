@@ -175,13 +175,13 @@ export const addMangaImageAction = async (
 
 export const addMangaImagesAction = async (
   props: IApiPostProps<{
-    manga: IMangaTableSelect;
+    mangaId: string;
     imagesData: IUploadFileToStorageSuccessResponse[];
     imageThumbnailId?: string;
   }>,
 ): Promise<IApiResponse<IMangaImageTableSelect[]>> => {
   const {
-    payload: { manga, imagesData, imageThumbnailId },
+    payload: { mangaId, imagesData, imageThumbnailId },
   } = props;
 
   try {
@@ -191,24 +191,25 @@ export const addMangaImagesAction = async (
       [MODEL.MANGA_IMAGE.IMAGE_ID]: image.id,
       [MODEL.MANGA_IMAGE.PATH]: image.path,
       [MODEL.MANGA_IMAGE.PUBLIC_URL]: image.publicUrl,
-      [MODEL.MANGA_IMAGE.MANGA_ID]: manga[MODEL.MANGA.ID],
+      [MODEL.MANGA_IMAGE.MANGA_ID]: mangaId,
     }));
 
     let mangaImages: IMangaImageTableSelect[] | undefined = undefined;
     await db.transaction(async (trx) => {
       mangaImages = await trx.insert(MangaImageTable).values(payload).returning();
       const imageAsCover = imagesData.find((image) => image.id === imageThumbnailId);
-      if (!imageAsCover) return;
-      const mangaPayload = {
-        [MODEL.MANGA.THUMBNAIL]: imageAsCover.path,
-      };
-      await trx
-        .update(MangaTable)
-        .set({
-          ...mangaPayload,
-          [MODEL.MANGA.UPDATED_AT]: sql`NOW()`,
-        })
-        .where(eq(MangaTable[MODEL.MANGA.ID], manga[MODEL.MANGA.ID]));
+      if (imageAsCover) {
+        const mangaPayload = {
+          [MODEL.MANGA.THUMBNAIL]: imageAsCover.path,
+        };
+        await trx
+          .update(MangaTable)
+          .set({
+            ...mangaPayload,
+            [MODEL.MANGA.UPDATED_AT]: sql`NOW()`,
+          })
+          .where(eq(MangaTable[MODEL.MANGA.ID], mangaId));
+      }
     });
 
     revalidatePath("/", "layout");
