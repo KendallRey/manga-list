@@ -66,8 +66,12 @@ export default MuiFormControl;
 
 type IFormControlLabel = FormControlLabelProps;
 
+const CustomFormControlLabel = styled((props: IFormControlLabel) => <FormControlLabel {...props} />)(({ theme }) => ({
+  color: theme.palette.text.primary
+}))
+
 export const MuiFormControlLabel: React.FC<IFormControlLabel> = (props) => {
-  return <FormControlLabel {...props} />;
+  return <CustomFormControlLabel {...props} />;
 };
 
 type IFormGroup = FormGroupProps;
