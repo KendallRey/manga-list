@@ -12,7 +12,7 @@ import MuiTypography from "@/components/typography/Typograph";
 
 const MangaList = async () => {
   const { searchParams } = getHeaders();
-  const { q, ...params } = getSearchParams(searchParams);
+  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams });
 
   const mangaListResponse = await GetMangaList({ ...searchParams, params });
 
