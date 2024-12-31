@@ -10,9 +10,13 @@ import { MangaListItem } from "./MangaListItem";
 import TablePagination from "@/components/custom/TablePagination";
 import MuiTypography from "@/components/typography/Typograph";
 
-const MangaList = async () => {
-  const { searchParams } = getHeaders();
-  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams });
+type IMangaList = {
+  searchParams?: Record<string, unknown>;
+}
+
+const MangaList: React.FC<IMangaList> = async (props) => {
+  const { searchParams } = props;
+  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams } );
 
   const mangaListResponse = await GetMangaList({ ...searchParams, params });
 
