@@ -13,7 +13,11 @@ import API from "../API";
  * console.log(params.toString()); // Output: "q=search&limit=10"
  * ```
  */
-export const toSearchParams = (params?: IApiParams, defaultParams?: Record<string, any>, urlSearchParams?: URLSearchParams): URLSearchParams => {
+export const toSearchParams = (
+  params?: IApiParams,
+  defaultParams?: Record<string, any>,
+  urlSearchParams?: URLSearchParams,
+): URLSearchParams => {
   let _params: IApiParams = {};
   if (params instanceof URLSearchParams) {
     params.forEach((value, key) => {
@@ -25,7 +29,7 @@ export const toSearchParams = (params?: IApiParams, defaultParams?: Record<strin
   } else {
     _params = params ?? {};
   }
-  if(urlSearchParams){
+  if (urlSearchParams) {
     urlSearchParams.forEach((value, key) => {
       if (value === "null") {
         return;
@@ -122,7 +126,10 @@ export const removeKeySearchParams = (params: URLSearchParams, key: string, with
  * console.log(searchParams); // Output: { q: 'search', page: 2, limit: 10 }
  * ```
  */
-export const getSearchParams = (params?: IApiParams | URLSearchParams, urlSearchParams?: URLSearchParams): Record<string, any> => {
+export const getSearchParams = (
+  params?: IApiParams | URLSearchParams,
+  urlSearchParams?: URLSearchParams,
+): Record<string, any> => {
   const search = toSearchParams(params, urlSearchParams);
 
   const q = search.get(API.PARAMS.KEYS.Q);

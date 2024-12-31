@@ -12,11 +12,11 @@ import MuiTypography from "@/components/typography/Typograph";
 
 type IMangaList = {
   searchParams?: Record<string, unknown>;
-}
+};
 
 const MangaList: React.FC<IMangaList> = async (props) => {
   const { searchParams } = props;
-  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams } );
+  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams });
 
   const mangaListResponse = await GetMangaList({ ...searchParams, params });
 
