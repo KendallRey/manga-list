@@ -21,7 +21,7 @@ const MangaLoading = () => {
               </MuiListItemAvatar>
               <MuiListItemText
                 disableTypography
-                primary={<MuiSkeleton width={MathRandom(500, 0.3)} />}
+                primary={<MuiSkeleton style={{ maxWidth: MathRandom(500, 0.3) }} />}
                 secondary={<MuiStack direction={"row"} gap={1}></MuiStack>}
               />
             </MuiListItem>

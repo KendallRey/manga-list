@@ -21,7 +21,7 @@ type IMangaCard = {
 } & IMuiCardProps;
 
 const MangaCard: React.FC<IMangaCard> = (props) => {
-  const { manga, className, ...otherProps } = props;
+  const { manga, className = "", ...otherProps } = props;
 
   const [isBlur, setIsBlur] = useState(
     manga[MODEL.MANGA.DANGER] || manga[MODEL.MANGA.SPICY] || manga[MODEL.MANGA.HIDE],
@@ -36,8 +36,9 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
   ) as string;
 
   return (
-    <MuiCard className={`flex-grow relative ${className ?? ""}`} variant="outlined" {...otherProps}>
+    <MuiCard className={`flex flex-col flex-grow relative ${className}`} variant="outlined" {...otherProps}>
       <MuiCardHeader
+        className="flex-grow [&>div]:self-start"
         titleTypographyProps={{
           fontSize: 16,
           fontWeight: 550,
@@ -48,7 +49,7 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
       <img
         onClick={onClickImage}
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
-        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] duration-200 cursor-pointer`}
+        className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] bottom-0 duration-200 cursor-pointer`}
       />
       <MuiCardContent>
         <div className="flex flex-wrap gap-1">

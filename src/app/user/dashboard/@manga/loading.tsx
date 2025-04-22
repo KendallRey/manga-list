@@ -7,7 +7,7 @@ const MangaLoading = () => {
   return (
     <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
       <MuiSkeleton height={24} className="mt-1" width={150} />
-      <div className="flex gap-4 flex-wrap my-2">
+      <div className="grid lg:grid-cols-3 gap-4 flex-wrap my-2">
         <MangaCardSkeleton />
         <MangaCardSkeleton />
         <MangaCardSkeleton />
