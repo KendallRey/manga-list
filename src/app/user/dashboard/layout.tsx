@@ -5,14 +5,15 @@ type IDashboardLayout = {
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
-} & ILayout;
+  preview: React.ReactNode;
+};
 
 const DashboardLayout: React.FC<IDashboardLayout> = (props) => {
-  const { children, manga, profile, randomList } = props;
+  const { preview, manga, profile, randomList } = props;
 
   return (
     <Dashboard>
-      {children}
+      {preview}
       {profile}
       {randomList}
       {manga}

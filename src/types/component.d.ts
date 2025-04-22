@@ -1,3 +1,3 @@
 type ILayout = {
-  children: React.ReactNode;
+  children: any;
 };
