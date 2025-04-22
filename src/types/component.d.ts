@@ -1,3 +1,3 @@
-type ILayout = Readonly<{
+type ILayout = {
   children: React.ReactNode;
-}>;
+};
