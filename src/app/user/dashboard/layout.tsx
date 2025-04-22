@@ -1,15 +1,15 @@
 import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 
-type IDashboardLayout = {
-  children: React.ReactNode;
-  manga: React.ReactNode;
-  profile: React.ReactNode;
-  randomList: React.ReactNode;
-  preview: React.ReactNode;
+type IDashboardLayoutProps = {
+  children: React.ReactNode | undefined;
+  manga: React.ReactNode | undefined;
+  profile: React.ReactNode | undefined;
+  randomList: React.ReactNode | undefined;
+  preview: React.ReactNode | undefined;
 };
 
-const DashboardLayout: React.FC<IDashboardLayout> = (props) => {
+const DashboardLayout: React.FC<IDashboardLayoutProps> = (props) => {
   const { preview, manga, profile, randomList } = props;
 
   return (
