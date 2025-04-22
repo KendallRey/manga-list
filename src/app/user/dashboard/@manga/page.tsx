@@ -17,7 +17,7 @@ const DashboardManga = async () => {
   return (
     <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
       <MuiTypography fontSize={24}>Newly Added</MuiTypography>
-      <div className="flex gap-4 flex-wrap">
+      <div className="grid lg:grid-cols-3 gap-4">
         {mangasResponse.data.results.map((manga) => (
           <MangaCard key={manga[MODEL.MANGA.ID]} manga={manga} />
         ))}
