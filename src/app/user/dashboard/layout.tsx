@@ -6,12 +6,13 @@ const DashboardLayout = ({
   manga,
   profile,
   randomList,
-}: {
+}: Readonly<{
+  children: React.ReactNode;
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
   preview: React.ReactNode;
-}) => {
+}>) => {
   return (
     <Dashboard>
       {preview}
