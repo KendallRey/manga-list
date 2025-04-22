@@ -2,6 +2,7 @@ import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 
 type IDashboardLayout = {
+  children: React.ReactNode;
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
