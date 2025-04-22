@@ -7,7 +7,6 @@ const DashboardLayout = ({
   profile,
   randomList,
 }: Readonly<{
-  children: React.ReactNode;
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
