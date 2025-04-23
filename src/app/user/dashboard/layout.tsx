@@ -10,20 +10,17 @@ type LayoutPropsExtended = {
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
-  preview: React.ReactNode;
 };
 
 const DashboardLayout = (props: LayoutProps & LayoutPropsExtended) => {
-  const { manga, profile, randomList, preview } = {
+  const { manga, profile, randomList } = {
     ...props,
     manga: undefined,
     profile: undefined,
     randomList: undefined,
-    preview: undefined,
   };
   return (
     <Dashboard>
-      {preview}
       {profile}
       {randomList}
       {manga}
