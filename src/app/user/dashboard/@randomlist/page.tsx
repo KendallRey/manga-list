@@ -1,28 +1,39 @@
+"use client";
+
 import { GetUserRandomMangaList } from "@/app/api/manga/manga-api";
 import MuiList from "@/components/list/List";
 import MuiPaper from "@/components/paper/Paper";
 import MuiTypography from "@/components/typography/Typograph";
 import { MODEL } from "@/model/model";
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ListAction from "./ListAction";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
 import API from "@/app/api/API";
 import { MangaListItem } from "@/app/ui/manga/MangaListItem";
+import { useSearchParams } from "next/navigation";
+import { IMangaTableSelect } from "@/utils/drizzle/schema";
 
-const DashboardRandomList: React.FC<INextPage> = async (props) => {
-  const { searchParams } = props;
-
+const DashboardRandomList: React.FC = () => {
+  const searchParams = useSearchParams();
   const params = toSearchParams(searchParams);
   const actionParams = params.get(API.PARAMS.KEYS.ACTION) ?? null;
 
-  const ids = actionParams?.split(",").map((item) => Number(item));
+  const ids = useMemo(() => actionParams?.split(",").map((item) => Number(item)), [actionParams]);
+  const [mangaResponse, setMangaResponse] = useState<IApiResponse<IList<IMangaTableSelect>>>();
 
-  const mangaListResponse = await GetUserRandomMangaList({
-    params: { limit: 10 },
-    indexes: ids,
-  });
+  const fetchMangaRandomList = useCallback(async () => {
+    const mangaListResponse = await GetUserRandomMangaList({
+      params: { limit: 10 },
+      indexes: ids,
+    });
+    setMangaResponse(mangaListResponse);
+  }, [ids]);
 
-  if (!mangaListResponse.status) {
+  useEffect(() => {
+    fetchMangaRandomList();
+  }, [fetchMangaRandomList]);
+
+  if (!mangaResponse?.status) {
     return <MuiPaper></MuiPaper>;
   }
 
@@ -31,9 +42,7 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
       <MuiTypography fontSize={24}>Random List</MuiTypography>
       <ListAction />
       <MuiList>
-        {mangaListResponse.data.results.map((manga) => (
-          <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />
-        ))}
+        {mangaResponse?.data.results.map((manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />)}
       </MuiList>
     </MuiPaper>
   );
