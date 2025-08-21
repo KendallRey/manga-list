@@ -188,6 +188,11 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
       .from(MangaTable)
       .where(filters);
 
+    const count = totalCount[0].count;
+    const isOverPage = Math.max(Math.ceil(count / limit), 1) < page;
+    if (isOverPage !== false)
+      return errorResponse({ code: API.CODE.ERROR.NOT_FOUND, error: API.MESSAGE.ERROR.INVALID_PAGE });
+
     const baseQuery = db
       .select()
       .from(MangaTable)
@@ -197,12 +202,7 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
       .limit(limit)
       .offset((page - 1) * limit);
 
-    const count = totalCount[0].count;
     const mangas = await baseQuery;
-
-    const isOverPage = Math.max(Math.ceil(count / limit), 1) < page;
-    if (isOverPage !== false)
-      return errorResponse({ code: API.CODE.ERROR.NOT_FOUND, error: API.MESSAGE.ERROR.INVALID_PAGE });
     return successResponse({ data: { count: Number(count), results: mangas } });
   } catch (error) {
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
