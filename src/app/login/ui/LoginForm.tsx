@@ -107,38 +107,37 @@ const LoginForm = () => {
   );
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gray-100">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image src="https://nextjs.org/icons/next.svg" alt="Next.js logo" width={180} height={38} priority />
-        <form onSubmit={onLoginSubmit} className="flex flex-col gap-5 min-w-[320px]">
+    <div className="w-full sm:w-[360px] bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">Login / Sign Up</h2>
+        <form onSubmit={onLoginSubmit} className="flex flex-col gap-4">
           <MuiTextField
-            value={form.email ?? ""}
-            disabled={isLoading}
+            value={form.email ?? ''}
             onChange={onChange}
+            label="Email"
+            type="email"
+            disabled={isLoading}
             errorText={error?.email}
             autoComplete="email"
-            label={"Email"}
           />
           <MuiTextField
-            value={form.password ?? ""}
-            disabled={isLoading}
+            value={form.password ?? ''}
             onChange={onChange}
+            label="Password"
+            type="password"
+            disabled={isLoading}
             errorText={error?.password}
             autoComplete="current-password"
-            label={"Password"}
-            type="password"
           />
-          <div className="flex items-center flex-wrap gap-2">
-            <MuiButton className="flex-grow" type="submit" disabled={isLoading}>
-              Log in
+          <div className="flex flex-col sm:flex-row gap-3 mt-2">
+            <MuiButton type="submit" disabled={isLoading} className="flex-1">
+              Log In
             </MuiButton>
-            <MuiButton className="flex-grow" onClick={() => onSignUpSubmit()} disabled={isLoading} color="secondary">
+            <MuiButton type="button" onClick={()=>onSignUpSubmit()} disabled={isLoading} color="secondary" className="flex-1">
               Sign Up
             </MuiButton>
           </div>
         </form>
-      </main>
-    </div>
+      </div>
   );
 };
 

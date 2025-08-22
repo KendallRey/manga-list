@@ -12,7 +12,7 @@ import { MangaListItem } from "@/app/ui/manga/MangaListItem";
 const DashboardRandomList: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
 
-  const params = toSearchParams(searchParams);
+  const params = toSearchParams( await searchParams);
   const actionParams = params.get(API.PARAMS.KEYS.ACTION) ?? null;
 
   const ids = actionParams?.split(",").map((item) => Number(item));

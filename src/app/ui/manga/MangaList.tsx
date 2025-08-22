@@ -16,7 +16,8 @@ type IMangaList = {
 
 const MangaList: React.FC<IMangaList> = async (props) => {
   const { searchParams } = props;
-  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams });
+  const _searchParams = await searchParams
+  const { q, ...params } = getSearchParams({ created_at: "asc", ..._searchParams });
 
   const mangaListResponse = await GetMangaList({ ...searchParams, params });
 

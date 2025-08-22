@@ -14,6 +14,8 @@ import PreviewMangaDialog from "@/app/ui/manga/PreviewMangaDialog";
 const MangaPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
 
+  const _searchParams = await searchParams
+
   const mangaListResponse = await GetUserMangaList({});
 
   if (!mangaListResponse.status) {
@@ -25,10 +27,10 @@ const MangaPage: React.FC<INextPage> = async (props) => {
 
   const mangaList = mangaListResponse.data[0];
 
-  const { q } = getSearchParams(searchParams);
+  const { q } = getSearchParams(_searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q, ...searchParams },
+    params: { q, ..._searchParams },
     listId: mangaList.id,
     skip: !q,
   });
@@ -41,7 +43,7 @@ const MangaPage: React.FC<INextPage> = async (props) => {
     <>
       <Dashboard>
         <MuiPaper className="p-4" elevation={2} color="primary">
-          <MangaSearchAdd listId={mangaList.id} searchParams={searchParams} />
+          <MangaSearchAdd listId={mangaList.id} searchParams={_searchParams} />
         </MuiPaper>
 
         <MuiPaper className="flex flex-col flex-grow-[2] gap-1 min-h-[320px] p-4" elevation={2} color="primary">

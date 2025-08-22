@@ -10,8 +10,9 @@ import PreviewMangaDialog from "@/app/ui/manga/PreviewMangaDialog";
 
 const MangaImagesPage: React.FC<INextPage> = async (props) => {
   const { searchParams } = props;
+  const _searchParams = await searchParams
 
-  const { q, limit, ...params } = getSearchParams({ limit: 20, ...searchParams });
+  const { q, limit, ...params } = getSearchParams({ limit: 20, ..._searchParams });
   const mangasResponse = await GetMangaList({
     defaultParams: {},
     params: { limit: limit, q, ...params },

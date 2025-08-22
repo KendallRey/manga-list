@@ -21,7 +21,7 @@ export const toSearchParams = (
   let _params: IApiParams = {};
   if (params instanceof URLSearchParams) {
     params.forEach((value, key) => {
-      if (value === "null") {
+      if (value === "null" || typeof value == 'symbol') {
         return;
       }
       _params[key] = value;
@@ -31,12 +31,14 @@ export const toSearchParams = (
   }
   if (urlSearchParams) {
     urlSearchParams.forEach((value, key) => {
-      if (value === "null") {
+      if (value === "null" || typeof value == 'symbol') {
         return;
       }
       _params[key] = value;
     });
   }
+  console.log('first', defaultParams )
+  console.log('_params', _params )
   const newParams = new URLSearchParams({ ..._params, ...defaultParams });
   return newParams;
 };

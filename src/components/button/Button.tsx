@@ -12,8 +12,8 @@ const MuiButton: React.FC<MuiButtonProps> = (props) => {
   const { sx, ...otherProps } = props;
   return (
     <Button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.9 }}
+      // whileHover={{ scale: 1.05 }}
+      // whileTap={{ scale: 0.9 }}
       data-testname="button"
       component={motion.button}
       variant="contained"
