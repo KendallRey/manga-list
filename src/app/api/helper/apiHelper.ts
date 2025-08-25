@@ -37,8 +37,7 @@ export const toSearchParams = (
       _params[key] = value;
     });
   }
-  console.log('first', defaultParams )
-  console.log('_params', _params )
+
   const newParams = new URLSearchParams({ ..._params, ...defaultParams });
   return newParams;
 };

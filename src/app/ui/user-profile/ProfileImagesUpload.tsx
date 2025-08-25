@@ -2,7 +2,7 @@
 
 import { addUserProfileImagesAction } from "@/app/action/user-profile";
 import { uploadProfileImageToStorage } from "@/app/api/storage/upload";
-import UploadImageFile, { IImageToUpload } from "@/components/custom/UploadImageFile";
+import UploadImageFile, { ImageToUploadType } from "@/components/custom/UploadImageFile";
 import { displaySnackbar } from "@/components/helper/notistack";
 import { cleanString } from "@/components/helper/string";
 import { MODEL } from "@/model/model";
@@ -17,7 +17,7 @@ const ProfileImagesUpload: React.FC<IProfileImagesUpload> = (props) => {
   const { userProfile } = props;
 
   const uploadsFn = useCallback(
-    async (images: IImageToUpload[]) => {
+    async (images: ImageToUploadType[]) => {
       const ids: string[] = [];
       const successImages: IUploadFileToStorageSuccessResponse[] = [];
       let thumbNailId = "";

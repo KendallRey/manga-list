@@ -1,11 +1,11 @@
-import Dashboard from "@/components/ui/Dashboard";
+// import Dashboard from "@/components/ui/Dashboard";
 import MangaImageSkeleton from "./ui/MangaImageSkeleton";
 
 const ImagesLoading = () => {
   return (
-    <Dashboard>
+    // <Dashboard>
       <MangaImageSkeleton />
-    </Dashboard>
+    // </Dashboard>
   );
 };
 

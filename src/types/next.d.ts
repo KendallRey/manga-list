@@ -1,4 +1,4 @@
 type INextPage = {
-  params?: Record<string, unknown>;
-  searchParams?: { q?: string } & Record<string, unknown>;
+  params?: Promise<Record<string, unknown>>;
+  searchParams?: Promise<{ q?: string } & Record<string, unknown>>;
 };

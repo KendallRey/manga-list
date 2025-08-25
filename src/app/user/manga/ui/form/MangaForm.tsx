@@ -1,79 +1,68 @@
 "use client";
 
-import { FormCheckbox } from "@/components/checkbox/Checkbox";
+import React from "react";
+import { FormCheckbox } from "@/components/common/FormCheckbox";
+import { FormRadio, FormRadioGroup } from "@/components/common/FormRadio";
+import { TextareaField } from "@/components/common/TextareaField";
+import { TextField } from "@/components/common/TextField";
 import { TEXT } from "@/components/helper/field";
-import { FormRadio, FormRadioGroup } from "@/components/radio/Radio";
-import MuiTextField from "@/components/text-field/TextField";
 import { MODEL } from "@/model/model";
-import { editMangaForm } from "@/redux/features/manga/mangaFormSlice";
-import { InputRecord } from "@/redux/helper/input";
-import useReduxForm from "@/redux/hooks/useReduxForm";
-import { useAppSelector } from "@/redux/services/hooks";
-import React, { useCallback } from "react";
+import { useMangaStore } from "@/store/manga-store-provider";
 
-type IMangaForm = {
+type MangaFormProps = {
   children?: React.ReactNode;
   isLoading?: boolean;
 } & React.ComponentProps<"form">;
 
-const MangaForm: React.FC<IMangaForm> = (props) => {
+const MangaForm: React.FC<MangaFormProps> = (props) => {
   const { children, isLoading, ...otherProps } = props;
 
-  const { error, ...form } = useAppSelector((state) => state.mangaFormSlice);
-  const { onChangeForm } = useReduxForm();
-
-  const onChange = useCallback(
-    (e: InputRecord) => {
-      onChangeForm(e, editMangaForm);
-    },
-    [onChangeForm],
-  );
+  const { error, form, onChange, onCheck } = useMangaStore((state) => state);
 
   return (
     <>
       <form className="flex flex-col gap-6" {...otherProps}>
         <div className="grid grid-cols-1 gap-4 ">
-          <MuiTextField
+          <TextField
             required
             label={"Title"}
             name={MODEL.MANGA.NAME}
             value={form[MODEL.MANGA.NAME] ?? ""}
             maxLength={TEXT.MAX.LONG}
-            errorText={error?.[MODEL.MANGA.NAME]}
+            error={error?.[MODEL.MANGA.NAME]}
             onChange={onChange}
             disabled={isLoading}
           />
-          <MuiTextField
+          <TextareaField
             label={"Description"}
             name={MODEL.MANGA.DESCRIPTION}
             value={form[MODEL.MANGA.DESCRIPTION] ?? ""}
             maxLength={TEXT.MAX.DESCRIPTION}
             onChange={onChange}
             disabled={isLoading}
-            multiline
-            rows={20}
+            rows={2}
           />
         </div>
-        <div className="flex gap-2 items-center flex-wrap">
+        <div className="flex gap-4 items-center flex-wrap">
           <FormCheckbox
             label="Hide"
             name={MODEL.MANGA.HIDE}
             checked={form[MODEL.MANGA.HIDE] ?? false}
-            onChange={onChange}
+            onChange={onCheck}
             disabled={isLoading}
           />
           <FormCheckbox
             label="Spicy"
             name={MODEL.MANGA.SPICY}
             checked={form[MODEL.MANGA.SPICY] ?? false}
-            onChange={onChange}
+            onChange={onCheck}
             disabled={isLoading}
           />
           <FormCheckbox
             label="Danger"
             name={MODEL.MANGA.DANGER}
             checked={form[MODEL.MANGA.DANGER] ?? false}
-            onChange={onChange}
+            onChange={onCheck}
             disabled={isLoading}
           />
         </div>

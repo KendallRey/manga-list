@@ -1,11 +1,11 @@
 import { Fragment, ReactNode } from "react";
 
-type IComponentList = {
+type ComponentListProps = {
   count: number;
   render: (t: number) => ReactNode;
 };
 
-const ComponentList: React.FC<IComponentList> = ({ count, render }) => {
+const ComponentList: React.FC<ComponentListProps> = ({ count, render }) => {
   const array = Array.from({ length: count });
 
   return (

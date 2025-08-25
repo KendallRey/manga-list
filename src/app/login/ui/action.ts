@@ -11,7 +11,7 @@ export async function userLoginAction(_data: unknown) {
   const validation = LoginFormSchema.safeParse(_data);
   if (!validation.success) redirect("/error");
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.signInWithPassword(validation.data);
 
@@ -26,7 +26,7 @@ export async function userSignUpAction(_data: unknown) {
   const validation = LoginFormSchema.safeParse(_data);
   if (!validation.success) redirect("/error");
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.signUp(validation.data);
 
@@ -38,7 +38,7 @@ export async function userSignUpAction(_data: unknown) {
 }
 
 export async function userLoginFormAction(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -46,8 +46,7 @@ export async function userLoginFormAction(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-
-  const { data, error } = await supabase.auth.signInWithPassword(payload);
+  const { error } = await supabase.auth.signInWithPassword(payload);
 
   if (error) {
     redirect("/error");
@@ -57,8 +56,8 @@ export async function userLoginFormAction(formData: FormData) {
   redirect(USER_ROUTE.MANGA_PAGE.href, RedirectType.replace);
 }
 
-export async function userSignupAction(formData: FormData) {
-  const supabase = createClient();
+export async function userSignupFormAction(formData: FormData) {
+  const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs

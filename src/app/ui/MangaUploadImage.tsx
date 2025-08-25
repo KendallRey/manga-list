@@ -3,21 +3,21 @@
 import { addMangaImagesAction } from "@/app/action/manga";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import React, { useCallback } from "react";
-import UploadImageFile, { IImageToUpload } from "../../components/custom/UploadImageFile";
+import UploadImageFile, { ImageToUploadType } from "../../components/custom/UploadImageFile";
 import { uploadMangaImageToStorage } from "@/app/api/storage/upload";
 import { displaySnackbar } from "@/components/helper/notistack";
 import { cleanString } from "@/components/helper/string";
 import { MODEL } from "@/model/model";
 
-type IMangaUploadImage = {
+type MangaUploadImageProps = {
   manga: IMangaTableSelect;
 };
 
-const MangaUploadImage: React.FC<IMangaUploadImage> = (props) => {
+const MangaUploadImage: React.FC<MangaUploadImageProps> = (props) => {
   const { manga } = props;
 
   const uploadsFn = useCallback(
-    async (images: IImageToUpload[]) => {
+    async (images: ImageToUploadType[]) => {
       const ids: string[] = [];
       const successImages: IUploadFileToStorageSuccessResponse[] = [];
       let thumbNailId = "";

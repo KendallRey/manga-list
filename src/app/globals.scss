@@ -1,27 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-// :root {
-//   --background: #ffffff;
-//   --foreground: #171717;
-// }
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-// @media (prefers-color-scheme: dark) {
-//   :root {
-//     --background: #0a0a0a;
-//     --foreground: #ededed;
-//   }
-// }
-
-body {
-  // color: var(--foreground);
-  // background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  /* Your default theme */
+  --background: white;
+  --foreground: black;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+[data-theme='dark'] {
+  --background: black;
+  --foreground: white;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }

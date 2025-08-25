@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 export const GetUserMangaLists = async (props: IApiProps) => {
   const { params } = props;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
 
     const mangaLists = await db
@@ -29,7 +29,7 @@ export const GetUserMangaLists = async (props: IApiProps) => {
 export const GetUserMangaList = async (props: IApiProps): Promise<IApiResponse<IMangaListTableSelect[]>> => {
   const { params } = props;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
 
     const mangaLists = await db
@@ -54,7 +54,7 @@ export const GetUserMangaList = async (props: IApiProps): Promise<IApiResponse<I
 
 export const CreateUserMangaList = async (props: IApiProps): Promise<IApiResponse<IMangaTableSelect>> => {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
     const { user } = userData.data;
     if (!user)

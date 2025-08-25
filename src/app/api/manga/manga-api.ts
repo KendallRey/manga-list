@@ -40,7 +40,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
       )
       .orderBy(...orderBys);
 
-    const mangas = await baseQuery;
+    const mangas = limit ? await baseQuery.limit(limit) : await baseQuery;
 
     return successResponse({ data: mangas });
   } catch (error) {
@@ -76,8 +76,7 @@ export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApi
         ),
       )
       .orderBy(...orderBys);
-
-    const mangas = await baseQuery;
+    const mangas = limit ? await baseQuery.limit(limit) : await baseQuery;
 
     return successResponse({ data: mangas.length ? mangas[0].count : 0 });
   } catch (error) {

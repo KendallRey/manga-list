@@ -13,7 +13,7 @@ type IDisplayUserProfile = {
 
 const DisplayUserProfile: React.FC<IDisplayUserProfile> = async (props) => {
   const { userProfile } = props;
-  const supabase = createClient();
+  const supabase = await createClient();
   const useData = await supabase.auth.getUser();
 
   const thumbnailImage = (
