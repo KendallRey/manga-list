@@ -5,7 +5,7 @@ type DashboardLayoutProps = {
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
-} & LayoutProps<"/user/dashboard">;
+};
 
 const DashboardLayout = ({ manga, profile, randomList }: DashboardLayoutProps) => {
   return (
