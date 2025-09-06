@@ -1,20 +1,22 @@
 "use client";
 
 import { addMangaAction } from "@/app/action/manga";
-import MuiButton from "@/components/button/Button";
+import { Button } from "@/components/common/Button";
 import { customEnqueueSnackbar, NotifMessage } from "@/components/helper/notistack";
-import { CSwal, htmlAskAction } from "@/components/swal/CSwal";
+import { usePrompt } from "@/context/prompt-context";
 import { closeSnackbar } from "notistack";
 import React, { useCallback, useState } from "react";
 
-type IAddMangaList = {
+type AddMangaListProps = {
   id: ID;
   name?: string | null;
   count?: number;
 };
 
-const AddMangaList: React.FC<IAddMangaList> = (props) => {
+const AddMangaList: React.FC<AddMangaListProps> = (props) => {
   const { id, name, count } = props;
+
+  const { ask } = usePrompt();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,12 +26,13 @@ const AddMangaList: React.FC<IAddMangaList> = (props) => {
         variant: "warning",
         message: "There are still some result/s.",
       });
-      const { isConfirmed } = await CSwal({
-        icon: "question",
+      const confirmed = await ask({
         title: "Add Manga",
-        html: htmlAskAction({ type: "Add", name: name?.toString().trim() }),
+        message: "Are you sure you want to add this manga?",
+        confirmText: "Yes, add it",
+        cancelText: "Cancel",
       });
-      if (!isConfirmed) return;
+      if (!confirmed) return;
     }
     closeSnackbar();
     setIsLoading(true);
@@ -48,13 +51,13 @@ const AddMangaList: React.FC<IAddMangaList> = (props) => {
         message: <NotifMessage item={response.data.name} action="create" />,
       });
     setIsLoading(false);
-  }, [id, name, count]);
+  }, [ask, id, name, count]);
 
   return (
     <>
-      <MuiButton onClick={onAddManga} disabled={isLoading || !Boolean(name)}>
+      <Button onClick={onAddManga} disabled={isLoading || !Boolean(name)}>
         Add
-      </MuiButton>
+      </Button>
     </>
   );
 };

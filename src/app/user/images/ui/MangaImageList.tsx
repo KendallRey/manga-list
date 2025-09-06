@@ -1,34 +1,27 @@
 "use client";
 
-import MuiImageList, { MuiImageListItem } from "@/components/image/Image";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MangaImageListItem from "./MangaImageListItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
-import { useMediaQuery, useTheme } from "@mui/material";
 import ComponentList from "@/components/helper-components/ComponentList";
-import MuiSkeleton from "@/components/skeleton/Skeleton";
+import DisplayList from "@/components/helper-components/DisplayList";
+import { MODEL } from "@/model/model";
+import MangaImageSkeleton from "./MangaImageSkeleton";
 
-type IMangaImageList = {
+type MangaImageListProps = {
   mangas: IMangaTableSelect[];
   canLoadMore?: boolean;
 };
 
 const IMAGES_PER_LOAD = 20;
 
-const MangaImageList: React.FC<IMangaImageList> = (props) => {
+const MangaImageList: React.FC<MangaImageListProps> = (props) => {
   const { mangas, canLoadMore } = props;
 
   const router = useRouter();
   const params = useSearchParams();
-  const theme = useTheme();
-
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-  const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
-
-  const colSpan = useMemo(() => (isLg ? 5 : isMd ? 3 : isSm ? 2 : 1), [isLg, isMd, isSm]);
 
   const [lastCount, setLastCount] = useState(mangas.length);
 
@@ -43,6 +36,7 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
   }, [mangas.length]);
 
   const handleScroll = useCallback(() => {
+    if (isLoadingMore) return;
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100) {
       if (canLoadMore) {
         const _params = toSearchParams(params);
@@ -51,7 +45,7 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
         setIsLoadingMore(true);
       }
     }
-  }, [setIsLoadingMore, canLoadMore, lastCount, router]);
+  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, params, router]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -59,26 +53,16 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
   }, [handleScroll]);
 
   return (
-    <MuiImageList
-      cols={colSpan}
-      rowHeight={350}
-      sx={{
-        width: "100%",
-        overflow: "hidden",
-      }}
-    >
-      {mangas.map((manga, i) => (
-        <MangaImageListItem key={manga.id} index={i + 1} manga={manga} viewAction />
-      ))}
-      <ComponentList
-        count={isLoadingMore ? 5 : 0}
-        render={(i) => (
-          <MuiImageListItem key={i}>
-            <MuiSkeleton height={"100%"} animation={i % 2 === 0 ? "wave" : "pulse"} />
-          </MuiImageListItem>
-        )}
+    <>
+      <DisplayList
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+        data={mangas}
+        render={(manga) => <MangaImageListItem key={manga[MODEL.MANGA.ID]} manga={manga} viewAction />}
       />
-    </MuiImageList>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
+        <ComponentList count={isLoadingMore ? 5 : 0} render={(i) => <MangaImageSkeleton key={i} />} />
+      </div>
+    </>
   );
 };
 

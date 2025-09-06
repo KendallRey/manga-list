@@ -1,18 +1,18 @@
 import MangaCardSkeleton from "@/app/ui/manga/MangaCardSkeleton";
-import MuiPaper from "@/components/paper/Paper";
-import MuiSkeleton from "@/components/skeleton/Skeleton";
+import { Skeleton } from "@/components/common/Skeleton";
+import ComponentList from "@/components/helper-components/ComponentList";
+import CardContainer from "@/components/shared/Card";
 import React from "react";
 
 const MangaLoading = () => {
   return (
-    <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
-      <MuiSkeleton height={24} className="mt-1" width={150} />
-      <div className="grid lg:grid-cols-3 gap-4 flex-wrap my-2">
-        <MangaCardSkeleton />
-        <MangaCardSkeleton />
-        <MangaCardSkeleton />
+    <CardContainer className="flex flex-col gap-5">
+      <Skeleton className="h-6 w-40" />
+
+      <div className="grid lg:grid-cols-3 gap-4">
+        <ComponentList count={3} render={(i) => <MangaCardSkeleton key={i} />} />
       </div>
-    </MuiPaper>
+    </CardContainer>
   );
 };
 

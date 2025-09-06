@@ -40,12 +40,12 @@ export async function updateUserProfileAction(_id: string, data: Record<string, 
 }
 
 export const addUserProfileImagesAction = async (
-  props: IApiPostProps<{
+  props: ApiPostPropsType<{
     profile: IUserProfileTableSelect;
     imagesData: IUploadFileToStorageSuccessResponse[];
     imageThumbnailId?: string;
   }>,
-): Promise<IApiResponse<IUserProfileImageTableSelect[]>> => {
+): Promise<ApiResponseType<IUserProfileImageTableSelect[]>> => {
   const {
     payload: { profile, imagesData, imageThumbnailId },
   } = props;

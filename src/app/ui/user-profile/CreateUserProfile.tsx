@@ -1,12 +1,10 @@
 "use client";
 
 import { createUserProfileAction } from "@/app/action/user-profile";
-import MuiButton from "@/components/button/Button";
-import PageTitle from "@/components/custom/PageTitle";
+import { Button } from "@/components/common/Button";
 import { customEnqueueSnackbar } from "@/components/helper/notistack";
-import MuiPaper from "@/components/paper/Paper";
-import MuiTypography from "@/components/typography/Typograph";
-import { CircularProgress } from "@mui/material";
+import CardContainer from "@/components/shared/Card";
+import { Loader2 } from "lucide-react";
 import React, { useCallback, useState } from "react";
 
 const CreateUserProfile = () => {
@@ -15,7 +13,9 @@ const CreateUserProfile = () => {
   const onCreateUserProfile = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
     const response = await createUserProfileAction();
+
     if (response.error) {
       setIsLoading(false);
       customEnqueueSnackbar({
@@ -24,6 +24,7 @@ const CreateUserProfile = () => {
       });
       return;
     }
+
     customEnqueueSnackbar({
       variant: "success",
       message: "User Profile created successfully",
@@ -31,17 +32,19 @@ const CreateUserProfile = () => {
   }, []);
 
   return (
-    <MuiPaper className="p-4 flex">
-      <div className="flex flex-col gap-2">
-        <PageTitle>Profile</PageTitle>
-        <MuiTypography variant="h6">Start customizing your profile here</MuiTypography>
+    <CardContainer>
+      <div className="flex flex-col gap-2 w-full">
+        <h1 className="text-2xl font-bold tracking-tight">Profile</h1>
+        <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Start customizing your profile here</h2>
+
         <form onSubmit={onCreateUserProfile} className="py-6">
-          <MuiButton type="submit" endIcon={isLoading && <CircularProgress size={20} />} disabled={isLoading}>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Get started
-          </MuiButton>
+          </Button>
         </form>
       </div>
-    </MuiPaper>
+    </CardContainer>
   );
 };
 

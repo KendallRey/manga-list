@@ -21,6 +21,7 @@ import { errorResponse, successResponse } from "../api/helper/apiHelper";
 import { eq, sql } from "drizzle-orm";
 import USER_ROUTE from "@/constants/ROUTES";
 import { formDataToObject } from "@/model/helper/form";
+import { delay } from "lodash";
 
 export async function createMangaListAction() {
   const { error } = await CreateUserMangaList({});
@@ -128,12 +129,12 @@ export async function uploadMangaImageAction(id: ID) {
 }
 
 export const addMangaImageAction = async (
-  props: IApiPostProps<{
+  props: ApiPostPropsType<{
     manga: IMangaTableSelect;
     imageData: IUploadFileToStorageSuccessResponse;
     setAsThumbnail?: boolean;
   }>,
-): Promise<IApiResponse<IMangaImageTableSelect>> => {
+): Promise<ApiResponseType<IMangaImageTableSelect>> => {
   const {
     payload: { manga, imageData, setAsThumbnail },
   } = props;
@@ -174,12 +175,12 @@ export const addMangaImageAction = async (
 };
 
 export const addMangaImagesAction = async (
-  props: IApiPostProps<{
+  props: ApiPostPropsType<{
     mangaId: string;
     imagesData: IUploadFileToStorageSuccessResponse[];
     imageThumbnailId?: string;
   }>,
-): Promise<IApiResponse<IMangaImageTableSelect[]>> => {
+): Promise<ApiResponseType<IMangaImageTableSelect[]>> => {
   const {
     payload: { mangaId, imagesData, imageThumbnailId },
   } = props;
@@ -194,24 +195,32 @@ export const addMangaImagesAction = async (
       [MODEL.MANGA_IMAGE.MANGA_ID]: mangaId,
     }));
 
+    console.log("Images", payload);
+    console.log("Thumbnail ID", imageThumbnailId);
     let mangaImages: IMangaImageTableSelect[] | undefined = undefined;
     await db.transaction(async (trx) => {
+      await new Promise((res) => setTimeout(res, 150));
       mangaImages = await trx.insert(MangaImageTable).values(payload).returning();
       const imageAsCover = imagesData.find((image) => image.id === imageThumbnailId);
+
       if (imageAsCover) {
         const mangaPayload = {
           [MODEL.MANGA.THUMBNAIL]: imageAsCover.path,
         };
-        await trx
+        await new Promise((res) => setTimeout(res, 200));
+        const res = await trx
           .update(MangaTable)
           .set({
             ...mangaPayload,
             [MODEL.MANGA.UPDATED_AT]: sql`NOW()`,
           })
-          .where(eq(MangaTable[MODEL.MANGA.ID], mangaId));
+          .where(eq(MangaTable[MODEL.MANGA.ID], mangaId))
+          .returning();
+        console.log("Mange Image Res", res);
       }
     });
 
+    await new Promise((res) => setTimeout(res, 50));
     revalidatePath("/", "layout");
     if (mangaImages) return successResponse({ data: mangaImages, code: API.CODE.SUCCESS.CREATED });
     return errorResponse({ code: API.CODE.ERROR.BAD_REQUEST });

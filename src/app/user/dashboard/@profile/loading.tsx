@@ -1,12 +1,12 @@
-import DisplayUserProfileSkeleton from "@/app/ui/user-profile/DisplayUserProfileSkeleton";
-import MuiPaper from "@/components/paper/Paper";
+import { DisplayUserProfileSkeleton } from "@/app/ui/user-profile/DisplayUserProfileSkeleton";
+import CardContainer from "@/components/shared/Card";
 import React from "react";
 
 const DashboardProfileLoading = () => {
   return (
-    <MuiPaper className="flex items-center justify-center min-h-[240px] gap-6 p-4">
+    <CardContainer>
       <DisplayUserProfileSkeleton />
-    </MuiPaper>
+    </CardContainer>
   );
 };
 

@@ -1,9 +1,8 @@
-import { CircularProgress } from "@mui/material";
 import React from "react";
-import MuiTypography from "../typography/Typograph";
-import { Each } from "./TableList";
+import { Each } from "../custom/Each";
+// import { Each } from "./TableList";
 
-type IDisplayList<T> = {
+type DisplayListProps<T> = {
   data?: T[] | null;
   render: (item: T, index: number) => React.ReactNode;
   isLoading?: boolean;
@@ -13,26 +12,33 @@ type IDisplayList<T> = {
   className?: string;
 };
 
-const DisplayList = <T,>(props: IDisplayList<T>) => {
-  const { isError, isLoading, errorText, className, emptyText, data, render } = props;
-
+const DisplayList = <T,>({
+  isError,
+  isLoading,
+  errorText,
+  className,
+  emptyText,
+  data,
+  render,
+}: DisplayListProps<T>) => {
   return (
-    <>
-      {isLoading && <CircularProgress className={`mx-auto ${className ?? ""}`} />}
-      {isError && (
-        <MuiTypography className={`text-destructive-500 mx-auto text-center ${className ?? ""}`} component={"strong"}>
-          {errorText ?? "Something went wrong."}
-        </MuiTypography>
+    <div className={className}>
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex justify-center items-center">
+          <div className="w-6 h-6 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       )}
-      {data && !data?.length ? (
-        <MuiTypography component={"em"} className={className}>
-          {emptyText ?? "No record/s found"}
-        </MuiTypography>
-      ) : (
-        <></>
-      )}
+
+      {/* Error State */}
+      {isError && <strong className="text-red-500 text-center">{errorText ?? "Something went wrong."}</strong>}
+
+      {/* Empty State */}
+      {data && !data.length && <em className="text-gray-500 text-sm">{emptyText ?? "No record(s) found"}</em>}
+
+      {/* Data Renderer */}
       <Each data={data ?? []} render={render} />
-    </>
+    </div>
   );
 };
 

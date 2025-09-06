@@ -1,59 +1,57 @@
 "use client";
 
-import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "@/components/image/Image";
-import React, { useCallback, useMemo, useState } from "react";
-import { GetMangaImages } from "../api/manga-image/manga-image-api";
-import ErrorPage from "../error/page";
+import React, { useState } from "react";
 import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
-import { HiPhoto } from "react-icons/hi2";
-import MuiIconButton from "@/components/icon-button/IconButton";
 import { setMangaThumbnailAction } from "../action/manga";
 import { IMangaImageTableSelect, IMangaTableSelect } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
+import { Button } from "@/components/common/Button";
+import { Camera } from "lucide-react";
+import Image from "next/image";
 
-type IMangaImageListItem = {
+type MangaImageListItemProps = {
   image: IMangaImageTableSelect;
   manga: IMangaTableSelect;
   viewAction?: boolean;
 };
 
-const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
+const MangaImageListItem: React.FC<MangaImageListItemProps> = (props) => {
   const { image, manga, viewAction } = props;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSetMangaThumbnail = useCallback(async () => {
+  const onSetMangaThumbnail = async () => {
     setIsLoading(true);
     await setMangaThumbnailAction(manga[MODEL.MANGA.ID], image[MODEL.MANGA_IMAGE.PATH]);
     setIsLoading(false);
-  }, [image, manga]);
+  };
 
-  const disableSetThumbnail = useMemo(() => {
-    if (isLoading) return true;
-    return manga[MODEL.MANGA.THUMBNAIL] === image[MODEL.MANGA_IMAGE.PATH];
-  }, [image, manga, isLoading]);
+  const isThumbnail = manga[MODEL.MANGA.THUMBNAIL] === image[MODEL.MANGA_IMAGE.PATH];
 
   return (
-    <MuiImageListItem key={image.id}>
-      <img
-        srcSet={`${toBucketPublicMangaUrl(image.path)}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+    <div key={image.id} className="relative">
+      <Image
         src={`${toBucketPublicMangaUrl(image.path)}?w=164&h=164&fit=crop&auto=format`}
         alt={image.path}
+        height={400}
+        width={250}
         loading="lazy"
       />
       {viewAction && (
-        <MuiImageListItemBar
-          title=""
-          position="below"
-          subtitle="set as cover"
-          actionIcon={
-            <MuiIconButton color="secondary" onClick={onSetMangaThumbnail} disabled={disableSetThumbnail}>
-              <HiPhoto />
-            </MuiIconButton>
-          }
-        />
+        <div className="flex absolute bottom-0 left-0 right-0 p-1 bg-gradient-to-t from-white to-white/50 dark:from-gray-900 dark:to-gray-900/50">
+          <Button
+            size="sm"
+            variant={isThumbnail ? "solid" : "outline"}
+            className="flex items-center gap-2"
+            onClick={onSetMangaThumbnail}
+            disabled={isThumbnail || isLoading}
+          >
+            <Camera size={16} />
+            <small>Set as cover</small>
+          </Button>
+        </div>
       )}
-    </MuiImageListItem>
+    </div>
   );
 };
 

@@ -1,46 +1,27 @@
-"use client";
+type MangaImageSkeletonProps = {
+  viewAction?: boolean;
+};
 
-import ComponentList from "@/components/helper-components/ComponentList";
-import MuiImageList, { MuiImageListItem } from "@/components/image/Image";
-import MuiPaper from "@/components/paper/Paper";
-import MuiSkeleton from "@/components/skeleton/Skeleton";
-import { useMediaQuery, useTheme } from "@mui/material";
-import React, { useMemo } from "react";
-
-const MangaImageSkeleton = () => {
-  const theme = useTheme();
-
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-  const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
-
-  const colSpan = useMemo(() => (isLg ? 5 : isMd ? 3 : isSm ? 2 : 1), [isLg, isMd, isSm]);
-
+const MangaImageSkeleton: React.FC<MangaImageSkeletonProps> = ({ viewAction = true }) => {
   return (
-    <>
-      <MuiPaper className=" p-4" elevation={2} color="primary">
-        <MuiSkeleton height={50} />
-      </MuiPaper>
-      <MuiPaper className="flex-grow p-4" elevation={2} color="primary">
-        <MuiImageList
-          cols={colSpan}
-          rowHeight={350}
-          sx={{
-            width: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <ComponentList
-            count={10}
-            render={(i) => (
-              <MuiImageListItem key={i}>
-                <MuiSkeleton height={"100%"} animation={i % 2 === 0 ? "wave" : "pulse"} />
-              </MuiImageListItem>
-            )}
-          />
-        </MuiImageList>
-      </MuiPaper>
-    </>
+    <div className="relative overflow-hidden rounded-xl h-[320px] shadow-md bg-gray-200 dark:bg-gray-800 animate-pulse">
+      {/* Thumbnail skeleton */}
+      <div className="w-full bg-gray-300 dark:bg-gray-700" />
+
+      {viewAction && (
+        <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/60 to-transparent">
+          {/* Title skeleton */}
+          <div className="h-4 w-2/3 rounded bg-gray-400 dark:bg-gray-600 mb-2" />
+
+          {/* Chips skeleton */}
+          <div className="flex gap-2">
+            <div className="h-5 w-12 rounded-full bg-gray-400 dark:bg-gray-600" />
+            <div className="h-5 w-14 rounded-full bg-gray-400 dark:bg-gray-600" />
+            <div className="h-5 w-10 rounded-full bg-gray-400 dark:bg-gray-600" />
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

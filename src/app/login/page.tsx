@@ -1,13 +1,12 @@
-'use client'
+"use client";
 
-import React from 'react'
-import Image from 'next/image'
-import LoginForm from './ui/LoginForm'
+import React from "react";
+import Image from "next/image";
+import LoginForm from "./ui/LoginForm";
 
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
-
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 sm:px-8 py-20 gap-12 text-center">
         <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-gray-100">
@@ -49,12 +48,10 @@ const LandingPage: React.FC = () => {
 
       {/* Footer */}
       <footer className="py-8 mt-auto text-center text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
-        <p>
-          &copy; {new Date().getFullYear()} MangaList. Built with Next.js and Supabase.
-        </p>
+        <p>&copy; {new Date().getFullYear()} MangaList. Built with Next.js and Supabase.</p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

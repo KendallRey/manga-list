@@ -1,16 +1,12 @@
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import { GetMangaList } from "@/app/api/manga/manga-api";
-import MuiPaper from "@/components/paper/Paper";
-import Dashboard from "@/components/ui/Dashboard";
-import React from "react";
 import ErrorPage from "@/app/error/page";
 import MangaImageList from "./ui/MangaImageList";
 import Search from "@/components/custom/Search";
-import PreviewMangaDialog from "@/app/ui/manga/PreviewMangaDialog";
 
-const MangaImagesPage: React.FC<INextPage> = async (props) => {
+const MangaImagesPage: React.FC<NextPage> = async (props) => {
   const { searchParams } = props;
-  const _searchParams = await searchParams
+  const _searchParams = await searchParams;
 
   const { q, limit, ...params } = getSearchParams({ limit: 20, ..._searchParams });
   const mangasResponse = await GetMangaList({
@@ -25,15 +21,10 @@ const MangaImagesPage: React.FC<INextPage> = async (props) => {
   const { results, count } = mangasResponse.data;
 
   return (
-    <Dashboard>
-      <MuiPaper className=" p-4" elevation={2} color="primary">
-        <Search />
-      </MuiPaper>
-      <MuiPaper className="flex-grow p-4" elevation={2} color="primary">
-        <MangaImageList mangas={results} canLoadMore={results.length < count} />
-      </MuiPaper>
-      <PreviewMangaDialog />
-    </Dashboard>
+    <div className="flex flex-col gap-4">
+      <Search label="Search" />
+      <MangaImageList mangas={results} canLoadMore={results.length < count} />
+    </div>
   );
 };
 

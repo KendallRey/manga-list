@@ -1,16 +1,19 @@
-import MuiSkeleton from "@/components/skeleton/Skeleton";
-import { List } from "@mui/material";
+"use client";
+
+import { Skeleton } from "@/components/common/Skeleton";
 import React from "react";
 
 const MangaSearchAddSkeleton = () => {
   return (
     <>
+      {/* Search Input + Button */}
       <div className="flex gap-2 mb-2">
-        <MuiSkeleton height={51} component={"div"} className="flex-grow" />
-        <MuiSkeleton height={51} component={"div"} width={64} />
+        <Skeleton className="h-[51px] flex-grow rounded-md" />
+        <Skeleton className="h-[51px] w-16 rounded-md" />
       </div>
-      <MuiSkeleton width={90} height={15} />
-      <List className="flex flex-col gap-2"></List>
+
+      {/* Label */}
+      <Skeleton className="h-4 w-[90px]" />
     </>
   );
 };

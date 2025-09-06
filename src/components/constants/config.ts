@@ -1,14 +1,3 @@
-export const MONEY = {
-  SIGN: "₱",
-  LOCALE: "fil-PH",
-  CURRENCY: "PHP",
-  LIMIT: {
-    MAX: 1000000,
-    MIN: 1,
-    MAX_DIGIT: 7,
-  },
-} as const;
-
 export const FIELDS = {
   EMPTY: "---",
   EMPTY_IMPORTANT: "N/A",

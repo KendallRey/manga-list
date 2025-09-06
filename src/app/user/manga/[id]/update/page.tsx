@@ -1,63 +1,51 @@
 import { GetUserManga } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
-import PageBreadCrumbs from "@/components/custom/PageBreadCrumbs";
-import MuiPaper from "@/components/paper/Paper";
-import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import MangaUploadImage from "@/app/ui/MangaUploadImage";
-import MangaBanner from "@/app/ui/MangaBanner";
-import MangaImageList from "@/app/ui/MangaImageList";
-import MangaForm from "../../ui/form/MangaForm";
 import UpdateMangaForm from "../../ui/form/UpdateMangaForm";
+import Breadcrumbs from "@/components/shared/BreadCrumbs";
+import MangaBanner from "@/app/ui/MangaBanner";
+import CardContainer from "@/components/shared/Card";
+import MangaImageList from "@/app/ui/MangaImageList";
+import Link from "next/link";
+import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
+import { Eye } from "lucide-react";
 import { MODEL } from "@/model/model";
-import MuiTypography from "@/components/typography/Typograph";
-import MuiStack from "@/components/stack/Stack";
-import MuiChip from "@/components/chip/Chip";
-import { formatToLabel } from "@/components/helper/component";
 
-const UpdateMangaPage: React.FC<INextPage> = async (props) => {
+const UpdateMangaPage: React.FC<NextPage> = async (props) => {
   const { params } = props;
+  const _params = await params;
 
-  if (!params?.id) return <ErrorPage />;
+  if (!_params?.id) return <ErrorPage />;
 
-  const manga = await GetUserManga({ id: params?.id });
+  const manga = await GetUserManga({ id: _params?.id });
 
   if (!manga.status) return <ErrorPage />;
 
-  const { data } = manga;
-
   return (
-    <Dashboard>
-      <MuiPaper>
-        <PageBreadCrumbs route="/user" pathNames={[data[MODEL.MANGA.NAME]]} />
-      </MuiPaper>
-      <div className="grid flex-grow-[2] gap-4 grid-cols-1 md:grid-cols-2">
-        <MuiPaper className="flex flex-col p-4 gap-6" elevation={2} color="primary">
-          <MangaBanner manga={data} />
-          <MuiStack>
-            <MuiTypography fontSize={24}>{data[MODEL.MANGA.NAME]}</MuiTypography>
-            <MuiTypography variant="caption">{formatToLabel(data[MODEL.MANGA.TYPE])}</MuiTypography>
-          </MuiStack>
-          <MuiTypography variant="body2">{data[MODEL.MANGA.DESCRIPTION] || "No description"} </MuiTypography>
-          <MuiStack direction={"row"} gap={1}>
-            {data[MODEL.MANGA.HIDE] && <MuiChip size="medium" label="Hidden" color="secondary" variant="outlined" />}
-            {data[MODEL.MANGA.DANGER] && <MuiChip size="medium" label="Danger" color="error" />}
-            {data[MODEL.MANGA.SPICY] && <MuiChip size="medium" label="Spicy" color="secondary" />}
-          </MuiStack>
-        </MuiPaper>
-        <MuiPaper className="flex flex-col min-h-[320px] p-4 gap-6" elevation={2} color="primary">
-          <UpdateMangaForm manga={manga.data} />
-        </MuiPaper>
-      </div>
-      <MuiPaper className=" p-4" elevation={2} color="primary">
-        <div className="mx-auto">
-          <MangaUploadImage manga={manga.data} />
+    <>
+      <Breadcrumbs indexes={[3]} names={[manga.data.name]} ellipsisIndexes={[3]} />
+      <MangaBanner manga={manga.data} />
+      <CardContainer className="lg:-mt-36 lg:!pt-24 min-h-[50vh] my-6">
+        <div className="flex justify-end gap-5">
+          <Link
+            href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga.data[MODEL.MANGA.ID])}
+            className="z-10 text-sm flex items-center gap-2 text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400"
+          >
+            View <Eye size={18} />
+          </Link>
         </div>
-      </MuiPaper>
-      <MuiPaper className="p-6">
+        <UpdateMangaForm manga={manga.data} />
+      </CardContainer>
+      <CardContainer className=" flex flex-col gap-4 my-6">
+        <h3 className="text-xl font-bold">Upload Images</h3>
+        <MangaUploadImage manga={manga.data} />
+      </CardContainer>
+      <CardContainer className=" flex flex-col gap-4 my-6">
+        <h3 className="text-xl font-bold">Images</h3>
         <MangaImageList manga={manga.data} viewAction />
-      </MuiPaper>
-    </Dashboard>
+      </CardContainer>
+    </>
   );
 };
 

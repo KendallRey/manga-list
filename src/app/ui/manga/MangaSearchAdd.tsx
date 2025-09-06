@@ -1,35 +1,32 @@
 import Search from "@/components/custom/Search";
-import MuiLink from "@/components/link/Link";
-import MuiList, { MuiListItem, MuiListItemIcon, MuiListItemText } from "@/components/list/List";
-import MuiTypography from "@/components/typography/Typograph";
-import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
-import { MODEL } from "@/model/model";
-import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
-import { Avatar } from "@mui/material";
-import React from "react";
-import { BiEdit } from "react-icons/bi";
 import AddMangaList from "../../user/manga/ui/AddMangaList";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import ErrorPage from "@/app/error/page";
-import { HiEye } from "react-icons/hi2";
-import MuiChip from "@/components/chip/Chip";
+import { MODEL } from "@/model/model";
+import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
+import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import HighlightText from "@/components/custom/HighlightText";
-import MangaItemActions from "../../user/manga/ui/MangaItemActions";
 import Link from "next/link";
+import Image from "next/image";
 
-type IMangaPageHeader = {
+// Lucide icons
+import { Eye, Pencil, ShieldAlert, Flame, EyeOff } from "lucide-react";
+import { formatToCount } from "@/components/helper/component";
+import Chip from "@/components/common/Chip";
+
+type MangaSearchAddProps = {
   listId: ID;
   searchParams?: Record<string, any>;
 };
 
-const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
+const MangaSearchAdd: React.FC<MangaSearchAddProps> = async (props) => {
   const { listId, searchParams } = props;
 
   const { q } = getSearchParams(searchParams);
 
   const mangasResponse = await GetUserMangas({
-    params: { q, name: "desc" },
+    params: { q, name: "desc", limit: 50 },
     overrideParams: { hide: "all" },
     listId: String(listId),
     skip: !q,
@@ -40,74 +37,83 @@ const MangaSearchAdd: React.FC<IMangaPageHeader> = async (props) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col">
+      {/* Search + Add */}
       <div className="flex gap-2">
         <Search />
         <AddMangaList id={listId} name={q} count={mangasResponse.data.length} />
       </div>
-      <span className="flex gap-1 items-center">
-        <MuiTypography variant="caption">{mangasResponse.data.length}</MuiTypography>
-        <MuiTypography
-          fontWeight={600}
-          variant="body2"
-          textOverflow={"ellipsis"}
-          noWrap
-          className="max-w-[320px] md:max-w-[480px] lg:max-w-[720px]"
-          overflow={"hidden"}
-        >
-          {q}
-        </MuiTypography>
-        <MuiTypography variant="caption">results</MuiTypography>
-      </span>
-      <MuiList className="flex flex-col gap-1">
+
+      {/* Results Count */}
+      <div className="flex gap-1 items-center text-sm text-gray-500 dark:text-gray-400">
+        <span>{formatToCount(mangasResponse.data.length)}</span>
+        <span className="font-semibold truncate max-w-[320px] md:max-w-[480px] lg:max-w-[720px]">{q}</span>
+        <span>
+          results <small>(first 50 results)</small>
+        </span>
+      </div>
+
+      {/* Manga List */}
+      <ul className="flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
         {mangasResponse.data.map((manga) => (
-          <MuiListItem
-            key={manga[MODEL.MANGA.ID]}
-            className="border-b"
-            secondaryAction={
-              <div className="flex gap-2 items-center">
-                <MuiLink
-                  component={Link}
-                  href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
-                >
-                  <HiEye fontSize={24} />
-                </MuiLink>
-                <MuiLink
-                  component={Link}
-                  href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
-                >
-                  <BiEdit fontSize={24} />
-                </MuiLink>
-                <MangaItemActions manga={manga} hideUpdate />
-              </div>
-            }
-          >
-            <MuiListItemIcon>
-              <MuiLink href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
-                <Avatar
-                  src={toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)}
-                  alt={manga.name}
-                  variant="rounded"
+          <li key={manga[MODEL.MANGA.ID]} className="flex items-center justify-between py-2">
+            {/* Thumbnail + Name */}
+            <div className="flex items-center gap-3">
+              <Link href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
+                <Image
+                  src={
+                    manga[MODEL.MANGA.THUMBNAIL]
+                      ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)!
+                      : "/images/404.jpg"
+                  }
+                  alt={manga[MODEL.MANGA.NAME] || "Manga"}
+                  width={40}
+                  height={56}
+                  className="rounded-md min-w-15 min-h-21"
                 />
-              </MuiLink>
-            </MuiListItemIcon>
-            <MuiListItemText
-              className="pr-20"
-              secondary={
-                <div className="flex gap-2">
-                  {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
-                  {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
-                  {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
+              </Link>
+              <div>
+                <HighlightText text={manga[MODEL.MANGA.NAME]} subString={q ? String(q) : null} />
+                <div className="flex gap-2 mt-1">
+                  {manga[MODEL.MANGA.HIDE] && (
+                    <Chip variant="outline" color="secondary" icon={<EyeOff size={14} />}>
+                      Hidden
+                    </Chip>
+                  )}
+                  {manga[MODEL.MANGA.DANGER] && (
+                    <Chip variant="outline" color="danger" icon={<ShieldAlert size={14} />}>
+                      Danger
+                    </Chip>
+                  )}
+                  {manga[MODEL.MANGA.SPICY] && (
+                    <Chip variant="outline" color="pink" icon={<Flame size={14} />}>
+                      Spicy
+                    </Chip>
+                  )}
                 </div>
-              }
-              disableTypography
-            >
-              <HighlightText text={manga[MODEL.MANGA.NAME]} subString={q ? String(q) : null} />
-            </MuiListItemText>
-          </MuiListItem>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 items-center">
+              <Link
+                href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
+                className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+              >
+                <Eye size={20} />
+              </Link>
+              <Link
+                href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
+                className="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400"
+              >
+                <Pencil size={20} />
+              </Link>
+              {/* <MangaItemActions manga={manga} hideUpdate /> */}
+            </div>
+          </li>
         ))}
-      </MuiList>
-    </>
+      </ul>
+    </div>
   );
 };
 

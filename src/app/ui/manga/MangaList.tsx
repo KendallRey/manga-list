@@ -1,23 +1,20 @@
 import { getSearchParams } from "@/app/api/helper/apiHelper";
 import { GetMangaList } from "@/app/api/manga/manga-api";
-import { getHeaders } from "@/app/helper/headers";
-import MuiList from "@/components/list/List";
 import { MODEL } from "@/model/model";
 import React from "react";
 import ErrorPage from "@/app/error/page";
 import DisplayList from "@/components/helper-components/DisplayList";
 import { MangaListItem } from "./MangaListItem";
-import TablePagination from "@/components/custom/TablePagination";
-import MuiTypography from "@/components/typography/Typograph";
+import TablePagination from "@/components/shared/TablePagination";
+import { formatToCount } from "@/components/helper/component";
 
-type IMangaList = {
+type MangaListProps = {
   searchParams?: Record<string, unknown>;
 };
 
-const MangaList: React.FC<IMangaList> = async (props) => {
+const MangaList: React.FC<MangaListProps> = async (props) => {
   const { searchParams } = props;
-  const _searchParams = await searchParams
-  const { q, ...params } = getSearchParams({ created_at: "asc", ..._searchParams });
+  const { q, ...params } = getSearchParams({ created_at: "asc", ...searchParams });
 
   const mangaListResponse = await GetMangaList({ ...searchParams, params });
 
@@ -25,15 +22,12 @@ const MangaList: React.FC<IMangaList> = async (props) => {
 
   return (
     <>
-      <MuiList>
-        <DisplayList
-          data={mangaListResponse.data.results}
-          render={(manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />}
-        />
-      </MuiList>
-      <MuiTypography textAlign="end" variant="caption">
-        {mangaListResponse.data.count} results
-      </MuiTypography>
+      <DisplayList
+        className="grid lg:grid-cols-2 gap-5"
+        data={mangaListResponse.data.results}
+        render={(manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />}
+      />
+      <div className="text-end py-2">{formatToCount(mangaListResponse.data.count)} results</div>
       {Boolean(mangaListResponse.data.count) && <TablePagination count={mangaListResponse.data.count} />}
     </>
   );

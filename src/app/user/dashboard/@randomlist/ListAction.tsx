@@ -1,7 +1,6 @@
 "use client";
 
 import { toSearchParams } from "@/app/api/helper/apiHelper";
-import MuiButton from "@/components/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { getRandomIndexes } from "@/components/helper/array";
@@ -9,6 +8,7 @@ import API from "@/app/api/API";
 import { GetUserMangaCount } from "@/app/api/manga/manga-api";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { useCallOnce } from "@/components/hooks/useCallOnce";
+import { Button } from "@/components/common/Button";
 
 const ListAction = () => {
   const router = useRouter();
@@ -37,9 +37,9 @@ const ListAction = () => {
 
   return (
     <>
-      <MuiButton onClick={onRandomize} disabled={!count}>
+      <Button onClick={onRandomize} disabled={!count}>
         Randomize ({count})
-      </MuiButton>
+      </Button>
     </>
   );
 };

@@ -1,38 +1,38 @@
 "use client";
 
-import MuiButton from "@/components/button/Button";
-import MuiDivider from "@/components/divider/Divider";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import clsx from "clsx";
 import { FileValidator } from "@/components/helper/files";
 import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/notistack";
-import MuiTypography from "@/components/typography/Typograph";
-import { CircularProgress } from "@mui/material";
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import MuiImageList, { MuiImageListItem, MuiImageListItemBar } from "../image/Image";
-import { nanoid } from "@reduxjs/toolkit";
-import MuiIconButton from "../icon-button/IconButton";
-import { HiPhoto, HiXMark } from "react-icons/hi2";
-import { useAppMediaQuery } from "../hooks/useAppMediaQuery";
+import { CameraIcon, X } from "lucide-react";
+import Image from "next/image";
 
-type IUploadFile = {
-  uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
-  uploadsFn?: (imagesToUpdate: IImageToUpload[]) => Promise<string[]>;
-  actionText?: string;
+export const generateId = () => {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 9);
 };
 
-export type IImageToUpload = {
+export type ImageToUploadType = {
   key: string;
   url: string;
   setAsCover: boolean;
   file: File;
 };
 
-const UploadImageFile: React.FC<IUploadFile> = (props) => {
-  const { uploadFn, uploadsFn, actionText } = props;
+type UploadFileProps = {
+  uploadFn?: (file: File) => Promise<{ data?: any; error?: string }>;
+  uploadsFn?: (imagesToUpdate: ImageToUploadType[]) => Promise<string[]>;
+  actionText?: string;
+};
 
+const UploadImageFile: React.FC<UploadFileProps> = ({ uploadsFn, actionText }) => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [imagesToUpload, setImagesToUpload] = useState<IImageToUpload[]>([]);
+  const [imagesToUpload, setImagesToUpload] = useState<ImageToUploadType[]>([]);
+
   const uploadFiles = useCallback(async () => {
     if (!imagesToUpload.length || !uploadsFn) return;
     setIsLoading(true);
@@ -41,18 +41,18 @@ const UploadImageFile: React.FC<IUploadFile> = (props) => {
     setIsLoading(false);
   }, [imagesToUpload, uploadsFn]);
 
-  const onAttachFile = useCallback((e: RCE<HTMLInputElement>) => {
+  const onAttachFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files || !files.length) return;
     if (!validateFiles(files)) return;
 
-    const _images: IImageToUpload[] = [];
+    const _images: ImageToUploadType[] = [];
     const imagesCount = Math.min(files.length, 10);
     for (let i = 0; i < imagesCount; i++) {
       const _file = files.item(i);
       if (!_file) return;
       _images.push({
-        key: nanoid(),
+        key: generateId(),
         url: URL.createObjectURL(_file),
         setAsCover: false,
         file: _file,
@@ -67,17 +67,14 @@ const UploadImageFile: React.FC<IUploadFile> = (props) => {
 
   const onSetAsCover = useCallback((key?: string) => {
     setImagesToUpload((prev) =>
-      prev.map((item) => {
-        return {
-          ...item,
-          setAsCover: key === item.key,
-        };
-      }),
+      prev.map((item) => ({
+        ...item,
+        setAsCover: key === item.key,
+      })),
     );
   }, []);
 
   // #region Dragging
-
   const [isDragging, setIsDragging] = useState(false);
 
   const handleOnDrag = (e: React.DragEvent<HTMLDivElement>, _isDragging: boolean) => {
@@ -102,7 +99,19 @@ const UploadImageFile: React.FC<IUploadFile> = (props) => {
 
     if (!validateFiles(files)) return;
 
-    setIsLoading(false);
+    const _images: ImageToUploadType[] = [];
+    const imagesCount = Math.min(files.length, 10);
+    for (let i = 0; i < imagesCount; i++) {
+      const _file = files.item(i);
+      if (!_file) return;
+      _images.push({
+        key: generateId(),
+        url: URL.createObjectURL(_file),
+        setAsCover: false,
+        file: _file,
+      });
+    }
+    setImagesToUpload(_images);
   };
 
   const validateFiles = (files: FileList) => {
@@ -118,100 +127,104 @@ const UploadImageFile: React.FC<IUploadFile> = (props) => {
     }
     return true;
   };
-
   // #endregion
 
   return (
     <div
-      className={`dropzone flex flex-col border border-4 gap-2 border-dashed ${isDragging ? "border-primary-2" : ""} rounded p-4`}
+      className={clsx(
+        "dropzone flex flex-col gap-4 border-2 border-dashed rounded-xl p-6 transition",
+        isDragging
+          ? "border-indigo-500 bg-indigo-500/10"
+          : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900",
+      )}
       onDragEnter={(e) => handleOnDrag(e, true)}
       onDragEnd={(e) => handleOnDrag(e, false)}
       onDragOver={(e) => handleOnDrag(e, true)}
       onDrop={handleOnDrop}
     >
+      {/* File Input */}
       <input
         ref={inputRef}
-        value={""}
+        value=""
         className="hidden"
         type="file"
         onChange={onAttachFile}
         disabled={isLoading}
         multiple
       />
-      <div className="flex justify-center gap-2 items-center flex-wrap">
-        <MuiButton
-          className="text-center"
-          size="large"
-          variant="outlined"
+
+      {/* Upload UI */}
+      <div className="flex flex-col items-center justify-center gap-2 text-center">
+        <button
+          type="button"
           onClick={() => inputRef.current?.click()}
           disabled={isLoading}
+          className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition disabled:opacity-50"
         >
           Browse File
-        </MuiButton>
-        <MuiTypography fontSize={16}>or</MuiTypography>
-        <MuiTypography fontSize={20} className="text-neutral-700">
-          Drag and drop file here...
-        </MuiTypography>
+        </button>
+        <p className="text-gray-600 dark:text-gray-400">or drag & drop here</p>
       </div>
-      <MuiDivider />
-      <MuiButton
+
+      {/* Upload Button */}
+      <button
+        type="button"
         onClick={uploadFiles}
         disabled={isLoading}
-        endIcon={<CircularProgress size={20} hidden={!isLoading} />}
+        className="self-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
       >
+        {isLoading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
         {actionText ?? "Upload"}
-      </MuiButton>
-      <div className="w-full">
-        <ImageList imagesToUpload={imagesToUpload} onRemove={onRemoveImage} onSetAsCover={onSetAsCover} />
-      </div>
+      </button>
+
+      {/* Image Preview Grid */}
+      <ImageList imagesToUpload={imagesToUpload} onRemove={onRemoveImage} onSetAsCover={onSetAsCover} />
     </div>
   );
 };
 
 export default UploadImageFile;
 
-type IImageList = {
-  imagesToUpload: IImageToUpload[];
+// ---------- Image Grid ----------
+type ImageListProps = {
+  imagesToUpload: ImageToUploadType[];
   onRemove: (key: string) => void;
   onSetAsCover: (key?: string) => void;
 };
 
-const ImageList: React.FC<IImageList> = (props) => {
-  const { imagesToUpload, onRemove, onSetAsCover } = props;
-
-  const { lg, md, sm } = useAppMediaQuery();
-  const colSpan = useMemo(() => (lg ? 5 : md ? 3 : sm ? 2 : 1), [lg, md, sm]);
-
+const ImageList: React.FC<ImageListProps> = ({ imagesToUpload, onRemove, onSetAsCover }) => {
   return (
-    <MuiImageList cols={colSpan} rowHeight={350} className="mx-auto">
+    <div className="grid gap-4 mt-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
       {imagesToUpload.map((image) => (
-        <MuiImageListItem key={image.key} style={{ overflow: "hidden" }}>
-          <img src={image.url} />
-          <MuiImageListItemBar
-            title=""
-            position="bottom"
-            subtitle={
-              image.setAsCover ? (
-                <MuiTypography onClick={() => onSetAsCover()} className="cursor-pointer" variant="caption">
-                  Marked as Cover
-                </MuiTypography>
-              ) : (
-                ""
-              )
-            }
-            actionIcon={
-              <div className="flex items-center gap-1">
-                <MuiIconButton color="secondary" onClick={() => onSetAsCover(image.key)} hidden={image.setAsCover}>
-                  <HiPhoto />
-                </MuiIconButton>
-                <MuiIconButton color="secondary" onClick={() => onRemove(image.key)}>
-                  <HiXMark />
-                </MuiIconButton>
-              </div>
-            }
-          />
-        </MuiImageListItem>
+        <div
+          key={image.key}
+          className="relative rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700"
+        >
+          <Image src={image.url} alt="" className="w-full h-64 object-cover" height={240} width={120} />
+
+          {/* Overlay */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 flex justify-between items-center text-white">
+            {image.setAsCover ? (
+              <span onClick={() => onSetAsCover(image.key)} className="text-xs cursor-pointer text-emerald-400">
+                Marked as Cover
+              </span>
+            ) : (
+              <span />
+            )}
+
+            <div className="flex items-center gap-1">
+              {!image.setAsCover && (
+                <button onClick={() => onSetAsCover(image.key)} className="p-1 rounded bg-black/40 hover:bg-black/60">
+                  <CameraIcon className="w-5 h-5 text-gray-200" />
+                </button>
+              )}
+              <button onClick={() => onRemove(image.key)} className="p-1 rounded bg-black/40 hover:bg-red-600">
+                <X className="w-4 h-4 text-red-500" />
+              </button>
+            </div>
+          </div>
+        </div>
       ))}
-    </MuiImageList>
+    </div>
   );
 };

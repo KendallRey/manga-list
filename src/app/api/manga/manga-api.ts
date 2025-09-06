@@ -12,9 +12,9 @@ import { GetUserMangaList } from "../manga-list/manga-list-api";
 
 type IGetUserMangas = {
   listId: string;
-} & IApiProps;
+} & ApiPropsType;
 
-export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse<IMangaTableSelect[]>> => {
+export const GetUserMangas = async (props: IGetUserMangas): Promise<ApiResponseType<IMangaTableSelect[]>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
 
   try {
@@ -40,7 +40,7 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
       )
       .orderBy(...orderBys);
 
-    const mangas = await baseQuery;
+    const mangas = limit ? await baseQuery.limit(limit) : await baseQuery;
 
     return successResponse({ data: mangas });
   } catch (error) {
@@ -49,9 +49,9 @@ export const GetUserMangas = async (props: IGetUserMangas): Promise<IApiResponse
 };
 type IGetUserMangaCount = {
   listId: string;
-} & IApiProps;
+} & ApiPropsType;
 
-export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApiResponse<number>> => {
+export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<ApiResponseType<number>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
 
   try {
@@ -76,8 +76,7 @@ export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApi
         ),
       )
       .orderBy(...orderBys);
-
-    const mangas = await baseQuery;
+    const mangas = limit ? await baseQuery.limit(limit) : await baseQuery;
 
     return successResponse({ data: mangas.length ? mangas[0].count : 0 });
   } catch (error) {
@@ -88,11 +87,11 @@ export const GetUserMangaCount = async (props: IGetUserMangaCount): Promise<IApi
 type IGetRandomUserMangas = {
   listId?: string;
   indexes?: number[];
-} & IApiProps;
+} & ApiPropsType;
 
 export const GetUserRandomMangaList = async (
   props: IGetRandomUserMangas,
-): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
+): Promise<ApiResponseType<ListType<IMangaTableSelect>>> => {
   const { params, skip, indexes, listId, defaultParams, overrideParams } = props;
 
   let _listId = listId;
@@ -153,9 +152,9 @@ export const GetUserRandomMangaList = async (
 
 type IGetMangaList = {
   listId?: string;
-} & IApiProps;
+} & ApiPropsType;
 
-export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<IList<IMangaTableSelect>>> => {
+export const GetMangaList = async (props: IGetMangaList): Promise<ApiResponseType<ListType<IMangaTableSelect>>> => {
   const { params, skip, listId, defaultParams, overrideParams } = props;
 
   let _listId = listId;
@@ -205,15 +204,16 @@ export const GetMangaList = async (props: IGetMangaList): Promise<IApiResponse<I
     const mangas = await baseQuery;
     return successResponse({ data: { count: Number(count), results: mangas } });
   } catch (error) {
+    console.log("test", error);
     return errorResponse({ code: API.CODE.ERROR.SERVER_ERROR });
   }
 };
 
 export type IGetUserManga = {
   id: unknown;
-} & IApiProps;
+} & ApiPropsType;
 
-export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<IMangaTableSelect>> => {
+export const GetUserManga = async (props: IGetUserManga): Promise<ApiResponseType<IMangaTableSelect>> => {
   const { id } = props;
   try {
     const mangas = await db
@@ -230,8 +230,8 @@ export const GetUserManga = async (props: IGetUserManga): Promise<IApiResponse<I
 };
 
 export const AddUserManga = async (
-  props: IApiPostProps<IMangaTableInsert>,
-): Promise<IApiResponse<IMangaTableSelect>> => {
+  props: ApiPostPropsType<IMangaTableInsert>,
+): Promise<ApiResponseType<IMangaTableSelect>> => {
   const { payload } = props;
   try {
     const manga = await db.insert(MangaTable).values(payload).returning();
@@ -242,7 +242,7 @@ export const AddUserManga = async (
   }
 };
 
-export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiResponse<IMangaTableSelect>> => {
+export const ArchivedUserManga = async (props: ApiPostPropsType<ID>): Promise<ApiResponseType<IMangaTableSelect>> => {
   const { payload } = props;
   try {
     const manga = await db
@@ -261,8 +261,8 @@ export const ArchivedUserManga = async (props: IApiPostProps<ID>): Promise<IApiR
 };
 
 export const UpdateUserManga = async (
-  props: IApiPutProps<Record<string, any>>,
-): Promise<IApiResponse<IMangaTableSelect>> => {
+  props: ApiPutPropsType<Record<string, any>>,
+): Promise<ApiResponseType<IMangaTableSelect>> => {
   const { id, payload } = props;
   try {
     const manga = await db

@@ -1,14 +1,19 @@
 import { GetUserProfiles } from "@/app/api/user-profile/user-profile-api";
+import ErrorPage from "@/app/error/page";
 import CreateUserProfile from "@/app/ui/user-profile/CreateUserProfile";
 import DisplayUserProfile from "@/app/ui/user-profile/DisplayUserProfile";
-import MuiPaper from "@/components/paper/Paper";
+import CardContainer from "@/components/shared/Card";
 import React from "react";
 
-const DashboardProfile: React.FC<INextPage> = async (props) => {
+const DashboardProfile = async () => {
   const userProfilesResponse = await GetUserProfiles({});
 
   if (!userProfilesResponse.status) {
-    return <MuiPaper></MuiPaper>;
+    return (
+      <CardContainer>
+        <ErrorPage />
+      </CardContainer>
+    );
   }
   if (!userProfilesResponse.data.length) {
     return <CreateUserProfile />;
@@ -17,9 +22,9 @@ const DashboardProfile: React.FC<INextPage> = async (props) => {
   const userProfile = userProfilesResponse.data[0];
 
   return (
-    <MuiPaper className="flex items-center flex-wrap justify-center min-h-[240px] gap-6 p-4">
+    <CardContainer>
       <DisplayUserProfile userProfile={userProfile} />
-    </MuiPaper>
+    </CardContainer>
   );
 };
 

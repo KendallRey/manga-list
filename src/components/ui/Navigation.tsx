@@ -1,65 +1,74 @@
 "use client";
-
-import MuiButton from "@/components/button/Button";
-import MuiPaper from "@/components/paper/Paper";
-import MuiTypography from "@/components/typography/Typograph";
-import { APP } from "@/constants/APP";
-import { usePathname } from "next/navigation";
-import React, { useCallback, useMemo } from "react";
-import MuiFab from "../fab/Fab";
-import { useMediaQuery, useTheme } from "@mui/material";
+import React, { useState } from "react";
 import Link from "next/link";
-import { useScroll, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { APP } from "@/constants/APP";
+import { Menu, X } from "lucide-react";
+import { Button } from "../common/Button";
+import { userLogoutFormAction } from "@/app/login/ui/action";
+
+const navItems = Object.values(APP.ROUTES.USER);
 
 const Navigation = () => {
   const pathname = usePathname();
-  const theme = useTheme();
-  const routes = useMemo(() => Object.values(APP.ROUTES.USER), []);
+  const [open, setOpen] = useState(false);
 
-  const { scrollY } = useScroll();
-
-  const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"));
-
-  const isActiveLink = useCallback(
-    (link: string) => {
-      return pathname.startsWith(link);
-    },
-    [pathname],
-  );
-
-  if (!isMd) return <></>;
+  const handleLogout = () => userLogoutFormAction();
 
   return (
-    <MuiPaper
-      component={"nav"}
-      className="flex-grow max-w-[50px] lg:max-w-[240px] lg:min-w-[240px] p-4"
-      elevation={3}
-      color="primary"
-    >
-      <motion.div style={{ marginTop: scrollY, transitionDuration: "200ms" }}>
-        <div className="flex flex-col gap-4 lg:gap-2">
-          {routes.map((route) => {
-            const active = isActiveLink(route.href);
+    <>
+      {/* Mobile top bar */}
+      <div className="lg:hidden fixed top-1 left-1 items-center justify-between bg-white dark:bg-gray-900 shadow-md rounded-xl">
+        <button
+          aria-label="Toggle navigation menu"
+          onClick={() => setOpen(!open)}
+          className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          {open ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Sidebar container */}
+      <aside
+        className={`
+          lg:sticky lg:top-12 lg:translate-x-0 lg:flex
+          ${open ? "translate-x-0" : "-translate-x-full"}
+          fixed top-0 left-0 h-full w-64 z-40
+          bg-white dark:bg-gray-900 shadow-lg flex-col rounded-r-xl
+          transition-transform duration-300
+        `}
+      >
+        <div className="hidden lg:block p-6 text-2xl font-bold text-gray-900 dark:text-gray-100">MangaList</div>
+
+        <nav className="flex-1 px-4 py-6 space-y-2">
+          {navItems.map(({ href, name }) => {
+            const isActive = pathname === href;
             return (
-              <React.Fragment key={route.href}>
-                {isLg ? (
-                  <MuiButton component={Link} href={route.href} variant={active ? "contained" : "text"}>
-                    <MuiTypography variant="button" fontSize={18}>
-                      {route.name}
-                    </MuiTypography>
-                  </MuiButton>
-                ) : (
-                  <MuiFab component={Link} href={route.href} size="small" color={active ? "primary" : "default"}>
-                    {route.icon}
-                  </MuiFab>
-                )}
-              </React.Fragment>
+              <Link
+                key={href}
+                href={href}
+                aria-label={name}
+                onClick={() => setOpen(false)}
+                className={`block px-4 py-2 rounded-lg transition
+                  ${
+                    isActive
+                      ? "bg-indigo-600 text-white"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }`}
+              >
+                {name}
+              </Link>
             );
           })}
-        </div>
-      </motion.div>
-    </MuiPaper>
+        </nav>
+        <Button variant="ghost" color="danger" className="!m-5" onClick={handleLogout}>
+          Logout
+        </Button>
+      </aside>
+
+      {/* Overlay for mobile */}
+      {open && <div onClick={() => setOpen(false)} className="fixed inset-0 bg-black/40 lg:hidden" />}
+    </>
   );
 };
 

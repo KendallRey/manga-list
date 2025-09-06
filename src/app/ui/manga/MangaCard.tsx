@@ -1,28 +1,19 @@
 "use client";
 
-import MuiCard, { IMuiCardProps } from "@/components/card/Card";
-import MuiCardActions from "@/components/card/CardActions";
-import MuiCardContent from "@/components/card/CardContent";
-import MuiCardHeader from "@/components/card/CardHeader";
-import MuiChip from "@/components/chip/Chip";
-import MuiIconButton from "@/components/icon-button/IconButton";
-import USER_ROUTE, { ROUTE_ID } from "@/constants/ROUTES";
 import { MODEL } from "@/model/model";
 import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { toBucketPublicMangaUrl } from "@/utils/supabase/helper/image";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
-import { FaEye } from "react-icons/fa6";
-import { HiPencilSquare } from "react-icons/hi2";
+import { Eye, Pencil } from "lucide-react";
 
-type IMangaCard = {
+type MangaCardProps = {
   manga: IMangaTableSelect;
-} & IMuiCardProps;
+  className?: string;
+};
 
-const MangaCard: React.FC<IMangaCard> = (props) => {
-  const { manga, className = "", ...otherProps } = props;
-
+const MangaCard: React.FC<MangaCardProps> = ({ manga, className = "" }) => {
   const [isBlur, setIsBlur] = useState(
     manga[MODEL.MANGA.DANGER] || manga[MODEL.MANGA.SPICY] || manga[MODEL.MANGA.HIDE],
   );
@@ -36,28 +27,35 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
   ) as string;
 
   return (
-    <MuiCard className={`flex flex-col flex-grow relative ${className}`} variant="outlined" {...otherProps}>
-      <MuiCardHeader
-        className="flex-grow [&>div]:self-start"
-        titleTypographyProps={{
-          fontSize: 16,
-          fontWeight: 550,
-        }}
-        title={manga[MODEL.MANGA.NAME]}
-        subheader={manga.created_at?.toDateString()}
-      />
-      <img
+    <div
+      className={`flex flex-col flex-grow relative border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
+    >
+      {/* Header */}
+      <div className="p-4 flex flex-col gap-1">
+        <h3 className="text-[16px] font-semibold">{manga[MODEL.MANGA.NAME]}</h3>
+        <span className="text-sm text-gray-500">{manga.created_at?.toDateString()}</span>
+      </div>
+
+      {/* Overlay image (yaranaika) */}
+      <Image
+        alt={manga[MODEL.MANGA.NAME]}
         onClick={onClickImage}
         src={`/images/yaranaika.png?w=164&h=164&fit=crop&auto=format`}
         className={`${isBlur ? "opacity-100" : "opacity-0"} absolute z-[2] bottom-0 duration-200 cursor-pointer`}
+        width={320}
+        height={420}
       />
-      <MuiCardContent>
-        <div className="flex flex-wrap gap-1">
-          {manga[MODEL.MANGA.HIDE] && <MuiChip label="Hidden" color="secondary" variant="outlined" />}
-          {manga[MODEL.MANGA.DANGER] && <MuiChip label="Danger" color="error" />}
-          {manga[MODEL.MANGA.SPICY] && <MuiChip label="Spicy" color="secondary" />}
-        </div>
-      </MuiCardContent>
+
+      {/* Chips */}
+      <div className="px-4 pb-2 flex flex-wrap gap-2">
+        {manga[MODEL.MANGA.HIDE] && (
+          <span className="px-2 py-0.5 text-xs border rounded text-gray-600 dark:text-gray-300">Hidden</span>
+        )}
+        {manga[MODEL.MANGA.DANGER] && <span className="px-2 py-0.5 text-xs bg-red-500 text-white rounded">Danger</span>}
+        {manga[MODEL.MANGA.SPICY] && <span className="px-2 py-0.5 text-xs bg-pink-500 text-white rounded">Spicy</span>}
+      </div>
+
+      {/* Thumbnail */}
       <Image
         src={thumbnailImage}
         width={320}
@@ -68,25 +66,25 @@ const MangaCard: React.FC<IMangaCard> = (props) => {
           filter: isBlur ? "blur(32px)" : "",
         }}
       />
-      <MuiCardActions disableSpacing>
-        <MuiIconButton
-          color="primary"
-          LinkComponent={Link}
-          {...{ href: USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]) }}
-          aria-label="update"
-        >
-          <FaEye />
-        </MuiIconButton>
-        <MuiIconButton
-          color="primary"
-          LinkComponent={Link}
-          {...{ href: USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID]) }}
+
+      {/* Actions */}
+      <div className="z-10 flex items-center gap-2 p-2">
+        <Link
+          href={`/user/manga/${manga[MODEL.MANGA.ID]}`}
           aria-label="view"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
         >
-          <HiPencilSquare />
-        </MuiIconButton>
-      </MuiCardActions>
-    </MuiCard>
+          <Eye className="w-5 h-5 text-blue-600" />
+        </Link>
+        <Link
+          href={`/user/manga/${manga[MODEL.MANGA.ID]}/update`}
+          aria-label="update"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          ✏️
+        </Link>
+      </div>
+    </div>
   );
 };
 

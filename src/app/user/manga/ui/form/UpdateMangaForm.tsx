@@ -2,55 +2,39 @@
 
 import React, { FormEvent, useCallback, useState } from "react";
 import MangaForm from "./MangaForm";
-import useReduxForm from "@/redux/hooks/useReduxForm";
-import { useAppSelector } from "@/redux/services/hooks";
-import { setMangaForm, setMangaFormError } from "@/redux/features/manga/mangaFormSlice";
-import { IMangaTableSelect, upsertMangaSchema } from "@/utils/drizzle/schema";
-import MuiButton from "@/components/button/Button";
+import { IMangaTableSelect } from "@/utils/drizzle/schema";
 import { updateMangaAction } from "@/app/action/manga";
 import { displaySnackbar } from "@/components/helper/notistack";
+import { useMangaStore } from "@/store/manga-store-provider";
+import { Button } from "@/components/common/Button";
+import { useCallOnce } from "@/components/hooks/useCallOnce";
 
-type IUpdateMangaForm = {
+type UpdateMangaFormProps = {
   manga: IMangaTableSelect;
 };
 
-const UpdateMangaForm: React.FC<IUpdateMangaForm> = (props) => {
+const UpdateMangaForm: React.FC<UpdateMangaFormProps> = (props) => {
   const { manga } = props;
-  const [isLoading, setIsLoading] = useState(true);
-  const { error, ...form } = useAppSelector((state) => state.mangaFormSlice);
+  const [isLoading, setIsLoading] = useState(false);
+  const { form, reset, setForm, setErrors } = useMangaStore((state) => state);
 
-  const { onValidateForm } = useReduxForm({
-    form: manga,
-    schema: upsertMangaSchema,
-    setFormAction: setMangaForm,
-    onLoad: () => setIsLoading(false),
-  });
-
-  const onUpdateManga = useCallback(async () => {
+  const onSubmitManga = async (e: FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     const response = await updateMangaAction(manga.id, form);
     displaySnackbar({ status: response.status, action: "update", variant: "success" });
     setIsLoading(false);
-  }, [form, manga.id]);
+  };
 
-  const onValidate = useCallback(() => {
-    const isValid = onValidateForm(form, setMangaFormError, upsertMangaSchema);
-    if (!isValid) return;
-    onUpdateManga();
-  }, [form, onUpdateManga, onValidateForm]);
+  const setMangaForm = useCallback(() => {
+    setForm(manga);
+  }, [manga, setForm]);
 
-  const onSubmit = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
-      if (isLoading) return;
-      onValidate();
-    },
-    [onValidate, isLoading],
-  );
+  useCallOnce(setMangaForm);
 
   return (
-    <MangaForm isLoading={isLoading} onSubmit={onSubmit}>
-      <MuiButton disabled={isLoading}>Update</MuiButton>
+    <MangaForm isLoading={isLoading} onSubmit={onSubmitManga}>
+      <Button disabled={isLoading}>Update</Button>
     </MangaForm>
   );
 };

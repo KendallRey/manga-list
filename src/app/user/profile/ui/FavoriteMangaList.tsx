@@ -3,16 +3,15 @@ import { GetMangaList } from "@/app/api/manga/manga-api";
 import ErrorPage from "@/app/error/page";
 import CreateMangaList from "@/app/ui/manga/CreateMangaList";
 import MangaCard from "@/app/ui/manga/MangaCard";
-import PageTitle from "@/components/custom/PageTitle";
-import TablePagination from "@/components/custom/TablePagination";
 import DisplayList from "@/components/helper-components/DisplayList";
+import TablePagination from "@/components/shared/TablePagination";
 import React from "react";
 
-type IFavoriteMangaList = {
-  params?: IApiParams;
+type FavoriteMangaListProps = {
+  params?: ApiParamsType;
 };
 
-const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
+const FavoriteMangaList: React.FC<FavoriteMangaListProps> = async (props) => {
   const { params } = props;
 
   const userMangaListsResponse = await GetUserMangaList({});
@@ -37,16 +36,16 @@ const FavoriteMangaList: React.FC<IFavoriteMangaList> = async (props) => {
   }
 
   return (
-    <>
-      <PageTitle>Favorites</PageTitle>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="flex flex-col gap-5">
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Favorites</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <DisplayList
           data={mangaListResponse.data.results}
-          render={(item) => <MangaCard key={item.id} manga={item} sx={{ height: 500 }} />}
+          render={(item) => <MangaCard key={item.id} manga={item} />}
         />
       </div>
       {Boolean(mangaListResponse.data.count) && <TablePagination count={mangaListResponse.data.count} />}
-    </>
+    </div>
   );
 };
 

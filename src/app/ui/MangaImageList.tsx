@@ -1,26 +1,20 @@
 "use client";
 
-import MuiImageList from "@/components/image/Image";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { GetMangaImages } from "../api/manga-image/manga-image-api";
-import MangaImageListItem from "./MangaImageListItem";
 import { IMangaImageTableSelect, IMangaTableSelect } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
 import { useCallOnce } from "@/components/hooks/useCallOnce";
-import { useAppMediaQuery } from "@/components/hooks/useAppMediaQuery";
 import DisplayList from "@/components/helper-components/DisplayList";
+import MangaImageListItem from "./MangaImageListItem";
 
-type IMangaImageList = {
+type MangaImageListProps = {
   manga: IMangaTableSelect;
   viewAction?: boolean;
 };
 
-const MangaImageList: React.FC<IMangaImageList> = (props) => {
+const MangaImageList: React.FC<MangaImageListProps> = (props) => {
   const { manga, viewAction } = props;
-
-  const { lg, md, sm } = useAppMediaQuery();
-
-  const colSpan = useMemo(() => (lg ? 5 : md ? 3 : sm ? 2 : 1), [lg, md, sm]);
 
   const [mangaImages, setMangaImages] = useState<IMangaImageTableSelect[] | null>();
 
@@ -32,12 +26,11 @@ const MangaImageList: React.FC<IMangaImageList> = (props) => {
   useCallOnce(getMangaImages);
 
   return (
-    <MuiImageList sx={{ height: 600 }} cols={colSpan} rowHeight={320}>
-      <DisplayList
-        data={mangaImages}
-        render={(item) => <MangaImageListItem key={item.id} image={item} manga={manga} viewAction={viewAction} />}
-      />
-    </MuiImageList>
+    <DisplayList
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      data={mangaImages}
+      render={(item) => <MangaImageListItem key={item.id} image={item} manga={manga} viewAction={viewAction} />}
+    />
   );
 };
 

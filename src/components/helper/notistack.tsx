@@ -1,9 +1,7 @@
 "use client";
 
-import { OptionsObject, SnackbarMessage, enqueueSnackbar, closeSnackbar } from "notistack";
-import { Typography } from "@mui/material";
+import { OptionsObject, SnackbarMessage, enqueueSnackbar } from "notistack";
 import React from "react";
-import { HiCheckCircle, HiXCircle, HiXMark } from "react-icons/hi2";
 import { formatToLabel } from "./component";
 
 type ICustomSnackbar = OptionsObject & { title?: string; message?: SnackbarMessage };

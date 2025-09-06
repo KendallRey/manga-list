@@ -1,3 +1,0 @@
-type ILayout = {
-  children: any;
-};

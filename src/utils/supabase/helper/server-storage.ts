@@ -20,7 +20,7 @@ import { type TransformOptions } from "@supabase/storage-js";
  * ```
  */
 export const getSignedUrlServer = async (url?: string | null, expiresIn?: number, transform?: TransformOptions) => {
-  const client = createClient();
+  const client = await createClient();
   const { NAME, EXPIRES_IN } = SUPABASE.BUCKET_MANGA;
 
   const data = url

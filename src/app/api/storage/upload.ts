@@ -1,3 +1,4 @@
+import { generateId } from "@/components/custom/UploadImageFile";
 import { removeSpecialChars } from "@/components/helper/string";
 import { createClient } from "@/utils/supabase/client";
 
@@ -28,7 +29,7 @@ export const uploadMangaImageToStorage = async (
 ): Promise<IUploadFileToStorageResponse> => {
   const client = createClient();
 
-  const uploadPath = `${path || STORAGE.MANGA_IMAGE.PATH}/${prefix ? `${prefix}-` : ""}${removeSpecialChars(file.name)}`;
+  const uploadPath = `${path || STORAGE.MANGA_IMAGE.PATH}/${prefix ? `${prefix}-` : ""}${generateId()}${removeSpecialChars(file.name)}`;
 
   const { data, error } = await client.storage
     .from(STORAGE.MANGA_IMAGE.NAME) // Replace with your Supabase storage bucket name

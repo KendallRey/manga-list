@@ -8,9 +8,9 @@ import { eq, sql } from "drizzle-orm";
 import API from "../API";
 import { errorResponse, successResponse } from "../helper/apiHelper";
 
-export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<IUserProfileTableSelect>> => {
+export const CreateUserProfile = async (props: ApiPropsType): Promise<ApiResponseType<IUserProfileTableSelect>> => {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
     const { user } = userData.data;
     if (!user)
@@ -42,10 +42,10 @@ export const CreateUserProfile = async (props: IApiProps): Promise<IApiResponse<
   }
 };
 
-export const GetUserProfiles = async (props: IApiProps): Promise<IApiResponse<IUserProfileTableSelect[]>> => {
+export const GetUserProfiles = async (props: ApiPropsType): Promise<ApiResponseType<IUserProfileTableSelect[]>> => {
   const { params } = props;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
 
     const userProfiles = await db
@@ -69,8 +69,8 @@ export const GetUserProfiles = async (props: IApiProps): Promise<IApiResponse<IU
 };
 
 export const UpdateUserProfile = async (
-  props: IApiPutProps<Record<string, any>>,
-): Promise<IApiResponse<IUserProfileTableSelect>> => {
+  props: ApiPutPropsType<Record<string, any>>,
+): Promise<ApiResponseType<IUserProfileTableSelect>> => {
   const { id, payload } = props;
   try {
     const manga = await db

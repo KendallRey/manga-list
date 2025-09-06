@@ -1,11 +1,11 @@
 "use client";
 
-import MuiTextField from "@/components/text-field/TextField";
-import { useAppDebounce } from "@/hooks/useDebouce";
+import { useAppDebounce } from "@/hooks/useAppDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { TEXT } from "../helper/field";
 import { useCallOnce } from "../hooks/useCallOnce";
+import { TextField } from "../common/TextField";
 
 type ISearch = {
   label?: string;
@@ -60,8 +60,8 @@ const Search: React.FC<ISearch> = (props) => {
   };
 
   return (
-    <MuiTextField
-      label={label || "Search"}
+    <TextField
+      label={label}
       name={name || label}
       value={searchValue}
       onChange={handleChange}
