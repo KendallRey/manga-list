@@ -1,7 +1,13 @@
 import Breadcrumbs from "@/components/shared/BreadCrumbs";
 import React from "react";
 
-const DashboardLayout = ({ manga, profile, randomList }: LayoutProps<"/user/dashboard">) => {
+type DashboardLayoutProps = {
+  manga: React.ReactNode;
+  profile: React.ReactNode;
+  randomList: React.ReactNode;
+} & LayoutProps<"/user/dashboard">;
+
+const DashboardLayout = ({ manga, profile, randomList }: DashboardLayoutProps) => {
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumbs />
