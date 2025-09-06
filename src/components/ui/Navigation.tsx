@@ -4,12 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { APP } from "@/constants/APP";
 import { Menu, X } from "lucide-react";
+import { Button } from "../common/Button";
+import { userLogoutFormAction } from "@/app/login/ui/action";
 
 const navItems = Object.values(APP.ROUTES.USER);
 
 const Navigation = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  const handleLogout = () => userLogoutFormAction();
 
   return (
     <>
@@ -34,9 +38,7 @@ const Navigation = () => {
           transition-transform duration-300
         `}
       >
-        <div className="hidden lg:block p-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-          MangaList
-        </div>
+        <div className="hidden lg:block p-6 text-2xl font-bold text-gray-900 dark:text-gray-100">MangaList</div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
           {navItems.map(({ href, name }) => {
@@ -59,15 +61,13 @@ const Navigation = () => {
             );
           })}
         </nav>
+        <Button variant="ghost" color="danger" className="!m-5" onClick={handleLogout}>
+          Logout
+        </Button>
       </aside>
 
       {/* Overlay for mobile */}
-      {open && (
-        <div
-          onClick={() => setOpen(false)}
-          className="fixed inset-0 bg-black/40 lg:hidden"
-        />
-      )}
+      {open && <div onClick={() => setOpen(false)} className="fixed inset-0 bg-black/40 lg:hidden" />}
     </>
   );
 };

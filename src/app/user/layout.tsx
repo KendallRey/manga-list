@@ -1,11 +1,9 @@
-// import PageActionBar from "@/components/custom/PageActionBar";
-// import PageAppBar from "@/components/custom/PageAppBar";
 import Navigation from "@/components/ui/Navigation";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const UserLayout: React.FC<ILayout> = async ({ children }) => {
+const UserLayout = async ({ children }: LayoutProps<"/user">) => {
   const client = await createClient();
   const session = await client.auth.getSession();
 
@@ -21,6 +19,5 @@ const UserLayout: React.FC<ILayout> = async ({ children }) => {
     </div>
   );
 };
-
 
 export default UserLayout;

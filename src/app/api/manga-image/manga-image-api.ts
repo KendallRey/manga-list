@@ -10,9 +10,9 @@ import { getSearchParams, successResponse, errorResponse } from "../helper/apiHe
 
 type IGetMangaImages = {
   mangaId: string;
-} & IApiProps;
+} & ApiPropsType;
 
-export const GetMangaImages = async (props: IGetMangaImages): Promise<IApiResponse<IMangaImageTableSelect[]>> => {
+export const GetMangaImages = async (props: IGetMangaImages): Promise<ApiResponseType<IMangaImageTableSelect[]>> => {
   const { params, skip, mangaId } = props;
 
   try {

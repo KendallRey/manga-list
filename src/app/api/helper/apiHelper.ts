@@ -3,7 +3,7 @@ import API from "../API";
 /**
  * Converts an object or IApiParams into URLSearchParams, with optional default parameters.
  *
- * @param {IApiParams} [params] - The parameters to be converted.
+ * @param {ApiParamsType} [params] - The parameters to be converted.
  * @param {Record<string, any>} [defaultParams] - Default parameters that will be merged with the provided `params`. These will only be included if not overridden by `params`.
  * @returns {URLSearchParams} - The URLSearchParams object generated from the combined `params` and `defaultParams`.
  *
@@ -14,14 +14,14 @@ import API from "../API";
  * ```
  */
 export const toSearchParams = (
-  params?: IApiParams,
+  params?: ApiParamsType,
   defaultParams?: Record<string, any>,
   urlSearchParams?: URLSearchParams,
 ): URLSearchParams => {
-  let _params: IApiParams = {};
+  let _params: ApiParamsType = {};
   if (params instanceof URLSearchParams) {
     params.forEach((value, key) => {
-      if (value === "null" || typeof value == 'symbol') {
+      if (value === "null" || typeof value == "symbol") {
         return;
       }
       _params[key] = value;
@@ -31,7 +31,7 @@ export const toSearchParams = (
   }
   if (urlSearchParams) {
     urlSearchParams.forEach((value, key) => {
-      if (value === "null" || typeof value == 'symbol') {
+      if (value === "null" || typeof value == "symbol") {
         return;
       }
       _params[key] = value;
@@ -45,7 +45,7 @@ export const toSearchParams = (
 /**
  * Parses URLSearchParams or IApiParams into a plain object, converting strings to numbers or booleans where possible.
  *
- * @param {IApiParams | URLSearchParams} [params] - The input parameters to parse.
+ * @param {ApiParamsType | URLSearchParams} [params] - The input parameters to parse.
  * @returns {Record<string, any>} - An object containing parsed values, with numbers and booleans automatically converted.
  *
  * @example
@@ -54,7 +54,7 @@ export const toSearchParams = (
  * console.log(paramsObj); // Output: { limit: 10 }
  * ```
  */
-export const parseSearchParams = (params?: IApiParams | URLSearchParams): Record<string, any> => {
+export const parseSearchParams = (params?: ApiParamsType | URLSearchParams): Record<string, any> => {
   const search = toSearchParams(params);
   const USED_KEYS = Object.values(API.PARAMS.KEYS) as string[];
 
@@ -118,7 +118,7 @@ export const removeKeySearchParams = (params: URLSearchParams, key: string, with
 /**
  * Extracts search parameters and converts them into an object with predefined keys and defaults.
  *
- * @param {IApiParams | URLSearchParams} [params] - The input search parameters.
+ * @param {ApiParamsType | URLSearchParams} [params] - The input search parameters.
  * @returns {Record<string, any>} - An object with parsed search parameters, including defaults for `q`, `page`, and `limit`.
  *
  * @example
@@ -128,7 +128,7 @@ export const removeKeySearchParams = (params: URLSearchParams, key: string, with
  * ```
  */
 export const getSearchParams = (
-  params?: IApiParams | URLSearchParams,
+  params?: ApiParamsType | URLSearchParams,
   urlSearchParams?: URLSearchParams,
 ): Record<string, any> => {
   const search = toSearchParams(params, urlSearchParams);
@@ -147,7 +147,7 @@ export const getSearchParams = (
   };
 };
 
-export const getOrderingParams = (params?: IApiParams | URLSearchParams): Record<string | "order" | "key", any> => {
+export const getOrderingParams = (params?: ApiParamsType | URLSearchParams): Record<string | "order" | "key", any> => {
   const search = toSearchParams(params);
 
   let _key = "";
@@ -183,7 +183,7 @@ type ISuccessResponse<T> = {
  *
  * @template T
  * @param {ISuccessResponse<T>} props - The properties for the success response.
- * @returns {IApiSuccessResponse<T>} - The formatted success response object.
+ * @returns {ApiSuccessResponseType<T>} - The formatted success response object.
  *
  * @example
  * ```ts
@@ -191,7 +191,7 @@ type ISuccessResponse<T> = {
  * console.log(response); // Output: { status: "ok", code: 200, data: { id: 1, name: "John" } }
  * ```
  */
-export const successResponse = <T>(props: ISuccessResponse<T>): IApiSuccessResponse<T> => {
+export const successResponse = <T>(props: ISuccessResponse<T>): ApiSuccessResponseType<T> => {
   const { code = API.CODE.SUCCESS.OK, data } = props;
   return {
     status: "ok",
@@ -211,7 +211,7 @@ type IErrorResponse<T> = {
  *
  * @template T
  * @param {IErrorResponse<T>} props - The properties for the error response.
- * @returns {IApiErrorResponse<T>} - The formatted error response object.
+ * @returns {ApiErrorResponseType<T>} - The formatted error response object.
  *
  * @example
  * ```ts
@@ -219,7 +219,7 @@ type IErrorResponse<T> = {
  * console.log(response); // Output: { status: null, code: 400, data: {}, error: "Process failed..." }
  * ```
  */
-export const errorResponse = <T = any>(props: IErrorResponse<T>): IApiErrorResponse<T> => {
+export const errorResponse = <T = any>(props: IErrorResponse<T>): ApiErrorResponseType<T> => {
   const { code = API.CODE.ERROR.BAD_REQUEST, data = {}, error } = props;
   return {
     status: null,

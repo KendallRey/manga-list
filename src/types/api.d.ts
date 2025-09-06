@@ -1,44 +1,44 @@
-type IApiProps = {
-  params?: IApiParams;
+type ApiPropsType = {
+  params?: ApiParamsType;
   skip?: boolean;
   ignore?: string[];
-  defaultParams?: IApiParams;
-  overrideParams?: IApiParams;
+  defaultParams?: ApiParamsType;
+  overrideParams?: ApiParamsType;
 };
 
-type IApiPostProps<T = Record<string, IValue>> = {
+type ApiPostPropsType<T = Record<string, IValue>> = {
   payload: T;
 };
 
-type IApiPutProps<T = Record<string, IValue>> = {
+type ApiPutPropsType<T = Record<string, IValue>> = {
   id: ID;
   payload: T;
 };
 
-type IApiParams = Record<string, any>;
+type ApiParamsType = Record<string, any>;
 
-type IOrdering = Record<string, IValue> & {
+type OrderingType = Record<string, IValue> & {
   order?: "asc" | "desc" | false;
   orderBy?: string;
 };
 
-type IApiSuccessResponse<T> = {
+type ApiSuccessResponseType<T> = {
   status: "ok";
   code: number;
   data: T;
   error?: null;
 };
 
-type IApiErrorResponse<T> = {
+type ApiErrorResponseType<T> = {
   status: null;
   code: number;
   error: string;
   data?: T | null;
 };
 
-type IApiResponse<T, U = Record<string, IValue>> = IApiSuccessResponse<T> | IApiErrorResponse<T>;
+type ApiResponseType<T, U = Record<string, IValue>> = ApiSuccessResponseType<T> | ApiErrorResponseType<T>;
 
-type IList<T> = {
+type ListType<T> = {
   count: number;
   results: T[];
 };

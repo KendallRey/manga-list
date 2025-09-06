@@ -47,26 +47,25 @@ const MangaSearchAdd: React.FC<MangaSearchAddProps> = async (props) => {
       {/* Results Count */}
       <div className="flex gap-1 items-center text-sm text-gray-500 dark:text-gray-400">
         <span>{formatToCount(mangasResponse.data.length)}</span>
-        <span className="font-semibold truncate max-w-[320px] md:max-w-[480px] lg:max-w-[720px]">
-          {q}
+        <span className="font-semibold truncate max-w-[320px] md:max-w-[480px] lg:max-w-[720px]">{q}</span>
+        <span>
+          results <small>(first 50 results)</small>
         </span>
-        <span>results <small>(first 50 results)</small></span>
       </div>
 
       {/* Manga List */}
       <ul className="flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
         {mangasResponse.data.map((manga) => (
-          <li
-            key={manga[MODEL.MANGA.ID]}
-            className="flex items-center justify-between py-2"
-          >
+          <li key={manga[MODEL.MANGA.ID]} className="flex items-center justify-between py-2">
             {/* Thumbnail + Name */}
             <div className="flex items-center gap-3">
-              <Link
-                href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}
-              >
+              <Link href={`${USER_ROUTE.MANGA_PAGE.href}/${manga[MODEL.MANGA.ID]}`}>
                 <Image
-                  src={ manga[MODEL.MANGA.THUMBNAIL] ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)! : "/images/404.jpg"}
+                  src={
+                    manga[MODEL.MANGA.THUMBNAIL]
+                      ? toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL], 40, 20)!
+                      : "/images/404.jpg"
+                  }
                   alt={manga[MODEL.MANGA.NAME] || "Manga"}
                   width={40}
                   height={56}
@@ -74,24 +73,21 @@ const MangaSearchAdd: React.FC<MangaSearchAddProps> = async (props) => {
                 />
               </Link>
               <div>
-                <HighlightText
-                  text={manga[MODEL.MANGA.NAME]}
-                  subString={q ? String(q) : null}
-                />
+                <HighlightText text={manga[MODEL.MANGA.NAME]} subString={q ? String(q) : null} />
                 <div className="flex gap-2 mt-1">
                   {manga[MODEL.MANGA.HIDE] && (
                     <Chip variant="outline" color="secondary" icon={<EyeOff size={14} />}>
-                       Hidden
+                      Hidden
                     </Chip>
                   )}
                   {manga[MODEL.MANGA.DANGER] && (
                     <Chip variant="outline" color="danger" icon={<ShieldAlert size={14} />}>
-                       Danger
+                      Danger
                     </Chip>
                   )}
                   {manga[MODEL.MANGA.SPICY] && (
                     <Chip variant="outline" color="pink" icon={<Flame size={14} />}>
-                       Spicy
+                      Spicy
                     </Chip>
                   )}
                 </div>
@@ -101,19 +97,13 @@ const MangaSearchAdd: React.FC<MangaSearchAddProps> = async (props) => {
             {/* Actions */}
             <div className="flex gap-3 items-center">
               <Link
-                href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(
-                  ROUTE_ID,
-                  manga[MODEL.MANGA.ID]
-                )}
+                href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
                 className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
               >
                 <Eye size={20} />
               </Link>
               <Link
-                href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(
-                  ROUTE_ID,
-                  manga[MODEL.MANGA.ID]
-                )}
+                href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
                 className="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400"
               >
                 <Pencil size={20} />

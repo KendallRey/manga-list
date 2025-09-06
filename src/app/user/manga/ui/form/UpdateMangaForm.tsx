@@ -18,20 +18,19 @@ const UpdateMangaForm: React.FC<UpdateMangaFormProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { form, reset, setForm, setErrors } = useMangaStore((state) => state);
 
-  const onSubmitManga  = async (e: FormEvent) => {
-      e.preventDefault();
-      setIsLoading(true);
-      const response = await updateMangaAction(manga.id, form);
-      displaySnackbar({ status: response.status, action: "update", variant: "success" });
-      setIsLoading(false);
-    };
-
+  const onSubmitManga = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const response = await updateMangaAction(manga.id, form);
+    displaySnackbar({ status: response.status, action: "update", variant: "success" });
+    setIsLoading(false);
+  };
 
   const setMangaForm = useCallback(() => {
-    setForm(manga)
-  },[manga, setForm])
+    setForm(manga);
+  }, [manga, setForm]);
 
-  useCallOnce(setMangaForm)
+  useCallOnce(setMangaForm);
 
   return (
     <MangaForm isLoading={isLoading} onSubmit={onSubmitManga}>

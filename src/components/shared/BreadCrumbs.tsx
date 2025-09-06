@@ -7,16 +7,12 @@ import { ChevronRight } from "lucide-react";
 import { capitalize } from "lodash";
 
 type BreadcrumbsProps = {
-  indexes?: number[]
-  ellipsisIndexes?: number[]
-  names?: string[]
-}
+  indexes?: number[];
+  ellipsisIndexes?: number[];
+  names?: string[];
+};
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
-  indexes = [],
-  names = [],
-  ellipsisIndexes = []
-}) => {
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ indexes = [], names = [], ellipsisIndexes = [] }) => {
   const pathname = usePathname();
 
   // Split pathname into parts (ignoring empty)
@@ -35,8 +31,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
         {segments.map((segment, index) => {
           const href = "/" + segments.slice(0, index + 1).join("/");
           const isLast = index === segments.length - 1;
-          const textClass = ellipsisIndexes.includes(index + 1) ? "overflow-hidden text-ellipsis text-nowrap": ""
-          const name = names[indexes.indexOf(index + 1)] || capitalize(decodeURIComponent(segment))
+          const textClass = ellipsisIndexes.includes(index + 1) ? "overflow-hidden text-ellipsis text-nowrap" : "";
+          const name = names[indexes.indexOf(index + 1)] || capitalize(decodeURIComponent(segment));
           return (
             <li key={href} className={`flex items-center gap-1 ${textClass}`}>
               <ChevronRight className="!w-4 min-w-4 !h-4 min-h-4 text-gray-400" />

@@ -1,5 +1,3 @@
-
-
 export const ROUTE_ID = ":id:";
 export const ROUTE_USER_ID = ":user_id:";
 

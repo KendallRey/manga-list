@@ -1,4 +1,4 @@
-import { defineConfig, Config } from 'drizzle-kit';
+import { defineConfig, type Config } from "drizzle-kit";
 
 const config: Config = {
   schema: "./src/utils/drizzle/schema.ts",

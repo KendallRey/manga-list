@@ -1,24 +1,14 @@
-import Dashboard from "@/components/ui/Dashboard";
+import Breadcrumbs from "@/components/shared/BreadCrumbs";
 import React from "react";
 
-const DashboardLayout = ({
-  preview,
-  manga,
-  profile,
-  randomList,
-}: Readonly<{
-  manga: React.ReactNode;
-  profile: React.ReactNode;
-  randomList: React.ReactNode;
-  preview: React.ReactNode;
-}>) => {
+const DashboardLayout = ({ manga, profile, randomList }: LayoutProps<"/user/dashboard">) => {
   return (
-    <Dashboard>
-      {preview}
+    <div className="flex flex-col gap-4">
+      <Breadcrumbs />
       {profile}
       {randomList}
       {manga}
-    </Dashboard>
+    </div>
   );
 };
 

@@ -6,16 +6,16 @@ import { setMangaThumbnailAction } from "../action/manga";
 import { IMangaImageTableSelect, IMangaTableSelect } from "@/utils/drizzle/schema";
 import { MODEL } from "@/model/model";
 import { Button } from "@/components/common/Button";
-import { Camera } from 'lucide-react';
+import { Camera } from "lucide-react";
 import Image from "next/image";
 
-type IMangaImageListItem = {
+type MangaImageListItemProps = {
   image: IMangaImageTableSelect;
   manga: IMangaTableSelect;
   viewAction?: boolean;
 };
 
-const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
+const MangaImageListItem: React.FC<MangaImageListItemProps> = (props) => {
   const { image, manga, viewAction } = props;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,7 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
     setIsLoading(false);
   };
 
-  const isThumbnail = manga[MODEL.MANGA.THUMBNAIL] === image[MODEL.MANGA_IMAGE.PATH]
+  const isThumbnail = manga[MODEL.MANGA.THUMBNAIL] === image[MODEL.MANGA_IMAGE.PATH];
 
   return (
     <div key={image.id} className="relative">
@@ -37,12 +37,20 @@ const MangaImageListItem: React.FC<IMangaImageListItem> = (props) => {
         width={250}
         loading="lazy"
       />
-      {viewAction && <div className="flex absolute bottom-0 left-0 right-0 p-1 bg-gradient-to-t from-white to-white/50 dark:from-gray-900 dark:to-gray-900/50">
-        <Button size="sm" variant={isThumbnail ? "solid" : "outline"} className="flex items-center gap-2" onClick={onSetMangaThumbnail} disabled={isThumbnail || isLoading}>
-          <Camera size={16}/>
-          <small>Set as cover</small>
-        </Button>
-      </div>}
+      {viewAction && (
+        <div className="flex absolute bottom-0 left-0 right-0 p-1 bg-gradient-to-t from-white to-white/50 dark:from-gray-900 dark:to-gray-900/50">
+          <Button
+            size="sm"
+            variant={isThumbnail ? "solid" : "outline"}
+            className="flex items-center gap-2"
+            onClick={onSetMangaThumbnail}
+            disabled={isThumbnail || isLoading}
+          >
+            <Camera size={16} />
+            <small>Set as cover</small>
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

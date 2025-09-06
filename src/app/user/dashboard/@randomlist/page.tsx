@@ -1,18 +1,17 @@
 import { GetUserRandomMangaList } from "@/app/api/manga/manga-api";
-import MuiList from "@/components/list/List";
-import MuiPaper from "@/components/paper/Paper";
-import MuiTypography from "@/components/typography/Typograph";
 import { MODEL } from "@/model/model";
 import React from "react";
 import ListAction from "./ListAction";
 import { toSearchParams } from "@/app/api/helper/apiHelper";
 import API from "@/app/api/API";
 import { MangaListItem } from "@/app/ui/manga/MangaListItem";
+import CardContainer from "@/components/shared/Card";
+import ErrorPage from "@/app/error/page";
 
-const DashboardRandomList: React.FC<INextPage> = async (props) => {
+const DashboardRandomList: React.FC<NextPage> = async (props) => {
   const { searchParams } = props;
 
-  const params = toSearchParams( await searchParams);
+  const params = toSearchParams(await searchParams);
   const actionParams = params.get(API.PARAMS.KEYS.ACTION) ?? null;
 
   const ids = actionParams?.split(",").map((item) => Number(item));
@@ -23,19 +22,28 @@ const DashboardRandomList: React.FC<INextPage> = async (props) => {
   });
 
   if (!mangaListResponse.status) {
-    return <MuiPaper></MuiPaper>;
+    return (
+      <CardContainer>
+        <ErrorPage />
+      </CardContainer>
+    );
   }
 
   return (
-    <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
-      <MuiTypography fontSize={24}>Random List</MuiTypography>
+    <CardContainer className="flex flex-col gap-5">
+      {/* Title */}
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Random List</h2>
+
+      {/* Keep your existing actions */}
       <ListAction />
-      <MuiList>
+
+      {/* Manga list */}
+      <div className="grid sm:grid-cols-2 gap-5">
         {mangaListResponse.data.results.map((manga) => (
           <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />
         ))}
-      </MuiList>
-    </MuiPaper>
+      </div>
+    </CardContainer>
   );
 };
 

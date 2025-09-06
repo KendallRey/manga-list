@@ -5,14 +5,14 @@ import { eq } from "drizzle-orm";
 import API from "../API";
 import { createClient } from "@/utils/supabase/server";
 
-type IGetUserProfileImages = IApiProps;
+type GetUserProfileImagesType = ApiPropsType;
 
 export const GetUserProfileImages = async (
-  props: IGetUserProfileImages,
-): Promise<IApiResponse<IUserProfileImageTableSelect[]>> => {
+  props: GetUserProfileImagesType,
+): Promise<ApiResponseType<IUserProfileImageTableSelect[]>> => {
   const {} = props;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const userData = await supabase.auth.getUser();
 
     const userProfiles = await db

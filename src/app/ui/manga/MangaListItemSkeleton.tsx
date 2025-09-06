@@ -1,52 +1,32 @@
 "use client";
 
-import MuiButton from "@/components/button/Button";
-import { MuiListItem, MuiListItemAvatar, MuiListItemText } from "@/components/list/List";
-import MuiStack from "@/components/stack/Stack";
-import { ButtonGroup } from "@mui/material";
-import React from "react";
-import { useAppMediaQuery } from "@/components/hooks/useAppMediaQuery";
-import MuiSkeleton from "@/components/skeleton/Skeleton";
-import { MathRandom } from "@/components/helper/math";
+import { Skeleton } from "@/components/common/Skeleton";
 
-const MangaListItemSkeleton = () => {
-  const { sm } = useAppMediaQuery();
-
+export const MangaListItemSkeleton: React.FC = () => {
   return (
-    <MuiListItem
-      className="border-b flex flex-col gap-2"
-      secondaryAction={!sm && <MuiSkeleton width={24} height={24} />}
-    >
-      <MuiStack direction={sm ? "column" : "row"} alignItems={"center"} width={"100%"}>
-        <MuiListItemAvatar>
-          <MuiSkeleton variant="rounded" width={sm ? 120 : 50} height={sm ? 160 : 50} />
-        </MuiListItemAvatar>
-        <MuiListItemText
-          primary={<MuiSkeleton variant="rounded" width={MathRandom(150, 0.3)} height={17} />}
-          disableTypography
-        />
-      </MuiStack>
-      {sm && (
-        <ButtonGroup variant="text">
-          <MuiButton variant="text" color="primary">
-            <MuiSkeleton variant="rounded" width={20} height={20} />
-          </MuiButton>
-          <MuiButton variant="text" color="primary">
-            <MuiSkeleton variant="rounded" width={20} height={20} />
-          </MuiButton>
-          <MuiButton variant="text" color="primary">
-            <MuiSkeleton variant="rounded" width={20} height={20} />
-          </MuiButton>
-          <MuiButton variant="text" color="primary">
-            <MuiSkeleton variant="rounded" width={20} height={20} />
-          </MuiButton>
-          <MuiButton variant="text" color="primary">
-            <MuiSkeleton variant="rounded" width={20} height={20} />
-          </MuiButton>
-        </ButtonGroup>
-      )}
-    </MuiListItem>
+    <div className="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-md p-4 flex flex-col lg:flex-row gap-4 items-center lg:items-start">
+      {/* Thumbnail */}
+      <div className="flex-shrink-0">
+        <Skeleton className="w-24 h-36 rounded-lg" />
+      </div>
+
+      {/* Info Section */}
+      <div className="flex-1 flex flex-col justify-between w-full">
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-40" />
+          <div className="flex gap-2 mt-2">
+            <Skeleton className="h-4 w-12 rounded" />
+            <Skeleton className="h-4 w-16 rounded" />
+            <Skeleton className="h-4 w-10 rounded" />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="absolute bottom-1 right-1 mt-3 flex gap-2">
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <Skeleton className="h-8 w-8 rounded-full" />
+        </div>
+      </div>
+    </div>
   );
 };
-
-export default MangaListItemSkeleton;

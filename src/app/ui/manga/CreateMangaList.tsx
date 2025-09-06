@@ -6,14 +6,10 @@ const CreateMangaList = () => {
     <div className="flex-grow p-6 flex bg-white dark:bg-gray-900 rounded-2xl shadow-md">
       <div className="flex flex-col gap-4 w-full">
         {/* Title */}
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          Manga List
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Manga List</h1>
 
         {/* Subtitle */}
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          Start listing your manga here
-        </p>
+        <p className="text-lg text-gray-600 dark:text-gray-400">Start listing your manga here</p>
 
         {/* Form */}
         <form className="py-6">

@@ -6,7 +6,7 @@ import { IMangaListTableSelect, IMangaTableSelect, MangaListTable } from "@/util
 import { createClient } from "@/utils/supabase/server";
 import { eq } from "drizzle-orm";
 
-export const GetUserMangaLists = async (props: IApiProps) => {
+export const GetUserMangaLists = async (props: ApiPropsType) => {
   const { params } = props;
   try {
     const supabase = await createClient();
@@ -26,7 +26,7 @@ export const GetUserMangaLists = async (props: IApiProps) => {
   }
 };
 
-export const GetUserMangaList = async (props: IApiProps): Promise<IApiResponse<IMangaListTableSelect[]>> => {
+export const GetUserMangaList = async (props: ApiPropsType): Promise<ApiResponseType<IMangaListTableSelect[]>> => {
   const { params } = props;
   try {
     const supabase = await createClient();
@@ -52,7 +52,7 @@ export const GetUserMangaList = async (props: IApiProps): Promise<IApiResponse<I
   }
 };
 
-export const CreateUserMangaList = async (props: IApiProps): Promise<IApiResponse<IMangaTableSelect>> => {
+export const CreateUserMangaList = async (props: ApiPropsType): Promise<ApiResponseType<IMangaTableSelect>> => {
   try {
     const supabase = await createClient();
     const userData = await supabase.auth.getUser();

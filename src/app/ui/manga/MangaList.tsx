@@ -27,9 +27,7 @@ const MangaList: React.FC<MangaListProps> = async (props) => {
         data={mangaListResponse.data.results}
         render={(manga) => <MangaListItem key={manga[MODEL.MANGA.ID]} manga={manga} />}
       />
-      <div className="text-end py-2">
-        {formatToCount(mangaListResponse.data.count)} results
-      </div>
+      <div className="text-end py-2">{formatToCount(mangaListResponse.data.count)} results</div>
       {Boolean(mangaListResponse.data.count) && <TablePagination count={mangaListResponse.data.count} />}
     </>
   );

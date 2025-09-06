@@ -5,7 +5,7 @@ export const ApiErrorSchema = z.object({
   message: z.string().optional().nullable(),
   hint: z.string().optional().nullable(),
   detail: z.string().optional().nullable(),
-  error: z.record(z.any()).optional().nullable(),
+  error: z.record(z.string(), z.any()).optional().nullable(),
 });
 
 export type IErrorResponse = z.infer<typeof ApiErrorSchema>;

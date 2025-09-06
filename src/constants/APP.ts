@@ -6,6 +6,6 @@ export const APP = {
     USER: USER_ROUTE,
   },
   DEBOUNCE: {
-    DELAY: 500
-  }
+    DELAY: 500,
+  },
 } as const;

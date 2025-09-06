@@ -29,7 +29,7 @@ export function FormRadio({
       className={clsx(
         "inline-flex items-center gap-2 cursor-pointer select-none",
         disabled && "opacity-60 cursor-not-allowed",
-        className
+        className,
       )}
     >
       <input
@@ -46,7 +46,7 @@ export function FormRadio({
           "checked:bg-indigo-600 checked:border-indigo-600",
           "focus:ring-2 focus:ring-indigo-500/30 focus:outline-none",
           "transition",
-          inputClassName
+          inputClassName,
         )}
         {...otherProps}
       />
@@ -54,9 +54,7 @@ export function FormRadio({
         <span
           className={clsx(
             "text-sm",
-            disabled
-              ? "text-gray-400 dark:text-gray-500"
-              : "text-gray-800 dark:text-gray-200"
+            disabled ? "text-gray-400 dark:text-gray-500" : "text-gray-800 dark:text-gray-200",
           )}
         >
           {label}
@@ -94,7 +92,7 @@ export function FormRadioGroup({
 
   // Clone children to inject name, checked, and onChange
   const clonedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement<FormRadioProps>(child)) {
       return React.cloneElement(child, {
         name,
         checked: value === child.props.value,
@@ -106,26 +104,13 @@ export function FormRadioGroup({
 
   return (
     <div className={clsx("flex flex-col gap-1", className)}>
-      {label && (
-        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          {label}
-        </span>
-      )}
-      <div
-        className={clsx(
-          "flex",
-          row ? "flex-row gap-6" : "flex-col gap-2"
-        )}
-      >
-        {clonedChildren}
-      </div>
+      {label && <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{label}</span>}
+      <div className={clsx("flex", row ? "flex-row gap-6" : "flex-col gap-2")}>{clonedChildren}</div>
       {(helperText || typeof error === "string") && (
         <p
           className={clsx(
             "text-xs mt-1",
-            hasError
-              ? "text-red-600 dark:text-red-400"
-              : "text-gray-500 dark:text-gray-400"
+            hasError ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400",
           )}
         >
           {typeof error === "string" ? error : helperText}

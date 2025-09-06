@@ -26,8 +26,9 @@ const MangaBanner: React.FC<MangaBannerProps> = (props) => {
           backgroundPosition: "center",
           backgroundSize: "cover",
           filter: "blur(3px)",
-        }} />
-      <div className="absolute inset-0 z-[-5] bg-gradient-to-t from-white dark:from-neutral-900 to-transparent"/>
+        }}
+      />
+      <div className="absolute inset-0 z-[-5] bg-gradient-to-t from-white dark:from-neutral-900 to-transparent" />
       <div className="z-20 p-2 max-w-[200px] bg-gray-800 dark:bg-gray-50 outline dark:outline-gray-50 outline-black outline-offset-6">
         <SupabasePublicImage path={manga[MODEL.MANGA.THUMBNAIL]} alt={manga[MODEL.MANGA.NAME]} />
       </div>
@@ -38,17 +39,17 @@ const MangaBanner: React.FC<MangaBannerProps> = (props) => {
         <div className="flex gap-2">
           {manga[MODEL.MANGA.HIDE] && (
             <Chip color="secondary" variant="outline" icon={<EyeOff size={14} />}>
-               Hidden
+              Hidden
             </Chip>
           )}
           {manga[MODEL.MANGA.DANGER] && (
             <Chip color="danger" variant="outline" icon={<ShieldAlert size={14} />}>
-               Danger
+              Danger
             </Chip>
           )}
           {manga[MODEL.MANGA.SPICY] && (
             <Chip color="pink" variant="outline" icon={<Flame size={14} />}>
-               Spicy
+              Spicy
             </Chip>
           )}
         </div>

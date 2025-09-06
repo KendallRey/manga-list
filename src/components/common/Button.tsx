@@ -38,22 +38,19 @@ export function Button({
       solid: "bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400",
       outline:
         "border border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:border-indigo-400 dark:text-indigo-400 dark:hover:bg-indigo-950/40",
-      ghost:
-        "text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950/40",
+      ghost: "text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950/40",
     },
     secondary: {
       solid: "bg-gray-600 text-white hover:bg-gray-700 dark:bg-gray-500 dark:hover:bg-gray-400",
       outline:
         "border border-gray-600 text-gray-600 hover:bg-gray-50 dark:border-gray-400 dark:text-gray-400 dark:hover:bg-gray-950/40",
-      ghost:
-        "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-950/40",
+      ghost: "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-950/40",
     },
     danger: {
       solid: "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-400",
       outline:
         "border border-red-600 text-red-600 hover:bg-red-50 dark:border-red-400 dark:text-red-400 dark:hover:bg-red-950/40",
-      ghost:
-        "text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40",
+      ghost: "text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40",
     },
   } as const;
 
@@ -64,16 +61,11 @@ export function Button({
     fullWidth && "w-full",
     disabled && "opacity-60 cursor-not-allowed",
     !disabled && "focus:ring-indigo-500/20 dark:focus:ring-indigo-400/20",
-    className
+    className,
   );
 
   return (
-    <button
-      type={type}
-      className={base}
-      onClick={onClick}
-      disabled={disabled || loading}
-    >
+    <button type={type} className={base} onClick={onClick} disabled={disabled || loading}>
       {loading && (
         <svg
           className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
@@ -81,19 +73,8 @@ export function Button({
           fill="none"
           viewBox="0 0 24 24"
         >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-          ></path>
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
         </svg>
       )}
       {children}

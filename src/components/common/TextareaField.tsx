@@ -78,24 +78,17 @@ export function TextareaField({
         "bg-white dark:bg-gray-900/40 border border-gray-300/70 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400",
       filled:
         "bg-gray-100/80 dark:bg-gray-800/60 border border-transparent placeholder-gray-500 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/20",
-      soft:
-        "bg-gray-50/80 dark:bg-gray-900/30 border border-gray-200/70 dark:border-gray-800 placeholder-gray-500 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/20",
+      soft: "bg-gray-50/80 dark:bg-gray-900/30 border border-gray-200/70 dark:border-gray-800 placeholder-gray-500 dark:placeholder-gray-500 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/20",
     }[variant],
     hasError &&
       "border-red-500 focus:border-red-500 focus:ring-red-500/20 dark:border-red-500 dark:focus:border-red-400",
-    disabled && "opacity-60 cursor-not-allowed"
+    disabled && "opacity-60 cursor-not-allowed",
   );
 
   return (
     <div className={clsx("flex flex-col", v.root, fullWidth && "w-full", className)}>
       {label && (
-        <label
-          htmlFor={id}
-          className={clsx(
-            v.label,
-            "font-medium text-gray-800 dark:text-gray-200 select-none"
-          )}
-        >
+        <label htmlFor={id} className={clsx(v.label, "font-medium text-gray-800 dark:text-gray-200 select-none")}>
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -108,27 +101,16 @@ export function TextareaField({
         onChange={onChange}
         placeholder={placeholder}
         aria-invalid={hasError}
-        aria-describedby={
-          helperText || typeof error === "string" ? `${id}-help` : undefined
-        }
+        aria-describedby={helperText || typeof error === "string" ? `${id}-help` : undefined}
         disabled={disabled}
-        className={clsx(
-          baseInput,
-          "text-gray-900 dark:text-gray-100 leading-relaxed",
-          inputClassName
-        )}
+        className={clsx(baseInput, "text-gray-900 dark:text-gray-100 leading-relaxed", inputClassName)}
         {...otherProps}
       />
 
       {(helperText || typeof error === "string") && (
         <p
           id={`${id}-help`}
-          className={clsx(
-            v.helper,
-            hasError
-              ? "text-red-600 dark:text-red-400"
-              : "text-gray-500 dark:text-gray-400"
-          )}
+          className={clsx(v.helper, hasError ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400")}
         >
           {typeof error === "string" ? error : helperText}
         </p>

@@ -1,7 +1,7 @@
 import { GetMangaList } from "@/app/api/manga/manga-api";
+import ErrorPage from "@/app/error/page";
 import MangaCard from "@/app/ui/manga/MangaCard";
-import MuiPaper from "@/components/paper/Paper";
-import MuiTypography from "@/components/typography/Typograph";
+import CardContainer from "@/components/shared/Card";
 import { MODEL } from "@/model/model";
 import React from "react";
 
@@ -11,18 +11,22 @@ const DashboardManga = async () => {
   });
 
   if (!mangasResponse.status) {
-    return <MuiPaper></MuiPaper>;
+    return (
+      <CardContainer>
+        <ErrorPage />
+      </CardContainer>
+    );
   }
 
   return (
-    <MuiPaper className="flex-grow flex flex-col min-h-[240px] gap-6 p-4" elevation={2} color="primary">
-      <MuiTypography fontSize={24}>Newly Added</MuiTypography>
+    <CardContainer className="flex flex-col gap-5">
+      <h2 className="text-2xl font-bold tracking-tight">Newly Added</h2>
       <div className="grid lg:grid-cols-3 gap-4">
         {mangasResponse.data.results.map((manga) => (
           <MangaCard key={manga[MODEL.MANGA.ID]} manga={manga} />
         ))}
       </div>
-    </MuiPaper>
+    </CardContainer>
   );
 };
 

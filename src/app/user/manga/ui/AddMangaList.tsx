@@ -16,7 +16,7 @@ type AddMangaListProps = {
 const AddMangaList: React.FC<AddMangaListProps> = (props) => {
   const { id, name, count } = props;
 
-  const { ask } = usePrompt()
+  const { ask } = usePrompt();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,7 +51,7 @@ const AddMangaList: React.FC<AddMangaListProps> = (props) => {
         message: <NotifMessage item={response.data.name} action="create" />,
       });
     setIsLoading(false);
-  }, [id, name, count]);
+  }, [ask, id, name, count]);
 
   return (
     <>

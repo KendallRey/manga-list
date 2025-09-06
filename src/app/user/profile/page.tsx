@@ -1,21 +1,22 @@
-import MuiPaper from "@/components/paper/Paper";
-import Dashboard from "@/components/ui/Dashboard";
 import React from "react";
 import UserProfile from "./ui/UserProfile";
 import FavoriteMangaList from "./ui/FavoriteMangaList";
+import CardContainer from "@/components/shared/Card";
 
-const ProfilePage: React.FC<INextPage> = async (props) => {
+const ProfilePage = async (props: PageProps<"/user/profile">) => {
   const { searchParams } = props;
 
+  const _searchParams = await searchParams;
+
   return (
-    <Dashboard>
-      <MuiPaper className="flex flex-col items-center p-4" elevation={2}>
+    <div className="flex flex-col gap-5">
+      <CardContainer className="flex flex-col items-center p-4">
         <UserProfile />
-      </MuiPaper>
-      <MuiPaper className="flex-grow p-4" elevation={2}>
-        <FavoriteMangaList params={searchParams} />
-      </MuiPaper>
-    </Dashboard>
+      </CardContainer>
+      <CardContainer className="flex-grow p-4">
+        <FavoriteMangaList params={_searchParams} />
+      </CardContainer>
+    </div>
   );
 };
 

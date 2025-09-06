@@ -32,8 +32,7 @@ export const metadata: Metadata = {
   creator: "Kendall Rey Mozo",
   openGraph: {
     title: "MangaList – Never Forget a Manga Again",
-    description:
-      "Save manga titles in one place so you never forget or lose track of them.",
+    description: "Save manga titles in one place so you never forget or lose track of them.",
     url: "https://manga-list-ebon.vercel.app",
     siteName: "MangaList",
     images: [
@@ -63,11 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="en"
-      data-theme="dark"
-      style={{ colorScheme: "dark" }}
-      suppressHydrationWarning>
+    <html lang="en" data-theme="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased `} suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>

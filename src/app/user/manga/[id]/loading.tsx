@@ -1,21 +1,27 @@
-// import MuiPaper from "@/components/paper/Paper";
-// import Dashboard from "@/components/ui/Dashboard";
+import MangaBannerSkeleton from "@/app/ui/MangaBannerSkeleton";
+import MangaImageListSkeleton from "@/app/ui/MangaImageListSkeleton";
+import { Skeleton } from "@/components/common/Skeleton";
+import BreadcrumbSkeleton from "@/components/shared/BreadCrumbsSkeleton";
+import CardContainer from "@/components/shared/Card";
 import React from "react";
-// import MuiSkeleton from "@/components/skeleton/Skeleton";
 
 const MangaViewPageLoading = () => {
   return (
-    <></>
-    // <Dashboard>
-    //   <MuiPaper className="p-2 flex">
-    //     <MuiSkeleton width={50} height={24} />
-    //     <MuiSkeleton width={4.6} height={24} className="mx-2" />
-    //     <MuiSkeleton width={Math.random() * 500} height={24} />
-    //   </MuiPaper>
-    //   <MuiPaper className="flex-grow-[2] min-h-[320px] p-4" elevation={2} color="primary">
-    //     <MuiSkeleton />
-    //   </MuiPaper>
-    // </Dashboard>
+    <>
+      <BreadcrumbSkeleton />
+      <MangaBannerSkeleton />
+      <CardContainer className="lg:-mt-36 lg:!pt-24 min-h-[50vh] flex flex-col gap-4">
+        <div className="flex justify-between gap-5 items-center">
+          <Skeleton className="h-6 w-32 rounded" />
+
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-5 w-5 rounded-full" />
+            <Skeleton className="h-5 w-16 rounded" />
+          </div>
+        </div>
+        <MangaImageListSkeleton />
+      </CardContainer>
+    </>
   );
 };
 

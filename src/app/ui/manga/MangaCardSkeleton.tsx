@@ -1,23 +1,36 @@
-import MuiCard from "@/components/card/Card";
-import MuiCardActions from "@/components/card/CardActions";
-import { MathRandom } from "@/components/helper/math";
-import MuiSkeleton from "@/components/skeleton/Skeleton";
-import MuiStack from "@/components/stack/Stack";
+import { Skeleton } from "@/components/common/Skeleton";
 import React from "react";
 
-const MangaCardSkeleton = () => {
+const MangaCardSkeleton: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <MuiCard className="flex-grow relative" variant="outlined">
-      <MuiStack className="p-2 py-4" gap={0.5}>
-        <MuiSkeleton variant="text" width={MathRandom(300, 0.3)} />
-        <MuiSkeleton variant="text" width={MathRandom(250, 0.4)} height={16} />
-      </MuiStack>
-      <MuiSkeleton width={320} height={455} className="mx-auto" animation="wave" />
-      <MuiCardActions disableSpacing>
-        <MuiSkeleton width={35} height={35} className="m-1" variant="circular" />
-        <MuiSkeleton width={35} height={35} className="m-1" variant="circular" />
-      </MuiCardActions>
-    </MuiCard>
+    <div
+      className={`flex flex-col flex-grow relative border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
+    >
+      {/* Header */}
+      <div className="p-4 flex flex-col gap-1">
+        <Skeleton className="h-5 w-32 rounded" />
+        <Skeleton className="h-4 w-24 rounded" />
+      </div>
+
+      {/* Overlay image (yaranaika placeholder) */}
+      <div className="absolute z-[2] bottom-0 w-24 h-24 opacity-0" />
+
+      {/* Chips */}
+      <div className="px-4 pb-2 flex flex-wrap gap-2">
+        <Skeleton className="h-5 w-12 rounded" />
+        <Skeleton className="h-5 w-14 rounded" />
+        <Skeleton className="h-5 w-12 rounded" />
+      </div>
+
+      {/* Thumbnail */}
+      <Skeleton className="mx-auto w-full h-[420px] rounded-md" />
+
+      {/* Actions */}
+      <div className="z-10 flex items-center gap-2 p-2">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <Skeleton className="h-8 w-8 rounded-full" />
+      </div>
+    </div>
   );
 };
 

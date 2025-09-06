@@ -30,7 +30,7 @@ export function FormCheckbox({
         htmlFor={id}
         className={clsx(
           "inline-flex items-center gap-2 cursor-pointer select-none",
-          disabled && "opacity-60 cursor-not-allowed"
+          disabled && "opacity-60 cursor-not-allowed",
         )}
       >
         {/* Checkbox */}
@@ -47,7 +47,7 @@ export function FormCheckbox({
             "checked:bg-indigo-600 checked:border-indigo-600",
             "focus:ring-2 focus:ring-indigo-500/30 focus:outline-none",
             "transition",
-            inputClassName
+            inputClassName,
           )}
           {...otherProps}
         />
@@ -57,9 +57,7 @@ export function FormCheckbox({
           <span
             className={clsx(
               "text-sm",
-              disabled
-                ? "text-gray-400 dark:text-gray-500"
-                : "text-gray-800 dark:text-gray-200"
+              disabled ? "text-gray-400 dark:text-gray-500" : "text-gray-800 dark:text-gray-200",
             )}
           >
             {label}
@@ -69,12 +67,7 @@ export function FormCheckbox({
 
       {(helperText || typeof error === "string") && (
         <p
-          className={clsx(
-            "text-xs",
-            hasError
-              ? "text-red-600 dark:text-red-400"
-              : "text-gray-500 dark:text-gray-400"
-          )}
+          className={clsx("text-xs", hasError ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400")}
         >
           {typeof error === "string" ? error : helperText}
         </p>

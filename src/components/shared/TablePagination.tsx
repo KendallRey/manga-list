@@ -101,8 +101,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ count }) => {
 
       {/* Page info */}
       <div className="text-sm">
-        Page <span className="font-medium">{page}</span> of{" "}
-        <span className="font-medium">{pageCount}</span>
+        Page <span className="font-medium">{page}</span> of <span className="font-medium">{pageCount}</span>
       </div>
 
       {/* Navigation */}

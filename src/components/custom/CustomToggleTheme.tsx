@@ -18,9 +18,7 @@ export const CustomToggleTheme = () => {
   };
 
   if (!mounted)
-    return (
-      <div className="relative cursor-pointer h-8 w-16 bg-amber-200 dark:bg-gray-800 rounded-full p-1" />
-    );
+    return <div className="relative cursor-pointer h-8 w-16 bg-amber-200 dark:bg-gray-800 rounded-full p-1" />;
 
   return (
     <div

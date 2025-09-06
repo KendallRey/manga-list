@@ -1,27 +1,25 @@
-'use client'
+"use client";
 
-import { createStore } from 'zustand/vanilla'
-import { resetErrors, setError, setErrors, setForm, setKeyValue, setOnChange, setOnCheck, setReset } from './utils'
-import { immer } from 'zustand/middleware/immer'
-import { IMangaTableInsert } from '@/utils/drizzle/schema'
+import { createStore } from "zustand/vanilla";
+import { resetErrors, setError, setErrors, setForm, setKeyValue, setOnChange, setOnCheck, setReset } from "./utils";
+import { immer } from "zustand/middleware/immer";
+import { IMangaTableInsert } from "@/utils/drizzle/schema";
 
-export type MangaActions = StoreType
+export type MangaActions = StoreType;
 
-export type MangaStore = FormStoreType<IMangaTableInsert> & MangaActions
+export type MangaStore = FormStoreType<IMangaTableInsert> & MangaActions;
 
 export const initMangaStore = (): IMangaTableInsert => {
   return {
-    name:  "",
-  }
-}
+    name: "",
+  };
+};
 
 export const defaultInitState: IMangaTableInsert = {
-  name: ""
-}
+  name: "",
+};
 
-export const createMangaStore = (
-  initState: IMangaTableInsert = defaultInitState,
-) => {
+export const createMangaStore = (initState: IMangaTableInsert = defaultInitState) => {
   return createStore<MangaStore>()(
     immer((set) => ({
       form: initState,
@@ -33,7 +31,7 @@ export const createMangaStore = (
       reset: (data) => setReset(set, data ?? initState),
       setKeyValue: (k, v, o) => setKeyValue(set, k, v, o),
       setError: (k, e) => setError(set, k, e),
-      resetErrors: (data) => resetErrors(set, data)
-    }))
-  )
-}
+      resetErrors: (data) => resetErrors(set, data),
+    })),
+  );
+};

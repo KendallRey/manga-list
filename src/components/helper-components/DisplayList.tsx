@@ -31,16 +31,10 @@ const DisplayList = <T,>({
       )}
 
       {/* Error State */}
-      {isError && (
-        <strong className="text-red-500 text-center">
-          {errorText ?? "Something went wrong."}
-        </strong>
-      )}
+      {isError && <strong className="text-red-500 text-center">{errorText ?? "Something went wrong."}</strong>}
 
       {/* Empty State */}
-      {data && !data.length && (
-        <em className="text-gray-500 text-sm">{emptyText ?? "No record(s) found"}</em>
-      )}
+      {data && !data.length && <em className="text-gray-500 text-sm">{emptyText ?? "No record(s) found"}</em>}
 
       {/* Data Renderer */}
       <Each data={data ?? []} render={render} />

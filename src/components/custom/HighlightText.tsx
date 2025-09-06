@@ -55,17 +55,14 @@ const HighlightText: React.FC<HighlightTextProps> = ({ text, subString }) => {
     <span>
       {textStrings.map((item, i) =>
         item.type === "bold" ? (
-          <strong
-            key={`${item.value}-${i}`}
-            className="font-semibold text-pink-500 dark:text-pink-400"
-          >
+          <strong key={`${item.value}-${i}`} className="font-semibold text-pink-500 dark:text-pink-400">
             {item.value}
           </strong>
         ) : (
           <span key={`${item.value}-${i}`} className="text-gray-800 dark:text-gray-200">
             {item.value}
           </span>
-        )
+        ),
       )}
     </span>
   );

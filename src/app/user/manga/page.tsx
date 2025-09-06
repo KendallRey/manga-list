@@ -1,4 +1,3 @@
-
 import React from "react";
 import { GetUserMangaList } from "@/app/api/manga-list/manga-list-api";
 import { GetUserMangas } from "@/app/api/manga/manga-api";
@@ -10,10 +9,10 @@ import MangaList from "@/app/ui/manga/MangaList";
 import MangaSearchAdd from "@/app/ui/manga/MangaSearchAdd";
 import CreateMangaList from "@/app/ui/manga/CreateMangaList";
 
-const MangaPage: React.FC<INextPage> = async (props) => {
+const MangaPage: React.FC<NextPage> = async (props) => {
   const { searchParams } = props;
 
-  const _searchParams = await searchParams
+  const _searchParams = await searchParams;
 
   const mangaListResponse = await GetUserMangaList({});
 
@@ -40,14 +39,13 @@ const MangaPage: React.FC<INextPage> = async (props) => {
 
   return (
     <>
-      <Breadcrumbs/>
+      <Breadcrumbs />
       <CardContainer className="my-2">
         <MangaSearchAdd listId={mangaList.id} searchParams={_searchParams} />
       </CardContainer>
       <CardContainer className="my-2">
         <MangaList searchParams={_searchParams} />
       </CardContainer>
-      {/* <PreviewMangaDialog /> */}
     </>
   );
 };

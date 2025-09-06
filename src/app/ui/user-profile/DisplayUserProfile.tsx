@@ -1,17 +1,15 @@
-import MuiAvatar from "@/components/avatar/Avatar";
-import MuiStack from "@/components/stack/Stack";
-import MuiTypography from "@/components/typography/Typograph";
 import { MODEL } from "@/model/model";
 import { IUserProfileTableSelect } from "@/utils/drizzle/schema";
 import { toBucketPublicProfileUrl } from "@/utils/supabase/helper/image";
 import { createClient } from "@/utils/supabase/server";
+import Image from "next/image";
 import React from "react";
 
-type IDisplayUserProfile = {
+type DisplayUserProfileProps = {
   userProfile: IUserProfileTableSelect;
 };
 
-const DisplayUserProfile: React.FC<IDisplayUserProfile> = async (props) => {
+const DisplayUserProfile: React.FC<DisplayUserProfileProps> = async (props) => {
   const { userProfile } = props;
   const supabase = await createClient();
   const useData = await supabase.auth.getUser();
@@ -23,13 +21,13 @@ const DisplayUserProfile: React.FC<IDisplayUserProfile> = async (props) => {
   ) as string;
 
   return (
-    <>
-      <MuiAvatar sx={{ width: 140, height: 140 }} src={thumbnailImage} />
-      <MuiStack>
-        <MuiTypography variant="h6">{userProfile[MODEL.USER_PROFILE.NAME]}</MuiTypography>
-        <MuiTypography variant="body2">{useData.data.user?.email}</MuiTypography>
-      </MuiStack>
-    </>
+    <div className="flex items-center gap-4">
+      <Image src={thumbnailImage} alt="User Avatar" width={140} height={140} className="rounded-full object-cover" />
+      <div className="flex flex-col">
+        <h6 className="text-lg font-semibold">{userProfile["name"]}</h6>
+        <p className="text-sm text-muted-foreground">{useData.data.user?.email}</p>
+      </div>
+    </div>
   );
 };
 

@@ -12,14 +12,14 @@ const LandingPage = async () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
-
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 sm:px-8 py-20 gap-12 text-center">
         <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-gray-100">
           Welcome to <span className="text-indigo-600 dark:text-indigo-400">MangaList</span>
         </h1>
         <p className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl max-w-2xl">
-          MangaList is your personal manga tracker—save every title you read so you’ll always remember them and never lose track of your favorites.
+          MangaList is your personal manga tracker—save every title you read so you’ll always remember them and never
+          lose track of your favorites.
         </p>
       </section>
 
@@ -52,12 +52,9 @@ const LandingPage = async () => {
         </div>
       </section>
 
-
       {/* Footer */}
       <footer className="py-8 mt-auto text-center text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
-        <p>
-          &copy; {new Date().getFullYear()} MangaList. Built with Next.js and Supabase.
-        </p>
+        <p>&copy; {new Date().getFullYear()} MangaList. Built with Next.js and Supabase.</p>
       </footer>
     </div>
   );

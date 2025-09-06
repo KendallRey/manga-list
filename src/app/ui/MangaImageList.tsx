@@ -27,10 +27,10 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
 
   return (
     <DisplayList
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        data={mangaImages}
-        render={(item) => <MangaImageListItem key={item.id} image={item} manga={manga} viewAction={viewAction} />}
-      />
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      data={mangaImages}
+      render={(item) => <MangaImageListItem key={item.id} image={item} manga={manga} viewAction={viewAction} />}
+    />
   );
 };
 

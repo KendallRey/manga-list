@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { FileValidator } from "@/components/helper/files";
 import { customEnqueueSnackbar, displaySnackbar } from "@/components/helper/notistack";
 import { CameraIcon, X } from "lucide-react";
+import Image from "next/image";
 
 export const generateId = () => {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -134,7 +135,7 @@ const UploadImageFile: React.FC<UploadFileProps> = ({ uploadsFn, actionText }) =
         "dropzone flex flex-col gap-4 border-2 border-dashed rounded-xl p-6 transition",
         isDragging
           ? "border-indigo-500 bg-indigo-500/10"
-          : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+          : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900",
       )}
       onDragEnter={(e) => handleOnDrag(e, true)}
       onDragEnd={(e) => handleOnDrag(e, false)}
@@ -172,18 +173,12 @@ const UploadImageFile: React.FC<UploadFileProps> = ({ uploadsFn, actionText }) =
         disabled={isLoading}
         className="self-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
       >
-        {isLoading && (
-          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-        )}
+        {isLoading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
         {actionText ?? "Upload"}
       </button>
 
       {/* Image Preview Grid */}
-      <ImageList
-        imagesToUpload={imagesToUpload}
-        onRemove={onRemoveImage}
-        onSetAsCover={onSetAsCover}
-      />
+      <ImageList imagesToUpload={imagesToUpload} onRemove={onRemoveImage} onSetAsCover={onSetAsCover} />
     </div>
   );
 };
@@ -205,15 +200,12 @@ const ImageList: React.FC<ImageListProps> = ({ imagesToUpload, onRemove, onSetAs
           key={image.key}
           className="relative rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700"
         >
-          <img src={image.url} alt="" className="w-full h-64 object-cover" />
+          <Image src={image.url} alt="" className="w-full h-64 object-cover" height={240} width={120} />
 
           {/* Overlay */}
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 flex justify-between items-center text-white">
             {image.setAsCover ? (
-              <span
-                onClick={() => onSetAsCover(image.key)}
-                className="text-xs cursor-pointer text-emerald-400"
-              >
+              <span onClick={() => onSetAsCover(image.key)} className="text-xs cursor-pointer text-emerald-400">
                 Marked as Cover
               </span>
             ) : (
@@ -222,17 +214,11 @@ const ImageList: React.FC<ImageListProps> = ({ imagesToUpload, onRemove, onSetAs
 
             <div className="flex items-center gap-1">
               {!image.setAsCover && (
-                <button
-                  onClick={() => onSetAsCover(image.key)}
-                  className="p-1 rounded bg-black/40 hover:bg-black/60"
-                >
+                <button onClick={() => onSetAsCover(image.key)} className="p-1 rounded bg-black/40 hover:bg-black/60">
                   <CameraIcon className="w-5 h-5 text-gray-200" />
                 </button>
               )}
-              <button
-                onClick={() => onRemove(image.key)}
-                className="p-1 rounded bg-black/40 hover:bg-red-600"
-              >
+              <button onClick={() => onRemove(image.key)} className="p-1 rounded bg-black/40 hover:bg-red-600">
                 <X className="w-4 h-4 text-red-500" />
               </button>
             </div>

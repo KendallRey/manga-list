@@ -15,9 +15,7 @@ type MangaImageListItemProps = {
 };
 
 const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewAction }) => {
-  const [isBlur, setIsBlur] = useState(
-    manga.danger || manga.spicy || manga.hide
-  );
+  const [isBlur, setIsBlur] = useState(manga.danger || manga.spicy || manga.hide);
 
   const srcPath = useMemo(() => {
     return manga[MODEL.MANGA.THUMBNAIL] ? `${toBucketPublicMangaUrl(manga[MODEL.MANGA.THUMBNAIL])}` : "/images/404.jpg";
@@ -61,10 +59,7 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
         <div className="z-10 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2 pt-12 text-white flex justify-between items-end">
           <div>
             <Link
-              href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(
-                ROUTE_ID,
-                manga[MODEL.MANGA.ID]
-              )}
+              href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
               className="text-sm font-semibold overflow-hidden text-ellipsis cursor-pointer hover:underline"
               title={manga.name}
             >
@@ -74,29 +69,16 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
             {/* Chips */}
             <div className="flex gap-2 mt-1">
               {manga.hide && (
-                <span className="px-2 py-0.5 text-xs rounded-full border border-gray-400 text-gray-300">
-                  Hidden
-                </span>
+                <span className="px-2 py-0.5 text-xs rounded-full border border-gray-400 text-gray-300">Hidden</span>
               )}
-              {manga.danger && (
-                <span className="px-2 py-0.5 text-xs rounded-full bg-red-600 text-white">
-                  Danger
-                </span>
-              )}
-              {manga.spicy && (
-                <span className="px-2 py-0.5 text-xs rounded-full bg-pink-500 text-white">
-                  Spicy
-                </span>
-              )}
+              {manga.danger && <span className="px-2 py-0.5 text-xs rounded-full bg-red-600 text-white">Danger</span>}
+              {manga.spicy && <span className="px-2 py-0.5 text-xs rounded-full bg-pink-500 text-white">Spicy</span>}
             </div>
           </div>
 
           {/* Edit Action */}
           <Link
-            href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(
-              ROUTE_ID,
-              manga[MODEL.MANGA.ID]
-            )}
+            href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
             className="p-1 rounded-full bg-black/40 hover:bg-black/60 transition"
           >
             ✏️
