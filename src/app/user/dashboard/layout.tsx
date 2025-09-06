@@ -1,11 +1,11 @@
 import Breadcrumbs from "@/components/shared/BreadCrumbs";
 import React from "react";
 
-type DashboardLayoutProps = {
+type DashboardLayoutProps = Readonly<{
   manga: React.ReactNode;
   profile: React.ReactNode;
   randomList: React.ReactNode;
-};
+}>;
 
 const DashboardLayout = ({ manga, profile, randomList }: DashboardLayoutProps) => {
   return (
