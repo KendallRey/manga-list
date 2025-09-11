@@ -28,7 +28,7 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
   return (
     <div
       key={manga.id}
-      className="relative overflow-hidden rounded-lg shadow-md h-[320px] border border-gray-200 dark:border-gray-700"
+      className="relative overflow-hidden shadow-md h-[320px] border border-gray-200 dark:border-gray-700"
     >
       {/* Overlay image when blur is active */}
       <Image

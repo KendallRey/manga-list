@@ -45,7 +45,8 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
         setIsLoadingMore(true);
       }
     }
-  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, params, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, router]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -55,11 +56,11 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
   return (
     <>
       <DisplayList
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         data={mangas}
         render={(manga) => <MangaImageListItem key={manga[MODEL.MANGA.ID]} manga={manga} viewAction />}
       />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 !mt-[-14px]">
         <ComponentList count={isLoadingMore ? 5 : 0} render={(i) => <MangaImageSkeleton key={i} />} />
       </div>
     </>

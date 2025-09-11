@@ -4,7 +4,7 @@ type MangaImageSkeletonProps = {
 
 const MangaImageSkeleton: React.FC<MangaImageSkeletonProps> = ({ viewAction = true }) => {
   return (
-    <div className="relative overflow-hidden rounded-xl h-[320px] shadow-md bg-gray-200 dark:bg-gray-800 animate-pulse">
+    <div className="relative overflow-hidden h-[320px] shadow-md bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 animate-pulse">
       {/* Thumbnail skeleton */}
       <div className="w-full bg-gray-300 dark:bg-gray-700" />
 
