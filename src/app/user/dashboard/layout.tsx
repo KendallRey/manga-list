@@ -4,15 +4,15 @@ import React from "react";
 type DashboardLayoutProps = Readonly<{
   manga?: React.ReactNode;
   profile?: React.ReactNode;
-  randomList?: React.ReactNode;
+  random?: React.ReactNode;
 }>;
 
-const DashboardLayout = ({ manga, profile, randomList }: DashboardLayoutProps) => {
+const DashboardLayout = ({ manga, profile, random }: DashboardLayoutProps) => {
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumbs />
       {profile}
-      {randomList}
+      {random}
       {manga}
     </div>
   );
