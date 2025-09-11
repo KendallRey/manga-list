@@ -9,7 +9,7 @@ const ImagesLoading = () => {
         <Skeleton className="h-4 w-[90px]" />
         <Skeleton className="h-[51px] flex-grow rounded-md" />
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <ComponentList count={20} render={(i) => <MangaImageSkeleton key={i} />} />
       </div>
     </div>
