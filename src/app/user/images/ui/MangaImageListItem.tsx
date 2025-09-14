@@ -59,6 +59,7 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
         <div className="z-10 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2 pt-12 text-white flex justify-between items-end">
           <div>
             <Link
+              scroll={false}
               href={USER_ROUTE.MANGA_PAGE.VIEW.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
               className="text-sm font-semibold overflow-hidden text-ellipsis cursor-pointer hover:underline"
               title={manga.name}
@@ -78,6 +79,7 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
 
           {/* Edit Action */}
           <Link
+            scroll={false}
             href={USER_ROUTE.MANGA_PAGE.UPDATE.href.replace(ROUTE_ID, manga[MODEL.MANGA.ID])}
             className="p-1 rounded-full bg-black/40 hover:bg-black/60 transition"
           >
