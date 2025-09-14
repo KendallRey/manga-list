@@ -36,7 +36,6 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
   }, [mangas.length]);
 
   const handleScroll = useCallback(() => {
-    if (isLoadingMore) return;
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100) {
       if (canLoadMore) {
         const _params = toSearchParams(params);
@@ -46,7 +45,7 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, router, params]);
+  }, [setIsLoadingMore, canLoadMore, lastCount, router]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
