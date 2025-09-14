@@ -5,6 +5,7 @@ import { userLoginFormAction, userSignupFormAction } from "./action";
 import { closeSnackbar } from "notistack";
 import { TextField } from "@/components/common/TextField";
 import { Button } from "@/components/common/Button";
+import { customEnqueueSnackbar } from "@/components/helper/notistack";
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -13,8 +14,17 @@ const LoginForm = () => {
   const onLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    startTransition(async () => await userLoginFormAction(formData));
-    closeSnackbar();
+    startTransition(async () => {
+      const errorMessage = await userLoginFormAction(formData);
+      if (errorMessage) {
+        customEnqueueSnackbar({
+          message: errorMessage,
+          variant: "error",
+        });
+        return;
+      }
+      closeSnackbar();
+    });
   };
   // #endregion
 
