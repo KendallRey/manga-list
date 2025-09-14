@@ -4,7 +4,7 @@ import React from "react";
 const MangaCardSkeleton: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
-      className={`flex flex-col flex-grow relative border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
+      className={`relative flex flex-col flex-grow relative min-h-[240px] md:min-h-[420px] border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
     >
       {/* Header */}
       <div className="p-4 flex flex-col gap-1">
@@ -26,7 +26,7 @@ const MangaCardSkeleton: React.FC<{ className?: string }> = ({ className }) => {
       <Skeleton className="mx-auto w-full h-[420px] rounded-md" />
 
       {/* Actions */}
-      <div className="z-10 flex items-center gap-2 p-2">
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center gap-2 p-2">
         <Skeleton className="h-8 w-8 rounded-full" />
         <Skeleton className="h-8 w-8 rounded-full" />
       </div>

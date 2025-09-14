@@ -28,12 +28,12 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, className = "" }) => {
 
   return (
     <div
-      className={`flex flex-col flex-grow relative border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
+      className={`relative flex flex-col flex-grow relative min-h-[240px] md:min-h-[420px] overflow-hidden border rounded-lg shadow-sm bg-white dark:bg-gray-900 ${className}`}
     >
       {/* Header */}
-      <div className="p-4 flex flex-col gap-1">
+      <div className="z-10 p-4 flex flex-col gap-1 bg-gradient-to-b from-white/80 via-white/80 to-white/20 dark:from-gray-900/80 dark:via-gray-900/80 dark:to-gray-900/20">
         <h3 className="text-[16px] font-semibold">{manga[MODEL.MANGA.NAME]}</h3>
-        <span className="text-sm text-gray-500">{manga.created_at?.toDateString()}</span>
+        <span className="text-sm font-bold dark:text-gray-100">{manga.created_at?.toDateString()}</span>
       </div>
 
       {/* Overlay image (yaranaika) */}
@@ -58,28 +58,27 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, className = "" }) => {
       {/* Thumbnail */}
       <Image
         src={thumbnailImage}
-        width={320}
-        height={420}
         alt={manga[MODEL.MANGA.NAME]}
-        className="mx-auto"
+        fill
+        className={`object-cover mx-auto ${isBlur ? "blur-2xl" : ""}`}
         style={{
           filter: isBlur ? "blur(32px)" : "",
         }}
       />
 
       {/* Actions */}
-      <div className="z-10 flex items-center gap-2 p-2">
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center gap-2 p-2 bg-white/50 dark:bg-gray-900/50">
         <Link
           href={`/user/manga/${manga[MODEL.MANGA.ID]}`}
           aria-label="view"
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+          className="p-2 rounded-full bg-white dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           <Eye className="w-5 h-5 text-blue-600" />
         </Link>
         <Link
           href={`/user/manga/${manga[MODEL.MANGA.ID]}/update`}
           aria-label="update"
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+          className="p-2 rounded-full bg-white dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           ✏️
         </Link>
