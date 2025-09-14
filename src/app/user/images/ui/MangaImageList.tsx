@@ -46,7 +46,7 @@ const MangaImageList: React.FC<MangaImageListProps> = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, router]);
+  }, [setIsLoadingMore, canLoadMore, isLoadingMore, lastCount, router, params]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
