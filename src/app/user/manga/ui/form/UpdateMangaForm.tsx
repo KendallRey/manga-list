@@ -16,10 +16,10 @@ type UpdateMangaFormProps = {
 const UpdateMangaForm: React.FC<UpdateMangaFormProps> = (props) => {
   const { manga } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const { form, reset, setForm, setErrors } = useMangaStore((state) => state);
+  const { form, setForm } = useMangaStore((state) => state);
 
-  const onSubmitManga = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmitManga = async (e?: FormEvent) => {
+    e?.preventDefault();
     setIsLoading(true);
     const response = await updateMangaAction(manga.id, form);
     displaySnackbar({ status: response.status, action: "update", variant: "success" });
@@ -34,7 +34,9 @@ const UpdateMangaForm: React.FC<UpdateMangaFormProps> = (props) => {
 
   return (
     <MangaForm isLoading={isLoading} onSubmit={onSubmitManga}>
-      <Button disabled={isLoading}>Update</Button>
+      <Button disabled={isLoading} onClick={() => onSubmitManga()}>
+        Update
+      </Button>
     </MangaForm>
   );
 };
