@@ -2,7 +2,7 @@
 
 import { toSearchParams } from "@/app/api/helper/apiHelper";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useTransition } from "react";
 import { getRandomIndexes } from "@/components/helper/array";
 import API from "@/app/api/API";
 import { GetUserMangaCount } from "@/app/api/manga/manga-api";
@@ -14,15 +14,19 @@ const ListAction = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [isPending, startTransition] = useTransition();
+
   const [count, setCount] = useState<number>();
 
-  const onRandomize = useCallback(() => {
-    if (!count) return;
-    const ids = getRandomIndexes(count, 10);
-    const params = toSearchParams(searchParams);
-    params.set(API.PARAMS.KEYS.ACTION, ids.join(","));
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [searchParams, router, count]);
+  const onRandomize = () => {
+    startTransition(async () => {
+      if (!count) return;
+      const ids = getRandomIndexes(count, 10);
+      const params = toSearchParams(searchParams);
+      params.set(API.PARAMS.KEYS.ACTION, ids.join(","));
+      router.replace(`?${params.toString()}`, { scroll: false });
+    });
+  };
 
   const getMangaCount = useCallback(async () => {
     const userMangaListResponse = await GetUserMangaList({});
@@ -37,7 +41,7 @@ const ListAction = () => {
 
   return (
     <>
-      <Button onClick={onRandomize} disabled={!count}>
+      <Button onClick={onRandomize} disabled={!count} loading={isPending}>
         Randomize ({count})
       </Button>
     </>
