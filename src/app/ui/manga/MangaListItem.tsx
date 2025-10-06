@@ -39,8 +39,8 @@ export const MangaListItem: React.FC<MangaListItemProps> = ({ manga }) => {
       </div>
 
       {/* Info Section */}
-      <div className="flex-1 flex flex-col justify-between">
-        <div>
+      <div className="!w-full flex-1 flex flex-col justify-between">
+        <div className="text-center">
           <Link
             href={`/user/manga/${manga[MODEL.MANGA.ID]}`}
             className="font-semibold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -51,7 +51,7 @@ export const MangaListItem: React.FC<MangaListItemProps> = ({ manga }) => {
         </div>
 
         {/* Actions */}
-        <div className="absolute bottom-1 right-1 z-10 flex items-center gap-2 p-2">
+        <div className="md:absolute bottom-1 right-1 z-10 flex justify-end items-center gap-2 p-2">
           <Link
             href={`/user/manga/${manga[MODEL.MANGA.ID]}`}
             aria-label="view"
