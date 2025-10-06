@@ -41,7 +41,7 @@ export const Providers: React.FC<ProvidersProps> = (props) => {
         <StoreProviders>
           <PromptProvider>
             <SnackbarProvider>
-              <span className="fixed top-1 right-1">
+              <span className="z-10 fixed top-1 right-1">
                 <CustomToggleTheme />
               </span>
               {children}
