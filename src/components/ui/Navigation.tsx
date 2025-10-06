@@ -18,7 +18,7 @@ const Navigation = () => {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="lg:hidden fixed top-1 left-1 items-center justify-between bg-white dark:bg-gray-900 shadow-md rounded-xl">
+      <div className="z-10 lg:hidden fixed top-1 left-1 items-center justify-between bg-white dark:bg-gray-900 shadow-md rounded-xl">
         <button
           aria-label="Toggle navigation menu"
           onClick={() => setOpen(!open)}
