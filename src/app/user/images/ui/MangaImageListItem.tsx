@@ -48,10 +48,9 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
         src={`${srcPath}?w=164&h=164&fit=crop&auto=format`}
         alt={manga.name}
         loading="lazy"
+        fill
         className="w-full object-cover transition duration-200"
         style={{ filter: isBlur ? "blur(32px)" : "" }}
-        width={250}
-        height={400}
       />
 
       {/* Footer Bar */}
