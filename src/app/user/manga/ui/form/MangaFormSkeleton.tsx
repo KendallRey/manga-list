@@ -5,9 +5,9 @@ import React from "react";
 
 const MangaFormSkeleton: React.FC = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       {/* Title + Description */}
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-6">
         {/* Title */}
         <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-16 rounded" /> {/* Label */}

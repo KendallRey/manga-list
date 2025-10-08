@@ -14,12 +14,12 @@ const MangaUpdatePageLoading = () => {
       <MangaBannerSkeleton />
 
       <CardContainer className="lg:-mt-36 lg:!pt-24 min-h-[50vh] my-6">
-        <div className="flex justify-between gap-5 items-center">
+        <div className="flex justify-between gap-5 items-center mb-1">
           <Skeleton className="h-6 w-32 rounded" />
 
           <div className="flex items-center gap-2">
+            <Skeleton className="h-5 w-8 rounded" />
             <Skeleton className="h-5 w-5 rounded-full" />
-            <Skeleton className="h-5 w-16 rounded" />
           </div>
         </div>
         <MangaFormSkeleton />
