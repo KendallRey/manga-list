@@ -99,13 +99,8 @@ const TablePagination: React.FC<TablePaginationProps> = ({ count }) => {
         </select>
       </div>
 
-      {/* Page info */}
-      <div className="text-sm">
-        Page <span className="font-medium">{page}</span> of <span className="font-medium">{pageCount}</span>
-      </div>
-
       {/* Navigation */}
-      <div className="flex items-center gap-2">
+      <div className="flex justify-center items-center gap-2">
         <button
           onClick={handlePrev}
           disabled={page <= 1}
@@ -113,6 +108,10 @@ const TablePagination: React.FC<TablePaginationProps> = ({ count }) => {
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
+
+        {/* Page Numbers */}
+        <div className="flex items-center gap-1">{renderPageNumbers(page, pageCount, updateSearchParams, setPage)}</div>
+
         <button
           onClick={handleNext}
           disabled={page >= pageCount}
@@ -121,8 +120,74 @@ const TablePagination: React.FC<TablePaginationProps> = ({ count }) => {
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Page info */}
+      <div className="text-sm">
+        Page <span className="font-medium">{page}</span> of <span className="font-medium">{pageCount}</span>
+      </div>
     </div>
   );
 };
 
 export default TablePagination;
+
+// #region renderPageNumbers
+function renderPageNumbers(
+  current: number,
+  total: number,
+  updateSearchParams: (value: string | number, key: string) => void,
+  setPage: React.Dispatch<React.SetStateAction<number>>,
+) {
+  const pages = [];
+
+  const createPageBtn = (p: number) => (
+    <button
+      key={p}
+      onClick={() => {
+        setPage(p);
+        updateSearchParams(p, "page");
+      }}
+      className={`px-2 py-1 text-sm rounded-md border ${
+        p === current ? "bg-indigo-500 text-white" : "border-gray-600 hover:bg-gray-500"
+      }`}
+    >
+      {p}
+    </button>
+  );
+
+  // Always show first page
+  pages.push(createPageBtn(1));
+
+  // Show left dots if current > 4
+  if (current > 4) {
+    pages.push(
+      <span key="left-ellipsis" className="px-2 text-sm">
+        ...
+      </span>,
+    );
+  }
+
+  // Show current -1, current, current +1
+  for (let i = current - 1; i <= current + 1; i++) {
+    if (i > 1 && i < total) {
+      pages.push(createPageBtn(i));
+    }
+  }
+
+  // Show right dots if current < total - 3
+  if (current < total - 3) {
+    pages.push(
+      <span key="right-ellipsis" className="px-2 text-sm">
+        ...
+      </span>,
+    );
+  }
+
+  // Always show last page if it's not already shown
+  if (total > 1) {
+    pages.push(createPageBtn(total));
+  }
+
+  return pages;
+}
+// #endregion
