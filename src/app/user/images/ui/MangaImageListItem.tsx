@@ -45,7 +45,7 @@ const MangaImageListItem: React.FC<MangaImageListItemProps> = ({ manga, viewActi
       {/* Main thumbnail */}
       <Image
         // srcSet={`${srcPath}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-        src={`${srcPath}?w=164&h=164&fit=crop&auto=format`}
+        src={`${srcPath}&w=164&h=164&fit=crop&auto=format`}
         alt={manga.name}
         loading="lazy"
         fill
