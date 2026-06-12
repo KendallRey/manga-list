@@ -6,6 +6,16 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
+  console.log("URL", !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+  console.log("KEY", !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  ) {
+    throw new Error("Missing Supabase environment variables");
+  }
+  
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
